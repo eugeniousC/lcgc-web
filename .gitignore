@@ -1,0 +1,7 @@
+# Local working artifacts — NOT part of the site
+*.png
+_planner-latest-source.html
+planner-ancestor-*.html
+planner-early-*.html
+Plans/
+.DS_Store

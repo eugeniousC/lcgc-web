@@ -25,7 +25,7 @@
 
 var SHEET_NAME = 'Leads';
 var NOTIFY_TO  = 'LCovington@lcgeneralcontracting.com';  // Len — the live lead recipient
-var NOTIFY_CC  = 'ewcolemanjr@gmail.com';                // Eugene — remove this before handing the sheet to Len
+var NOTIFY_CC  = 'eugene@atscale-advisors.com';          // Eugene — remove this before handing the sheet to Len
 var DEDUPE_MIN = 2;                                       // ignore an identical email re-sent within N minutes
 
 var HEADERS = ['timestamp','name','email','build_type','total_budget','oop_pct',

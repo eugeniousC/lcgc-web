@@ -634,18 +634,21 @@
     <div class="form-card reveal">
       <h3>Request Your Free Estimate</h3>
       <p class="fc-sub">We'll get back to you within one business day.</p>
-      <form id="leadform" onsubmit="return false;">
+      <form id="leadform" novalidate>
+        <!-- honeypot: hidden from humans; bots fill it and we silently drop them -->
+        <input type="text" name="company" id="lead-hp" tabindex="-1" autocomplete="off" aria-hidden="true"
+               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;" />
         <div class="field row">
-          <div><label>First Name</label><input type="text" required placeholder="Jane" /></div>
-          <div><label>Last Name</label><input type="text" required placeholder="Smith" /></div>
+          <div><label>First Name</label><input type="text" name="first_name" required placeholder="Jane" /></div>
+          <div><label>Last Name</label><input type="text" name="last_name" required placeholder="Smith" /></div>
         </div>
         <div class="field row">
-          <div><label>Phone</label><input type="tel" required placeholder="(770) 555-0199" /></div>
-          <div><label>Email</label><input type="email" required placeholder="you@email.com" /></div>
+          <div><label>Phone</label><input type="tel" name="phone" required placeholder="(770) 555-0199" /></div>
+          <div><label>Email</label><input type="email" name="email" required placeholder="you@email.com" /></div>
         </div>
         <div class="field">
           <label>Project Type</label>
-          <select required>
+          <select name="project_type" required>
             <option value="">Select one…</option>
             <option>New Home Build</option>
             <option>Kitchen Remodel</option>
@@ -659,7 +662,7 @@
         </div>
         <div class="field">
           <label>Estimated Budget <span style="font-weight:400;color:var(--muted)">(optional — or use our planner first)</span></label>
-          <select>
+          <select name="budget_range">
             <option value="">Not sure yet</option>
             <option>Under $25,000</option>
             <option>$25,000 – $75,000</option>
@@ -670,10 +673,10 @@
         </div>
         <div class="field">
           <label>Tell us about your project</label>
-          <textarea rows="3" placeholder="What are you hoping to build or remodel?"></textarea>
+          <textarea name="message" rows="3" placeholder="What are you hoping to build or remodel?"></textarea>
         </div>
-        <button class="btn btn-primary" style="width:100%;justify-content:center;" id="leadsubmit">Request My Free Estimate</button>
-        <p class="form-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg> Have photos or plans? You'll be able to attach them after you submit.</p>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" id="leadsubmit">Request My Free Estimate</button>
+        <p class="form-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg> Have photos or plans? Reply to our follow-up email and you can send them straight over.</p>
       </form>
       <div class="form-ok" id="formok">✓ Thanks! Your request is in — you will hear from us shortly.</div>
     </div>
@@ -736,15 +739,76 @@
     a.addEventListener('click', function () { document.getElementById('navlinks').classList.remove('open'); });
   });
 
-  // demo form success (static mockup — homepage form not yet wired to backend)
-  document.getElementById('leadsubmit').addEventListener('click', function () {
-    var f = document.getElementById('leadform');
-    if (f.querySelector('input[required]').value && f.querySelector('select[required]').value) {
-      f.style.display = 'none';
-      document.getElementById('formok').style.display = 'block';
-    } else {
-      f.reportValidity && f.reportValidity();
+  // ---------- homepage lead capture ----------
+  // Same standalone Leads Apps Script as the estimator (SEPARATE from the planner backend).
+  // text/plain + no-cors dodges CORS preflight; row lands without a readable response.
+  // Network/timeout → mailto fallback so a lead is never lost. source:'homepage' on the row.
+  var LEADS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyg3-cuFtMK-CRwJbXeJ-cm5q3gxZ2D2N6JTP5eestm-Fnq-hdWw3TcMh2XbfSJF2smXw/exec';
+  var LCGC_EMAIL = 'LCovington@lcgeneralcontracting.com';
+  function lcValidEmail(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s||'').trim()); }
+
+  function lcLeadPayload(f){
+    function v(n){ var el = f.querySelector('[name="'+n+'"]'); return el ? el.value.trim() : ''; }
+    var name = (v('first_name') + ' ' + v('last_name')).trim();
+    return {
+      name: name,
+      email: v('email'),
+      phone: v('phone'),
+      project_type: v('project_type'),
+      budget_range: v('budget_range'),
+      message: v('message'),
+      company: v('company'),            // honeypot
+      source: 'homepage',
+      user_agent: navigator.userAgent
+    };
+  }
+
+  function lcMailtoFallback(p){
+    var subject = 'Free Estimate Request — ' + (p.name || 'LCGC website') +
+                  (p.project_type ? ' (' + p.project_type + ')' : '');
+    var lines = [
+      'Hi Len,', '',
+      "I'd like to request a free in-home estimate. Here are my details:", '',
+      'Name:         ' + (p.name || ''),
+      'Phone:        ' + (p.phone || ''),
+      'Email:        ' + (p.email || ''),
+      'Project Type: ' + (p.project_type || ''),
+      'Budget:       ' + (p.budget_range || 'Not sure yet'),
+      '', 'About the project:',
+      (p.message || '(none provided)'), '',
+      'Thanks!'
+    ];
+    window.location.href = 'mailto:' + LCGC_EMAIL +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(lines.join('\n'));
+  }
+
+  var lcForm = document.getElementById('leadform');
+  lcForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    // native required validation (form has novalidate, so trigger it ourselves)
+    if (!lcForm.checkValidity()) { lcForm.reportValidity(); return; }
+
+    var p = lcLeadPayload(lcForm);
+    // honeypot tripped → pretend success, send nothing
+    if (p.company) { lcForm.style.display='none'; document.getElementById('formok').style.display='block'; return; }
+    if (!lcValidEmail(p.email)) {
+      var em = lcForm.querySelector('[name="email"]'); em.focus(); em.reportValidity && em.reportValidity(); return;
     }
+
+    var btn = document.getElementById('leadsubmit');
+    btn.disabled = true; btn.textContent = 'Sending…';
+
+    function done(){ lcForm.style.display='none'; document.getElementById('formok').style.display='block'; }
+
+    var ctrl = new AbortController();
+    var timer = setTimeout(function(){ ctrl.abort(); }, 7000);
+    fetch(LEADS_ENDPOINT, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(p), signal: ctrl.signal
+    }).then(function(){ clearTimeout(timer); done(); })
+      .catch(function(){ clearTimeout(timer); lcMailtoFallback(p); done(); });
   });
 
   // ---------- motion ----------

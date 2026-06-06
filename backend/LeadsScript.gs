@@ -28,17 +28,23 @@ var NOTIFY_TO  = 'LCovington@lcgeneralcontracting.com';  // Len — the live lea
 var NOTIFY_CC  = 'eugene@atscale-advisors.com';          // Eugene — remove this before handing the sheet to Len
 var DEDUPE_MIN = 2;                                       // ignore an identical email re-sent within N minutes
 
+// Column order is STABLE: estimator columns first (unchanged), then the homepage
+// columns appended at the end. Both lead sources write all 16 columns — fields that
+// don't apply to a given source are left blank/0. Never reorder; only append.
 var HEADERS = ['timestamp','name','email','build_type','total_budget','oop_pct',
-               'oop_dollars','construction_only','cost_per_sqft','est_sqft','source','user_agent'];
+               'oop_dollars','construction_only','cost_per_sqft','est_sqft','source','user_agent',
+               'phone','project_type','budget_range','message'];
 
-/** Run once after pasting — creates the Leads tab + header row. */
+/**
+ * Run once after pasting (and re-run after a schema change). Creates the Leads tab and
+ * writes/refreshes the header row. Safe to re-run: it only rewrites row 1 (labels),
+ * never touches data rows — so it upgrades an existing sheet to new columns in place.
+ */
 function setupSheet() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sh = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
-  if (sh.getLastRow() === 0) {
-    sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
-    sh.setFrozenRows(1);
-  }
+  sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
+  sh.setFrozenRows(1);
   return 'ok';
 }
 
@@ -82,6 +88,8 @@ function doPost(e) {
       }
 
       // 5) Append the lead. (The row is the asset — this happens before the email.)
+      //    Estimator leads fill the build_* columns; homepage leads fill phone/project/
+      //    budget/message. The unused columns for each source stay blank/0.
       sh.appendRow([
         now,
         String(data.name || '').slice(0, 120),
@@ -94,7 +102,11 @@ function doPost(e) {
         Number(data.cost_per_sqft || 0),
         Number(data.est_sqft || 0),
         String(data.source || 'estimator'),
-        String(data.user_agent || '').slice(0, 300)
+        String(data.user_agent || '').slice(0, 300),
+        String(data.phone || '').slice(0, 40),
+        String(data.project_type || '').slice(0, 80),
+        String(data.budget_range || '').slice(0, 60),
+        String(data.message || '').slice(0, 2000)
       ]);
     } finally {
       lock.releaseLock();
@@ -111,19 +123,38 @@ function doPost(e) {
 }
 
 function _notify(d, email) {
-  var subject = 'New LCGC lead — ' + (d.name || email) +
-                ' (' + _money(d.total_budget) + ', ~' + _num(d.est_sqft) + ' sqft)';
-  var body =
-    'New lead from the LCGC Budget Estimator:\n\n' +
-    'Name:               ' + (d.name || '(not given)') + '\n' +
-    'Email:              ' + email + '\n\n' +
-    'Build Type:         ' + (d.build_type || '') + '\n' +
-    'Total Budget:       ' + _money(d.total_budget) + '\n' +
-    'Overhead & Profit:  ' + _num(d.oop_pct) + '% (' + _money(d.oop_dollars) + ')\n' +
-    'Construction Only:  ' + _money(d.construction_only) + '\n' +
-    'Cost / SQFT:        ' + _money(d.cost_per_sqft) + '\n' +
-    'Estimated Home:     ' + _num(d.est_sqft) + ' sqft\n\n' +
-    'Reply to this email to reach them directly: ' + email;
+  var subject, body;
+
+  if (String(d.source || '') === 'homepage') {
+    // Homepage "Request a Free Estimate" form.
+    subject = 'New LCGC estimate request — ' + (d.name || email) +
+              (d.project_type ? ' (' + d.project_type + ')' : '');
+    body =
+      'New free-estimate request from the LCGC website:\n\n' +
+      'Name:          ' + (d.name || '(not given)') + '\n' +
+      'Phone:         ' + (d.phone || '(not given)') + '\n' +
+      'Email:         ' + email + '\n\n' +
+      'Project Type:  ' + (d.project_type || '(not given)') + '\n' +
+      'Budget:        ' + (d.budget_range || 'Not sure yet') + '\n\n' +
+      'About the project:\n' + (d.message || '(none provided)') + '\n\n' +
+      'Reply to this email to reach them directly: ' + email;
+  } else {
+    // Budget Estimator lead (default).
+    subject = 'New LCGC lead — ' + (d.name || email) +
+              ' (' + _money(d.total_budget) + ', ~' + _num(d.est_sqft) + ' sqft)';
+    body =
+      'New lead from the LCGC Budget Estimator:\n\n' +
+      'Name:               ' + (d.name || '(not given)') + '\n' +
+      'Email:              ' + email + '\n\n' +
+      'Build Type:         ' + (d.build_type || '') + '\n' +
+      'Total Budget:       ' + _money(d.total_budget) + '\n' +
+      'Overhead & Profit:  ' + _num(d.oop_pct) + '% (' + _money(d.oop_dollars) + ')\n' +
+      'Construction Only:  ' + _money(d.construction_only) + '\n' +
+      'Cost / SQFT:        ' + _money(d.cost_per_sqft) + '\n' +
+      'Estimated Home:     ' + _num(d.est_sqft) + ' sqft\n\n' +
+      'Reply to this email to reach them directly: ' + email;
+  }
+
   MailApp.sendEmail({ to: NOTIFY_TO, cc: NOTIFY_CC, replyTo: email, subject: subject, body: body });
 }
 

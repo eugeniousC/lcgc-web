@@ -16,6 +16,12 @@ domain (`lcgeneralcontracting.com`) with zero code changes.
 ## The funnel
 `index.html` → "Your Home Budget" → `LCGC_Budget_Estimator.html` → enter numbers →
 "Email My Estimate & Book a Meeting" (lead capture) → estimator logo links back home.
+The homepage **also** has its own in-home-estimate form (`#contact`) that captures leads
+directly.
+
+## 📖 Full reference
+**See [`DEPLOYMENT.md`](./DEPLOYMENT.md)** for the complete picture — what's deployed,
+the two-repo architecture, and exactly how lead capture is wired end-to-end.
 
 ## NOT in this repo (by design)
 The **production Construction Budget Planner** that Len uses for real jobs — plus its
@@ -28,7 +34,9 @@ means changes here can never break Len's live planner.
 Push to `main` → GitHub Pages auto-builds (~30–90s).
 - Live: https://eugeniousc.github.io/lcgc-web/
 
-## Lead capture
-Currently `mailto:` (zero-backend). A standalone Apps Script + "LCGC Leads" Google
-Sheet (separate from the planner's backend) is planned to capture every lead
-server-side and notify Len instantly, with `mailto:` kept as the fallback.
+## Lead capture (LIVE)
+Both forms (homepage `#contact` + estimator) POST to a standalone Apps Script that writes
+to the **"LCGC Leads"** Google Sheet (separate from the planner backend) and emails Len
+instantly, tagged by `source`. `mailto:` is the fallback if the network fails. Backend
+script: [`backend/LeadsScript.gs`](./backend/LeadsScript.gs). Full wiring + the redeploy
+ritual: **[`DEPLOYMENT.md`](./DEPLOYMENT.md) §6–7**.

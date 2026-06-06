@@ -5,3 +5,7 @@ planner-ancestor-*.html
 planner-early-*.html
 Plans/
 .DS_Store
+
+# DO ship Len's real project photos
+!assets/len/*.jpg
+!assets/len/*.jpeg

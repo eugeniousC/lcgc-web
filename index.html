@@ -3,21 +3,22 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>LC General Contracting & Remodeling | Custom Homes & Remodels in West Georgia</title>
-<meta name="description" content="LC General Contracting — 40+ years building custom homes, remodels, additions, sunrooms and decks across Coweta, Carroll, Haralson, Paulding and surrounding West Georgia. Free in-home estimates." />
+<title>LC General Contracting | Custom Homes & Remodels in West Georgia — Total Price Transparency</title>
+<meta name="description" content="LC General Contracting — 40+ years building custom homes, remodels, additions, sunrooms and decks across Coweta, Carroll, Haralson & Paulding. See every dollar of your build before you sign. Free in-home estimates." />
 
 <!--
   ===========================================================================
-  LC GENERAL CONTRACTING — HOMEPAGE MOCKUP (v1)
-  Built by Thomas for Eugene. Greenfield, lead-generation focused.
-  Brand system lifted from the existing Budget Planner (tinyurl.com/lcgchome):
-    navy #1a2438 · emerald #047857 · amber #D97706 · warm white #F8F7F4
-    Playfair Display (headlines) · DM Sans (body) · DM Mono (numbers)
+  LC GENERAL CONTRACTING — HOMEPAGE (v2 · PREMIUM)
+  Built by Thomas for Eugene. Lead-generation focused.
+  Wedge: TOTAL BUDGET TRANSPARENCY ("see every number — including ours").
+  Brand: navy #1a2438 · emerald #047857 · amber #D97706 · warm white #F8F7F4
+         Playfair Display (headlines) · DM Sans (body) · DM Mono (numbers)
 
-  PLACEHOLDERS TO SWAP (search "SWAP:"):
-    - All photos are licensed Unsplash SAMPLES → replace with Len's 600MB of real project photos
-    - The 6 testimonials are LABELED PLACEHOLDERS → drop in Len's 6 real direct quotes
-    - "Best of West Georgia" badge is illustrative → use real award/affiliation when confirmed
+  REAL ASSETS: photos in assets/len/ are Len's actual West-GA projects
+    (pulled from lcgeneralcontracting.com). Stock used only for deck + generator.
+  STILL TO SWAP (search "SWAP:"):
+    - 6 testimonials are LABELED PLACEHOLDERS → drop in Len's 6 real quotes
+    - 2 service photos (deck, generator) are stock → replace when Len sends his
   ===========================================================================
 -->
 
@@ -31,7 +32,9 @@
     --navy-2: #243049;
     --emerald: #047857;
     --emerald-d: #035c43;
+    --emerald-l: #34d399;
     --amber: #D97706;
+    --amber-l: #fbbf24;
     --ink: #1a1a1a;
     --paper: #F8F7F4;
     --paper-2: #F1F0ED;
@@ -50,6 +53,7 @@
     background: var(--paper);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
   h1,h2,h3 { font-family: 'Playfair Display', Georgia, serif; line-height: 1.12; color: var(--navy); font-weight: 700; }
   a { color: inherit; text-decoration: none; }
@@ -65,15 +69,21 @@
     display: inline-flex; align-items: center; gap: 9px; cursor: pointer;
     font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: .98rem;
     padding: 14px 26px; border-radius: 10px; border: 2px solid transparent;
-    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
   }
+  .btn svg { width: 18px; height: 18px; }
   .btn:hover { transform: translateY(-2px); }
   .btn-primary { background: var(--emerald); color: #fff; box-shadow: 0 8px 24px rgba(4,120,87,.32); }
   .btn-primary:hover { background: var(--emerald-d); }
   .btn-amber { background: var(--amber); color: #fff; box-shadow: 0 8px 24px rgba(217,119,6,.3); }
-  .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.5); }
-  .btn-ghost:hover { background: rgba(255,255,255,.12); }
+  .btn-amber:hover { background: #b45309; }
+  .btn-ghost { background: rgba(255,255,255,.06); color: #fff; border-color: rgba(255,255,255,.55); }
+  .btn-ghost:hover { background: rgba(255,255,255,.14); border-color:#fff; }
   .btn-dark { background: var(--navy); color: #fff; }
+
+  /* icon system (inline Lucide SVGs) */
+  .ic { display:inline-flex; align-items:center; justify-content:center; }
+  .ic svg { stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
   /* ---------- notice ---------- */
   .notice {
@@ -108,35 +118,72 @@
   /* ---------- hero ---------- */
   .hero { position: relative; color: #fff; padding: 0; overflow: hidden; }
   .hero-bg { position: absolute; inset: 0; z-index: 0; }
-  /* SWAP: hero image — use Len's best custom-home or remodel shot */
-  .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-bg img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); }
   .hero-bg::after {
     content: ""; position: absolute; inset: 0;
-    background: linear-gradient(105deg, rgba(20,26,42,.92) 0%, rgba(20,26,42,.78) 42%, rgba(20,26,42,.35) 100%);
+    background: linear-gradient(105deg, rgba(20,26,42,.95) 0%, rgba(20,26,42,.82) 44%, rgba(20,26,42,.42) 100%);
   }
-  .hero-inner { position: relative; z-index: 2; padding: 110px 0 96px; }
-  .hero-content { max-width: 640px; }
-  .hero h1 { color: #fff; font-size: clamp(2.4rem, 5vw, 3.7rem); font-weight: 800; }
-  .hero h1 em { color: #ffd9a3; font-style: normal; }
-  .hero p.lead { font-size: 1.18rem; color: #dbe1ec; margin: 22px 0 34px; max-width: 540px; }
+  .hero-inner { position: relative; z-index: 2; padding: 104px 0 92px; }
+  .hero-content { max-width: 660px; }
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:8px; background: rgba(52,211,153,.14);
+    border:1px solid rgba(52,211,153,.4); color:#a7f3d0; border-radius:30px;
+    padding:7px 15px 7px 12px; font-family:'DM Mono',monospace; font-size:.72rem;
+    text-transform:uppercase; letter-spacing:.12em; margin-bottom:22px;
+  }
+  .hero-badge .ic svg { width:15px; height:15px; }
+  .hero h1 { color: #fff; font-size: clamp(2.45rem, 5vw, 3.9rem); font-weight: 800; letter-spacing:-.01em; }
+  .hero h1 em { color: var(--amber-l); font-style: normal; }
+  .hero p.lead { font-size: 1.2rem; color: #dbe1ec; margin: 22px 0 34px; max-width: 560px; }
   .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
-  .hero-trust { display: flex; gap: 30px; margin-top: 46px; flex-wrap: wrap; }
-  .hero-trust div { border-left: 2px solid var(--emerald); padding-left: 14px; }
-  .hero-trust .n { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700; color: #fff; }
-  .hero-trust .l { font-size: .82rem; color: #b8c0d0; letter-spacing: .02em; }
+  .hero-trust { display: flex; gap: 34px; margin-top: 50px; flex-wrap: wrap; }
+  .hero-trust div { border-left: 2px solid var(--emerald-l); padding-left: 14px; }
+  .hero-trust .n { font-family: 'Playfair Display', serif; font-size: 1.85rem; font-weight: 700; color: #fff; line-height:1; }
+  .hero-trust .l { font-size: .8rem; color: #b8c0d0; letter-spacing: .02em; margin-top:6px; }
 
   /* ---------- trust bar ---------- */
-  .trustbar { background: var(--navy); color: #cfd6e3; padding: 22px 0; }
+  .trustbar { background: var(--navy); color: #cfd6e3; padding: 20px 0; border-top:1px solid rgba(255,255,255,.06); }
   .trustbar .wrap { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-  .trustbar .item { display: flex; align-items: center; gap: 10px; font-size: .92rem; font-weight: 500; }
+  .trustbar .item { display: flex; align-items: center; gap: 9px; font-size: .92rem; font-weight: 500; }
   .trustbar .item b { color: #fff; }
-  .check { color: var(--emerald); font-size: 1.1rem; }
+  .trustbar .ic { color: var(--emerald-l); }
+  .trustbar .ic svg { width:18px; height:18px; }
 
   /* ---------- section heads ---------- */
-  .sec-head { max-width: 680px; margin-bottom: 52px; }
+  .sec-head { max-width: 700px; margin-bottom: 52px; }
   .sec-head.center { margin-left: auto; margin-right: auto; text-align: center; }
   .sec-head h2 { font-size: clamp(2rem, 3.6vw, 2.7rem); }
   .sec-head p { color: var(--muted); font-size: 1.08rem; margin-top: 14px; }
+
+  /* ---------- differentiator ---------- */
+  .diff { background: var(--paper); }
+  .diff-grid { display:grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
+  .diff-card {
+    background:#fff; border:1px solid var(--line); border-radius: var(--radius);
+    padding: 32px 28px; box-shadow: var(--shadow-sm); position:relative; overflow:hidden;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .diff-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .diff-card.feature { background: var(--navy); color:#fff; border-color:var(--navy); }
+  .diff-card.feature h3 { color:#fff; }
+  .diff-card.feature p { color:#c4cdde; }
+  .diff-card.feature::before {
+    content:""; position:absolute; top:-90px; right:-90px; width:240px; height:240px;
+    background: radial-gradient(circle, rgba(4,120,87,.55) 0%, transparent 70%); filter: blur(14px);
+  }
+  .diff-ic {
+    width:52px; height:52px; border-radius:13px; display:grid; place-items:center;
+    background: rgba(4,120,87,.1); color: var(--emerald); margin-bottom:20px; position:relative; z-index:1;
+  }
+  .diff-card.feature .diff-ic { background: rgba(52,211,153,.18); color: var(--emerald-l); }
+  .diff-ic svg { width:26px; height:26px; }
+  .diff-card h3 { font-size:1.35rem; margin-bottom:10px; position:relative; z-index:1; }
+  .diff-card p { color: var(--muted); font-size:.97rem; position:relative; z-index:1; }
+  .diff-tag {
+    display:inline-block; font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.14em;
+    text-transform:uppercase; color: var(--emerald-l); background: rgba(52,211,153,.14);
+    padding:3px 9px; border-radius:5px; margin-bottom:16px; position:relative; z-index:1;
+  }
 
   /* ---------- services ---------- */
   .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
@@ -145,71 +192,100 @@
     border: 1px solid var(--line); transition: transform .2s ease, box-shadow .2s ease;
   }
   .svc-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
-  .svc-card .ph { height: 190px; overflow: hidden; }
-  .svc-card .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
-  .svc-card:hover .ph img { transform: scale(1.06); }
+  .svc-card .ph { height: 200px; overflow: hidden; position:relative; }
+  .svc-card .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+  .svc-card:hover .ph img { transform: scale(1.07); }
   .svc-card .body { padding: 22px 24px 26px; }
   .svc-card h3 { font-size: 1.28rem; margin-bottom: 8px; }
   .svc-card p { color: var(--muted); font-size: .94rem; }
 
-  /* ---------- budget (lead magnet) ---------- */
+  /* ---------- budget (lead magnet / showpiece) ---------- */
   .budget { background: var(--navy); color: #fff; position: relative; overflow: hidden; }
   .budget::before {
-    content: ""; position: absolute; top: -120px; right: -120px; width: 420px; height: 420px;
-    background: radial-gradient(circle, rgba(4,120,87,.5) 0%, transparent 70%); filter: blur(20px);
+    content: ""; position: absolute; top: -140px; right: -120px; width: 460px; height: 460px;
+    background: radial-gradient(circle, rgba(4,120,87,.5) 0%, transparent 70%); filter: blur(22px);
+  }
+  .budget::after {
+    content:""; position:absolute; bottom:-160px; left:-140px; width:420px; height:420px;
+    background: radial-gradient(circle, rgba(217,119,6,.18) 0%, transparent 70%); filter: blur(20px);
   }
   .budget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; position: relative; z-index: 2; }
-  .budget .eyebrow { color: #6ee7b7; }
+  .budget .eyebrow { color: var(--emerald-l); }
   .budget h2 { color: #fff; font-size: clamp(2rem, 3.6vw, 2.8rem); }
+  .budget h2 em { color: var(--amber-l); font-style:normal; }
   .budget p.lead { color: #c4cdde; font-size: 1.1rem; margin: 18px 0 26px; }
-  .budget ul { list-style: none; margin: 0 0 30px; display: grid; gap: 12px; }
+  .budget ul { list-style: none; margin: 0 0 30px; display: grid; gap: 13px; }
   .budget ul li { display: flex; gap: 12px; align-items: flex-start; color: #dce2ee; font-size: 1rem; }
-  .budget ul li::before { content: "→"; color: #6ee7b7; font-weight: 700; }
-  /* faux calculator preview */
-  .calc-card { background: #fff; color: var(--ink); border-radius: 16px; box-shadow: 0 30px 70px rgba(0,0,0,.4); overflow: hidden; }
+  .budget ul li .ic { color: var(--emerald-l); flex-shrink:0; margin-top:2px; }
+  .budget ul li .ic svg { width:18px; height:18px; }
+  /* live calculator preview */
+  .calc-card { background: #fff; color: var(--ink); border-radius: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.45); overflow: hidden; }
   .calc-top { background: var(--paper-2); padding: 16px 22px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--line); }
   .calc-top .logo-box { width: 34px; height: 34px; font-size: .95rem; border-radius: 8px; }
   .calc-top .t { font-family: 'Playfair Display', serif; font-weight: 700; font-size: .98rem; color: var(--navy); }
   .calc-top .t span { display:block; font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; color: var(--emerald); }
+  .calc-live { margin-left:auto; display:flex; align-items:center; gap:6px; font-family:'DM Mono',monospace; font-size:.6rem; text-transform:uppercase; letter-spacing:.12em; color:var(--emerald); }
+  .calc-live .dot { width:7px; height:7px; border-radius:50%; background:var(--emerald-l); box-shadow:0 0 0 0 rgba(52,211,153,.6); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(52,211,153,.55)} 70%{box-shadow:0 0 0 8px rgba(52,211,153,0)} 100%{box-shadow:0 0 0 0 rgba(52,211,153,0)} }
   .calc-body { padding: 22px; }
-  .calc-input { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; margin-bottom: 18px; }
-  .calc-input label { font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-family: 'DM Mono', monospace; }
-  .calc-input .v { font-family: 'DM Mono', monospace; font-size: 1.5rem; font-weight: 500; color: var(--navy); }
-  .calc-rows { display: grid; gap: 9px; }
-  .calc-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; font-size: .9rem; }
-  .calc-row .bar { grid-column: 1 / -1; height: 7px; border-radius: 4px; background: var(--paper-2); overflow: hidden; }
-  .calc-row .bar i { display: block; height: 100%; background: var(--emerald); border-radius: 4px; }
+  .calc-input { background: linear-gradient(135deg,#ecfdf5,#f0fdfa); border: 1px solid #a7f3d0; border-radius: 12px; padding: 14px 18px; margin-bottom: 20px; }
+  .calc-input label { font-size: .66rem; text-transform: uppercase; letter-spacing: .12em; color: var(--emerald-d); font-family: 'DM Mono', monospace; }
+  .calc-input .v { font-family: 'DM Mono', monospace; font-size: 1.7rem; font-weight: 500; color: var(--navy); margin-top:2px; }
+  .calc-rows { display: grid; gap: 13px; }
+  .calc-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 10px; font-size: .9rem; }
+  .calc-row > span:first-child { color:#33373f; }
+  .calc-row .bar { grid-column: 1 / -1; height: 8px; border-radius: 5px; background: var(--paper-2); overflow: hidden; }
+  .calc-row .bar i { display: block; height: 100%; width:0; background: linear-gradient(90deg,var(--emerald),var(--emerald-l)); border-radius: 5px; transition: width 1.1s cubic-bezier(.2,.7,.2,1); }
+  .calc-row.profit .bar i { background: linear-gradient(90deg,var(--amber),var(--amber-l)); }
   .calc-row .amt { font-family: 'DM Mono', monospace; color: var(--navy); font-weight: 500; }
   .calc-row .pct { font-family: 'DM Mono', monospace; color: var(--emerald); font-size: .8rem; }
+  .calc-row.profit .pct { color: var(--amber); }
+  .calc-foot { margin-top:18px; padding-top:16px; border-top:1px dashed var(--line); display:flex; align-items:center; justify-content:space-between; }
+  .calc-foot .lab { font-family:'DM Mono',monospace; font-size:.66rem; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); }
+  .calc-foot .tot { font-family:'DM Mono',monospace; font-weight:500; font-size:1.15rem; color:var(--navy); }
+
+  /* ---------- numbers band ---------- */
+  .stats { background: var(--paper-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding: 64px 0; }
+  .stats-grid { display:grid; grid-template-columns: repeat(4,1fr); gap: 24px; text-align:center; }
+  .stat .n { font-family:'Playfair Display',serif; font-weight:800; font-size: clamp(2.2rem,4vw,3.2rem); color: var(--navy); line-height:1; }
+  .stat .n em { color: var(--emerald); font-style:normal; }
+  .stat .l { font-size:.86rem; color:var(--muted); margin-top:10px; font-weight:500; letter-spacing:.01em; }
 
   /* ---------- portfolio ---------- */
-  .work { background: var(--paper-2); }
-  .gal { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 230px; gap: 16px; }
+  .work { background: var(--paper); }
+  .gal { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 240px; gap: 16px; }
   .gal a { position: relative; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
-  .gal a img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+  .gal a img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
   .gal a:hover img { transform: scale(1.07); }
   .gal a.tall { grid-row: span 2; }
   .gal a .cap {
     position: absolute; left: 0; right: 0; bottom: 0; padding: 16px;
-    background: linear-gradient(transparent, rgba(20,26,42,.85)); color: #fff;
+    background: linear-gradient(transparent, rgba(20,26,42,.88)); color: #fff;
     font-family: 'DM Mono', monospace; font-size: .78rem; text-transform: uppercase; letter-spacing: .1em;
-    opacity: 0; transition: opacity .25s ease;
+    opacity: 0; transform: translateY(8px); transition: opacity .25s ease, transform .25s ease;
   }
-  .gal a:hover .cap { opacity: 1; }
+  .gal a:hover .cap { opacity: 1; transform: none; }
 
   /* ---------- reviews ---------- */
   .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-  .rev-card { background: #fff; border-radius: var(--radius); padding: 28px 26px; box-shadow: var(--shadow-sm); border: 1px solid var(--line); }
+  .rev-card { background: #fff; border-radius: var(--radius); padding: 28px 26px; box-shadow: var(--shadow-sm); border: 1px solid var(--line); position:relative; }
+  .rev-card .quote-mark { position:absolute; top:18px; right:22px; font-family:'Playfair Display',serif; font-size:3.4rem; line-height:1; color:var(--paper-2); }
   .stars { color: var(--amber); letter-spacing: 2px; margin-bottom: 14px; font-size: 1.05rem; }
-  .rev-card p { font-size: .98rem; color: #33373f; }
+  .rev-card p { font-size: .98rem; color: #33373f; position:relative; z-index:1; }
   .rev-who { margin-top: 18px; font-weight: 600; color: var(--navy); }
   .rev-who span { display: block; font-weight: 400; font-size: .82rem; color: var(--muted); }
-  .ph-tag { /* placeholder marker */ display:inline-block; font-family:'DM Mono',monospace; font-size:.6rem; color:#b08400; background:#FEF3C7; padding:2px 7px; border-radius:5px; letter-spacing:.06em; margin-bottom:12px; }
+  .ph-tag { display:inline-block; font-family:'DM Mono',monospace; font-size:.56rem; color:#b08400; background:#FEF3C7; padding:2px 7px; border-radius:5px; letter-spacing:.06em; margin-bottom:12px; }
 
   /* ---------- about ---------- */
   .about-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: center; }
-  .about-img { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); height: 460px; }
+  .about-img { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); height: 480px; position:relative; }
   .about-img img { width: 100%; height: 100%; object-fit: cover; }
+  .about-img .badge {
+    position:absolute; left:22px; bottom:22px; background:rgba(255,255,255,.95); backdrop-filter:blur(6px);
+    border-radius:12px; padding:14px 18px; box-shadow: var(--shadow); display:flex; align-items:center; gap:12px;
+  }
+  .about-img .badge .b-n { font-family:'Playfair Display',serif; font-weight:800; font-size:1.7rem; color:var(--emerald); line-height:1; }
+  .about-img .badge .b-l { font-size:.74rem; color:var(--navy); font-weight:600; line-height:1.2; }
   .about p { color: #43474f; margin-bottom: 16px; font-size: 1.05rem; }
   .area-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
   .area-pills span { background: #fff; border: 1px solid var(--line); border-radius: 30px; padding: 8px 16px; font-size: .88rem; font-weight: 500; color: var(--navy); }
@@ -217,12 +293,13 @@
   /* ---------- lead form ---------- */
   .lead { background: var(--navy); color: #fff; }
   .lead-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; }
-  .lead .eyebrow { color: #6ee7b7; }
+  .lead .eyebrow { color: var(--emerald-l); }
   .lead h2 { color: #fff; font-size: clamp(2rem, 3.4vw, 2.6rem); }
   .lead p.lead-sub { color: #c4cdde; font-size: 1.08rem; margin: 18px 0 28px; }
   .lead-feat { display: grid; gap: 16px; }
   .lead-feat .f { display: flex; gap: 14px; align-items: flex-start; }
-  .lead-feat .f .ic { width: 40px; height: 40px; border-radius: 9px; background: rgba(4,120,87,.25); color: #6ee7b7; display: grid; place-items: center; font-size: 1.1rem; flex-shrink: 0; }
+  .lead-feat .f .ic { width: 42px; height: 42px; border-radius: 10px; background: rgba(4,120,87,.25); color: var(--emerald-l); display: grid; place-items: center; flex-shrink: 0; }
+  .lead-feat .f .ic svg { width:20px; height:20px; }
   .lead-feat .f b { color: #fff; font-size: 1rem; }
   .lead-feat .f p { color: #aab4c6; font-size: .9rem; margin: 0; }
   .form-card { background: #fff; border-radius: 16px; padding: 32px; box-shadow: var(--shadow); }
@@ -236,7 +313,8 @@
   }
   .field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--emerald); border-color: var(--emerald); background:#fff; }
   .field.row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .form-note { font-size: .78rem; color: var(--muted); margin-top: 12px; text-align: center; }
+  .form-note { font-size: .78rem; color: var(--muted); margin-top: 12px; text-align: center; display:flex; align-items:center; justify-content:center; gap:6px; }
+  .form-note svg { width:14px; height:14px; }
   .form-ok { display:none; background:#ecfdf5; border:1px solid #6ee7b7; color:#035c43; border-radius:10px; padding:16px; font-weight:600; text-align:center; }
 
   /* ---------- footer ---------- */
@@ -245,10 +323,26 @@
   footer .logo-name { color: #fff; }
   footer h4 { color: #fff; font-family: 'DM Sans', sans-serif; font-size: .8rem; text-transform: uppercase; letter-spacing: .14em; margin-bottom: 16px; }
   footer ul { list-style: none; display: grid; gap: 10px; }
-  footer a:hover { color: #6ee7b7; }
+  footer a:hover { color: var(--emerald-l); }
   footer .foot-about { font-size: .92rem; margin-top: 16px; max-width: 280px; }
   .foot-bottom { border-top: 1px solid #243049; padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: .82rem; }
   .foot-bottom .mono { color: #6b7686; }
+
+  /* ---------- motion ---------- */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  .stagger > * { opacity: 0; transform: translateY(22px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); }
+  .stagger.in > * { opacity: 1; transform: none; }
+  .stagger.in > *:nth-child(2){ transition-delay:.07s } .stagger.in > *:nth-child(3){ transition-delay:.14s }
+  .stagger.in > *:nth-child(4){ transition-delay:.21s } .stagger.in > *:nth-child(5){ transition-delay:.28s }
+  .stagger.in > *:nth-child(6){ transition-delay:.35s } .stagger.in > *:nth-child(7){ transition-delay:.42s }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal, .stagger > * { opacity:1 !important; transform:none !important; transition:none !important; }
+    .calc-row .bar i { transition: none !important; }
+    .calc-live .dot { animation: none !important; }
+  }
 
   /* ---------- responsive ---------- */
   @media (max-width: 920px) {
@@ -258,19 +352,19 @@
       display: flex; position: absolute; top: 76px; left: 0; right: 0; flex-direction: column;
       background: var(--paper); padding: 20px 6vw; gap: 18px; border-bottom: 1px solid var(--line); box-shadow: var(--shadow-sm);
     }
-    .svc-grid, .rev-grid { grid-template-columns: repeat(2, 1fr); }
+    .svc-grid, .rev-grid, .diff-grid { grid-template-columns: repeat(2, 1fr); }
     .budget-grid, .about-grid, .lead-grid { grid-template-columns: 1fr; gap: 36px; }
     .gal { grid-template-columns: repeat(2, 1fr); }
-    .about-img { height: 320px; }
+    .about-img { height: 360px; }
+    .stats-grid { grid-template-columns: repeat(2,1fr); gap:36px 24px; }
   }
   @media (max-width: 580px) {
     section { padding: 64px 0; }
-    .svc-grid, .rev-grid, .gal { grid-template-columns: 1fr; }
+    .svc-grid, .rev-grid, .gal, .diff-grid { grid-template-columns: 1fr; }
     .field.row { grid-template-columns: 1fr; }
     .foot-grid { grid-template-columns: 1fr 1fr; }
-    .hero-trust { gap: 20px; }
-    /* full-width hero text on phones needs an even dark wash, not the desktop side-fade */
-    .hero-bg::after { background: linear-gradient(180deg, rgba(20,26,42,.82) 0%, rgba(20,26,42,.9) 100%); }
+    .hero-trust { gap: 22px; }
+    .hero-bg::after { background: linear-gradient(180deg, rgba(20,26,42,.82) 0%, rgba(20,26,42,.92) 100%); }
   }
 </style>
 </head>
@@ -286,11 +380,11 @@
       </div>
     </a>
     <nav class="nav-links" id="navlinks">
+      <a href="#difference">Why LCGC</a>
       <a href="#services">Services</a>
+      <a href="#budget">Your Budget</a>
       <a href="#work">Our Work</a>
-      <a href="#budget">Your Home Budget</a>
       <a href="#reviews">Reviews</a>
-      <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
     <div class="nav-cta">
@@ -304,21 +398,22 @@
 <!-- ===================== HERO ===================== -->
 <section class="hero" id="top">
   <div class="hero-bg">
-    <!-- SWAP: hero photo -->
-    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1700&q=80" alt="Custom home interior" />
+    <!-- SWAP-OK: real Len exterior -->
+    <img src="assets/len/img_0077.jpeg" alt="Custom home built by LC General Contracting in West Georgia" />
   </div>
   <div class="wrap hero-inner">
-    <div class="hero-content">
-      <div class="eyebrow" style="color:#6ee7b7">40+ Years Building West Georgia</div>
-      <h1>Turn your dream home into <em>reality</em> — built beautifully from the ground up.</h1>
-      <p class="lead">Custom homes, remodels, additions, sunrooms and decks across Coweta, Carroll, Haralson &amp; Paulding. Four decades of craftsmanship, one honest crew.</p>
+    <div class="hero-content reveal">
+      <div class="hero-badge"><span class="ic"><svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></span> Total price transparency</div>
+      <h1>See <em>every dollar</em> of your build — down to our profit, before you ever sign.</h1>
+      <p class="lead">Custom homes, remodels, additions and sunrooms across West Georgia. Forty years of craftsmanship from one honest crew — and a budget you can actually see.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#contact">Schedule an In-Home Estimate</a>
-        <a class="btn btn-primary" href="#budget">Plan Your Budget →</a>
+        <a class="btn btn-primary" href="#budget">See Your Budget Breakdown
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a class="btn btn-ghost" href="#contact">Schedule In-Home Estimate</a>
       </div>
       <div class="hero-trust">
-        <div><div class="n">40+</div><div class="l">Years of experience</div></div>
-        <div><div class="n">5</div><div class="l">Counties served</div></div>
+        <div><div class="n"><span data-count="40" data-suffix="+">0</span></div><div class="l">Years building</div></div>
+        <div><div class="n"><span data-count="5">0</span></div><div class="l">Counties served</div></div>
         <div><div class="n">★★★★★</div><div class="l">Homeowner-rated</div></div>
       </div>
     </div>
@@ -327,46 +422,76 @@
 
 <!-- ===================== TRUST BAR ===================== -->
 <div class="trustbar">
-  <div class="wrap">
-    <div class="item"><span class="check">✓</span> <b>Licensed &amp; Insured</b></div>
-    <div class="item"><span class="check">✓</span> <b>40+ Years</b> in business</div>
-    <div class="item"><span class="check">✓</span> <b>Free</b> in-home estimates</div>
-    <div class="item"><span class="check">✓</span> <b>Workmanship</b> guaranteed</div>
-    <div class="item"><span class="check">✓</span> Locally owned &amp; operated</div>
+  <div class="wrap stagger">
+    <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span> <b>Licensed &amp; Insured</b></div>
+    <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span> <b>40+ Years</b> in business</div>
+    <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span> <b>Free</b> in-home estimates</div>
+    <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span> <b>Workmanship</b> guaranteed</div>
+    <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span> Locally owned &amp; operated</div>
   </div>
 </div>
+
+<!-- ===================== THE LCGC DIFFERENCE ===================== -->
+<section class="diff" id="difference">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="eyebrow">Why LCGC</div>
+      <h2>Most contractors hand you one number. We hand you all of them.</h2>
+      <p>You shouldn't have to guess where your money goes — or wonder what your builder is really making. Here's what forty years of doing it right looks like.</p>
+    </div>
+    <div class="diff-grid stagger">
+      <article class="diff-card feature">
+        <span class="diff-tag">Our difference</span>
+        <div class="diff-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg></div>
+        <h3>You see every number</h3>
+        <p>Foundation, framing, finishes — and our overhead and profit. Nothing buried, nothing padded. Walk in knowing exactly what your home costs and why.</p>
+      </article>
+      <article class="diff-card">
+        <div class="diff-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>One crew, start to finish</h3>
+        <p>You deal with the people actually doing the work — not a salesman and a rotating cast of subs you've never met. The same hands that quote it, build it.</p>
+      </article>
+      <article class="diff-card">
+        <div class="diff-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>40 years, built to last</h3>
+        <p>Hundreds of West Georgia homes built and remodeled. We're not the biggest outfit in the county — that's the point. You get craftsmanship that holds up for decades.</p>
+      </article>
+    </div>
+  </div>
+</section>
 
 <!-- ===================== SERVICES ===================== -->
 <section id="services">
   <div class="wrap">
-    <div class="sec-head center">
+    <div class="sec-head center reveal">
       <div class="eyebrow">What We Build</div>
       <h2>One crew for the whole project — start to finish.</h2>
       <p>From a brand-new custom home to the kitchen you've been putting off, we handle it all in-house. No subs you've never met, no surprises.</p>
     </div>
-    <div class="svc-grid">
-      <!-- SWAP all service photos with Len's real jobs -->
+    <div class="svc-grid stagger">
       <article class="svc-card">
-        <div class="ph"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=700&q=80" alt="New home build"/></div>
+        <div class="ph"><img src="assets/len/20250203_085914.jpg" alt="New custom home build by LCGC"/></div>
         <div class="body"><h3>New Home Builds</h3><p>Custom homes designed and built around the way your family actually lives.</p></div>
       </article>
       <article class="svc-card">
-        <div class="ph"><img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=700&q=80" alt="Kitchen remodel"/></div>
+        <div class="ph"><img src="assets/len/99e69a33-b212-4bb9-ad02-4c91aa4e9a94.jpg" alt="Kitchen remodel by LCGC"/></div>
         <div class="body"><h3>Kitchens &amp; Baths</h3><p>The rooms that sell a house and run your day — remodeled to last decades.</p></div>
       </article>
       <article class="svc-card">
-        <div class="ph"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=700&q=80" alt="Home remodeling"/></div>
+        <div class="ph"><img src="assets/len/resized_20190822_191413.jpeg" alt="Home remodel by LCGC"/></div>
         <div class="body"><h3>Home Remodeling</h3><p>Whole-home and single-room renovations that bring tired spaces back to life.</p></div>
       </article>
       <article class="svc-card">
-        <div class="ph"><img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=700&q=80" alt="Room addition"/></div>
+        <div class="ph"><img src="assets/len/img_0037.jpeg" alt="Sunroom addition in progress by LCGC"/></div>
         <div class="body"><h3>Additions &amp; Sunrooms</h3><p>More room to grow — additions, bonus rooms and light-filled sunrooms.</p></div>
       </article>
       <article class="svc-card">
+        <!-- SWAP: stock — replace with Len's real deck photo -->
         <div class="ph"><img src="https://images.unsplash.com/photo-1503594384566-461fe158e797?auto=format&fit=crop&w=700&q=80" alt="Deck build"/></div>
         <div class="body"><h3>Decks &amp; Outdoor Living</h3><p>Decks and outdoor spaces built to handle Georgia summers and family cookouts.</p></div>
       </article>
       <article class="svc-card">
+        <!-- SWAP: stock — replace with Len's real generator photo -->
         <div class="ph"><img src="https://images.unsplash.com/photo-1416331108676-a22ccb276e35?auto=format&fit=crop&w=700&q=80" alt="Generator install"/></div>
         <div class="body"><h3>Whole-Home Generators</h3><p>Full standby generator installation so the next storm doesn't slow you down.</p></div>
       </article>
@@ -374,62 +499,77 @@
   </div>
 </section>
 
-<!-- ===================== YOUR HOME BUDGET (LEAD MAGNET) ===================== -->
+<!-- ===================== YOUR HOME BUDGET (SHOWPIECE) ===================== -->
 <section class="budget" id="budget">
   <div class="wrap budget-grid">
-    <div>
+    <div class="reveal">
       <div class="eyebrow">Your Home Budget</div>
-      <h2>Know your numbers before you ever pick up the phone.</h2>
-      <p class="lead">Most homeowners have no idea where their money actually goes on a build or remodel. Our free Budget Planner does the math for you — enter your total budget and instantly see how it breaks down across every phase of the project.</p>
+      <h2>Know your numbers <em>before</em> you ever pick up the phone.</h2>
+      <p class="lead">Most homeowners have no idea where their money actually goes on a build or remodel. Our free Budget Planner does the math for you — enter your total budget and instantly see how every dollar breaks down across the project. Including our overhead and profit. We don't hide it.</p>
       <ul>
-        <li>Enter one number: your total project budget</li>
-        <li>See the percentage &amp; dollars for each line item — foundation, framing, finishes and more</li>
-        <li>Walk into your estimate already knowing what's realistic</li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span> Enter one number: your total project budget</li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span> See the percentage &amp; dollars for every line item — foundation, framing, finishes and more</li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span> Walk into your estimate already knowing what's realistic</li>
       </ul>
-      <a class="btn btn-primary" href="LCGC_Budget_Estimator.html" target="_blank" rel="noopener">Open the Free Budget Estimator →</a>
+      <a class="btn btn-primary" href="LCGC_Budget_Estimator.html" target="_blank" rel="noopener">Open the Free Budget Estimator
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
       <p style="font-size:.82rem;color:#9aa4b8;margin-top:14px;">No login. No pressure. Like what you see? Email yourself the breakdown and we'll follow up to turn it into a real plan.</p>
     </div>
 
-    <!-- faux preview of the planner so visitors see the value before clicking -->
-    <div class="calc-card" aria-hidden="true">
+    <!-- live-animated preview of the planner -->
+    <div class="calc-card reveal" id="calc" aria-hidden="true">
       <div class="calc-top">
         <div class="logo-box">LC</div>
         <div class="t">LC General Contracting<span>Budget Planner</span></div>
+        <div class="calc-live"><span class="dot"></span> Live</div>
       </div>
       <div class="calc-body">
         <div class="calc-input">
           <label>Total Project Budget</label>
-          <div class="v">$385,000</div>
+          <div class="v" id="calc-budget">$0</div>
         </div>
-        <div class="calc-rows">
-          <div class="calc-row"><span>Foundation &amp; Site</span><span class="amt">$42,350</span><div class="bar"><i style="width:11%"></i></div><span class="pct">11%</span></div>
-          <div class="calc-row"><span>Framing &amp; Structure</span><span class="amt">$69,300</span><div class="bar"><i style="width:18%"></i></div><span class="pct">18%</span></div>
-          <div class="calc-row"><span>Mechanical (HVAC/Elec/Plumb)</span><span class="amt">$57,750</span><div class="bar"><i style="width:15%"></i></div><span class="pct">15%</span></div>
-          <div class="calc-row"><span>Interior Finishes</span><span class="amt">$96,250</span><div class="bar"><i style="width:25%"></i></div><span class="pct">25%</span></div>
-          <div class="calc-row"><span>Overhead &amp; Profit</span><span class="amt">$57,750</span><div class="bar"><i style="width:15%"></i></div><span class="pct">15%</span></div>
+        <div class="calc-rows" id="calc-rows">
+          <div class="calc-row"><span>Foundation &amp; Site</span><span class="amt" data-amt="42350">$0</span><div class="bar"><i data-w="11"></i></div><span class="pct" data-pct="11">0%</span></div>
+          <div class="calc-row"><span>Framing &amp; Structure</span><span class="amt" data-amt="69300">$0</span><div class="bar"><i data-w="18"></i></div><span class="pct" data-pct="18">0%</span></div>
+          <div class="calc-row"><span>Mechanical (HVAC/Elec/Plumb)</span><span class="amt" data-amt="57750">$0</span><div class="bar"><i data-w="15"></i></div><span class="pct" data-pct="15">0%</span></div>
+          <div class="calc-row"><span>Interior Finishes</span><span class="amt" data-amt="96250">$0</span><div class="bar"><i data-w="25"></i></div><span class="pct" data-pct="25">0%</span></div>
+          <div class="calc-row profit"><span>Overhead &amp; Profit <span style="font-size:.7rem;color:var(--amber)">— shown, not hidden</span></span><span class="amt" data-amt="57750">$0</span><div class="bar"><i data-w="15"></i></div><span class="pct" data-pct="15">0%</span></div>
+        </div>
+        <div class="calc-foot">
+          <span class="lab">Your Total Build</span>
+          <span class="tot" id="calc-total">$0</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ===================== NUMBERS BAND ===================== -->
+<div class="stats" id="stats">
+  <div class="wrap stats-grid stagger">
+    <div class="stat"><div class="n"><span data-count="40" data-suffix="+">0</span></div><div class="l">Years in business</div></div>
+    <div class="stat"><div class="n"><span data-count="100" data-suffix="s">0</span></div><div class="l">Homes built &amp; remodeled</div></div>
+    <div class="stat"><div class="n"><span data-count="5">0</span></div><div class="l">West Georgia counties</div></div>
+    <div class="stat"><div class="n"><em><span data-count="100" data-suffix="%">0</span></em></div><div class="l">Of the budget, visible</div></div>
+  </div>
+</div>
+
 <!-- ===================== OUR WORK ===================== -->
 <section class="work" id="work">
   <div class="wrap">
-    <div class="sec-head center">
+    <div class="sec-head center reveal">
       <div class="eyebrow">Our Work</div>
       <h2>Four decades of homes we're proud to put our name on.</h2>
-      <p>A look at recent builds and remodels across West Georgia. <em>(Sample gallery — Len's real before/afters drop in here.)</em></p>
+      <p>Real builds and remodels from across West Georgia — actual LCGC projects.</p>
     </div>
-    <!-- SWAP: replace every gallery image with Len's project photos; keep category captions -->
-    <div class="gal">
-      <a href="#contact" class="tall"><img src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?auto=format&fit=crop&w=800&q=80" alt="Kitchen"/><div class="cap">Kitchen Remodel · Newnan</div></a>
-      <a href="#contact"><img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=700&q=80" alt="Bathroom"/><div class="cap">Master Bath · Carrollton</div></a>
-      <a href="#contact"><img src="https://images.unsplash.com/photo-1600210492493-0946911123ea?auto=format&fit=crop&w=700&q=80" alt="Custom home"/><div class="cap">Custom Home · Coweta</div></a>
-      <a href="#contact"><img src="https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=700&q=80" alt="Bath remodel"/><div class="cap">Guest Bath · Dallas</div></a>
-      <a href="#contact" class="tall"><img src="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=800&q=80" alt="Kitchen"/><div class="cap">Open Kitchen · Paulding</div></a>
-      <a href="#contact"><img src="https://images.unsplash.com/photo-1572120360610-d971b9d7767c?auto=format&fit=crop&w=700&q=80" alt="Outdoor living"/><div class="cap">Covered Deck · Carroll Co.</div></a>
-      <a href="#contact"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=700&q=80" alt="Interior"/><div class="cap">Living Addition · Haralson</div></a>
+    <div class="gal stagger">
+      <a href="#contact" class="tall"><img src="assets/len/resized_20190822_191044.jpeg" alt="Kitchen remodel"/><div class="cap">Kitchen Remodel · West GA</div></a>
+      <a href="#contact"><img src="assets/len/img_0246.jpeg" alt="Master bath remodel"/><div class="cap">Master Bath</div></a>
+      <a href="#contact"><img src="assets/len/20250203_085914.jpg" alt="Custom home build"/><div class="cap">Custom Home Build</div></a>
+      <a href="#contact"><img src="assets/len/resized_20190822_191611.jpeg" alt="Kitchen detail"/><div class="cap">Kitchen Detail</div></a>
+      <a href="#contact" class="tall"><img src="assets/len/img_0037.jpeg" alt="Sunroom addition"/><div class="cap">Sunroom Addition</div></a>
+      <a href="#contact"><img src="assets/len/resized_20190822_191413.jpeg" alt="Open kitchen remodel"/><div class="cap">Open Kitchen</div></a>
+      <a href="#contact"><img src="assets/len/99e69a33-b212-4bb9-ad02-4c91aa4e9a94.jpg" alt="Kitchen remodel"/><div class="cap">Kitchen Remodel</div></a>
     </div>
   </div>
 </section>
@@ -437,19 +577,19 @@
 <!-- ===================== REVIEWS ===================== -->
 <section id="reviews">
   <div class="wrap">
-    <div class="sec-head center">
+    <div class="sec-head center reveal">
       <div class="eyebrow">What Homeowners Say</div>
       <h2>The kind of work people tell their neighbors about.</h2>
       <p>Real reviews from West Georgia homeowners. <em>(Placeholders below — swap in Len's 6 direct quotes.)</em></p>
     </div>
-    <div class="rev-grid">
+    <div class="rev-grid stagger">
       <!-- SWAP: 6 placeholder reviews → Len's 6 real direct quotes + real names -->
-      <div class="rev-card"><span class="ph-tag">PLACEHOLDER</span><div class="stars">★★★★★</div><p>"[Drop in real quote #1 — e.g. the kitchen remodel that came in on budget and on time.]"</p><div class="rev-who">— Homeowner Name<span>Newnan, GA</span></div></div>
-      <div class="rev-card"><span class="ph-tag">PLACEHOLDER</span><div class="stars">★★★★★</div><p>"[Real quote #2 — the custom home experience start to finish.]"</p><div class="rev-who">— Homeowner Name<span>Carrollton, GA</span></div></div>
-      <div class="rev-card"><span class="ph-tag">PLACEHOLDER</span><div class="stars">★★★★★</div><p>"[Real quote #3 — communication / honesty / no surprises.]"</p><div class="rev-who">— Homeowner Name<span>Coweta County</span></div></div>
-      <div class="rev-card"><span class="ph-tag">PLACEHOLDER</span><div class="stars">★★★★★</div><p>"[Real quote #4 — addition or sunroom project.]"</p><div class="rev-who">— Homeowner Name<span>Dallas, GA</span></div></div>
-      <div class="rev-card"><span class="ph-tag">PLACEHOLDER</span><div class="stars">★★★★★</div><p>"[Real quote #5 — quality of craftsmanship after years.]"</p><div class="rev-who">— Homeowner Name<span>Paulding County</span></div></div>
-      <div class="rev-card"><span class="ph-tag">PLACEHOLDER</span><div class="stars">★★★★★</div><p>"[Real quote #6 — would hire again / referred friends.]"</p><div class="rev-who">— Homeowner Name<span>Haralson County</span></div></div>
+      <div class="rev-card"><span class="quote-mark">&rdquo;</span><span class="ph-tag">PLACEHOLDER</span><div class="stars">★★★★★</div><p>"[Drop in real quote #1 — e.g. the kitchen remodel that came in on budget and on time.]"</p><div class="rev-who">— Homeowner Name<span>Newnan, GA</span></div></div>
+      <div class="rev-card"><span class="quote-mark">&rdquo;</span><span class="ph-tag">PLACEHOLDER</span><div class="stars">★★★★★</div><p>"[Real quote #2 — the custom home experience start to finish.]"</p><div class="rev-who">— Homeowner Name<span>Carrollton, GA</span></div></div>
+      <div class="rev-card"><span class="quote-mark">&rdquo;</span><span class="ph-tag">PLACEHOLDER</span><div class="stars">★★★★★</div><p>"[Real quote #3 — communication / honesty / no surprises.]"</p><div class="rev-who">— Homeowner Name<span>Coweta County</span></div></div>
+      <div class="rev-card"><span class="quote-mark">&rdquo;</span><span class="ph-tag">PLACEHOLDER</span><div class="stars">★★★★★</div><p>"[Real quote #4 — addition or sunroom project.]"</p><div class="rev-who">— Homeowner Name<span>Dallas, GA</span></div></div>
+      <div class="rev-card"><span class="quote-mark">&rdquo;</span><span class="ph-tag">PLACEHOLDER</span><div class="stars">★★★★★</div><p>"[Real quote #5 — quality of craftsmanship after years.]"</p><div class="rev-who">— Homeowner Name<span>Paulding County</span></div></div>
+      <div class="rev-card"><span class="quote-mark">&rdquo;</span><span class="ph-tag">PLACEHOLDER</span><div class="stars">★★★★★</div><p>"[Real quote #6 — would hire again / referred friends.]"</p><div class="rev-who">— Homeowner Name<span>Haralson County</span></div></div>
     </div>
   </div>
 </section>
@@ -457,11 +597,11 @@
 <!-- ===================== ABOUT ===================== -->
 <section class="about work" id="about">
   <div class="wrap about-grid">
-    <div class="about-img">
-      <!-- SWAP: Len / crew / on-site photo -->
-      <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=80" alt="LC General Contracting crew on site"/>
+    <div class="about-img reveal">
+      <img src="assets/len/img_0077.jpeg" alt="A custom home built by LC General Contracting"/>
+      <div class="badge"><div class="b-n">40+</div><div class="b-l">years building<br/>West Georgia</div></div>
     </div>
-    <div class="about">
+    <div class="about reveal">
       <div class="eyebrow">Who We Are</div>
       <h2 style="font-size:2.2rem;margin-bottom:18px;">Forty years of doing it right the first time.</h2>
       <p>LC General Contracting was built on a simple idea: treat every home like it's our own. With over <b>40 years</b> in the contracting and remodeling business, Len Covington and the LC crew have built and remodeled hundreds of homes across West Georgia.</p>
@@ -476,22 +616,22 @@
 <!-- ===================== LEAD CAPTURE ===================== -->
 <section class="lead" id="contact">
   <div class="wrap lead-grid">
-    <div>
+    <div class="reveal">
       <div class="eyebrow">Free In-Home Estimate</div>
       <h2>Let's talk about your project.</h2>
       <p class="lead-sub">Tell us what you're thinking and we'll come take a look — no charge, no pressure. You'll get an honest assessment and a real number.</p>
       <div class="lead-feat">
-        <div class="f"><div class="ic">📋</div><div><b>Free, honest estimate</b><p>We come to you, look at the real conditions, and give you a straight number.</p></div></div>
-        <div class="f"><div class="ic">📅</div><div><b>Fast scheduling</b><p>Most estimates booked within a few days — not weeks.</p></div></div>
-        <div class="f"><div class="ic">🛠️</div><div><b>40+ years of experience</b><p>You're hiring the crew that's done it hundreds of times.</p></div></div>
+        <div class="f"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg></div><div><b>Free, honest estimate</b><p>We come to you, look at the real conditions, and give you a straight number.</p></div></div>
+        <div class="f"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></div><div><b>Fast scheduling</b><p>Most estimates booked within a few days — not weeks.</p></div></div>
+        <div class="f"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 12-8.5 8.5a2.12 2.12 0 1 1-3-3L12 9"/><path d="M17.64 15 22 10.64"/><path d="m20.91 11.7-1.25-1.25c-.6-.6-.93-1.4-.93-2.25v-.86L16.01 4.6a5.56 5.56 0 0 0-3.94-1.64H9l.92.82A6.18 6.18 0 0 1 12 8.4v1.56l2 2h.86c.85 0 1.65.33 2.25.93l1.25 1.25"/></svg></div><div><b>40+ years of experience</b><p>You're hiring the crew that's done it hundreds of times.</p></div></div>
       </div>
       <p style="margin-top:30px;font-family:'DM Mono',monospace;color:#c4cdde;">
-        Len Covington · <a href="tel:7702941635" style="color:#6ee7b7;">770-294-1635</a><br/>
-        <a href="mailto:LCovington@lcgeneralcontracting.com" style="color:#6ee7b7;">LCovington@lcgeneralcontracting.com</a>
+        Len Covington · <a href="tel:7702941635" style="color:var(--emerald-l);">770-294-1635</a><br/>
+        <a href="mailto:LCovington@lcgeneralcontracting.com" style="color:var(--emerald-l);">LCovington@lcgeneralcontracting.com</a>
       </p>
     </div>
 
-    <div class="form-card">
+    <div class="form-card reveal">
       <h3>Request Your Free Estimate</h3>
       <p class="fc-sub">We'll get back to you within one business day.</p>
       <form id="leadform" onsubmit="return false;">
@@ -533,9 +673,9 @@
           <textarea rows="3" placeholder="What are you hoping to build or remodel?"></textarea>
         </div>
         <button class="btn btn-primary" style="width:100%;justify-content:center;" id="leadsubmit">Request My Free Estimate</button>
-        <p class="form-note">📎 Have photos or plans? You'll be able to attach them after you submit.</p>
+        <p class="form-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg> Have photos or plans? You'll be able to attach them after you submit.</p>
       </form>
-      <div class="form-ok" id="formok">✓ Thanks! Your request is in — Len will reach out within one business day.</div>
+      <div class="form-ok" id="formok">✓ Thanks! Your request is in — you will hear from us shortly.</div>
     </div>
   </div>
 </section>
@@ -546,7 +686,7 @@
     <div class="foot-grid">
       <div>
         <div class="logo-mark"><div class="logo-box">LC</div><div><div class="logo-name">LC General Contracting</div><div class="logo-sub">Custom Homes · Remodeling</div></div></div>
-        <p class="foot-about">Custom homes, remodels and additions built right across West Georgia for over 40 years.</p>
+        <p class="foot-about">Custom homes, remodels and additions built right across West Georgia for over 40 years — with total transparency on every number.</p>
       </div>
       <div>
         <h4>Services</h4>
@@ -561,10 +701,10 @@
       <div>
         <h4>Company</h4>
         <ul>
-          <li><a href="#work">Our Work</a></li>
+          <li><a href="#difference">Why LCGC</a></li>
           <li><a href="#budget">Budget Planner</a></li>
+          <li><a href="#work">Our Work</a></li>
           <li><a href="#reviews">Reviews</a></li>
-          <li><a href="#about">About Us</a></li>
           <li><a href="#contact">Free Estimate</a></li>
         </ul>
       </div>
@@ -586,6 +726,8 @@
 </footer>
 
 <script>
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   // mobile menu
   document.getElementById('hamburger').addEventListener('click', function () {
     document.getElementById('navlinks').classList.toggle('open');
@@ -593,7 +735,8 @@
   document.querySelectorAll('#navlinks a').forEach(function (a) {
     a.addEventListener('click', function () { document.getElementById('navlinks').classList.remove('open'); });
   });
-  // demo form success (static mockup — no backend)
+
+  // demo form success (static mockup — homepage form not yet wired to backend)
   document.getElementById('leadsubmit').addEventListener('click', function () {
     var f = document.getElementById('leadform');
     if (f.querySelector('input[required]').value && f.querySelector('select[required]').value) {
@@ -603,6 +746,75 @@
       f.reportValidity && f.reportValidity();
     }
   });
+
+  // ---------- motion ----------
+  function fmtMoney(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+  var easeOut = function(t){ return 1 - Math.pow(1 - t, 3); };
+
+  function countUp(el, target, suffix, prefix, money, dur){
+    suffix = suffix || ''; prefix = prefix || ''; dur = dur || 1400;
+    if (RM){ el.textContent = prefix + (money ? Math.round(target).toLocaleString('en-US') : target) + suffix; return; }
+    var start = null;
+    function step(ts){
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var v = target * easeOut(p);
+      el.textContent = prefix + (money ? Math.round(v).toLocaleString('en-US') : Math.round(v)) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = prefix + (money ? Math.round(target).toLocaleString('en-US') : target) + suffix;
+    }
+    requestAnimationFrame(step);
+  }
+
+  // reveal + stagger + triggered counters
+  var revealObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      // fire any data-count children
+      e.target.querySelectorAll('[data-count]').forEach(function(c){
+        if (c.dataset.done) return; c.dataset.done = '1';
+        countUp(c, parseFloat(c.dataset.count), c.dataset.suffix, c.dataset.prefix, false);
+      });
+      revealObs.unobserve(e.target);
+    });
+  }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal, .stagger').forEach(function(el){ revealObs.observe(el); });
+
+  // hero counters fire immediately (above the fold)
+  document.querySelectorAll('.hero [data-count]').forEach(function(c){
+    if (c.dataset.done) return; c.dataset.done = '1';
+    countUp(c, parseFloat(c.dataset.count), c.dataset.suffix, c.dataset.prefix, false);
+  });
+
+  // ---------- animated budget showpiece ----------
+  var calc = document.getElementById('calc');
+  var calcDone = false;
+  function animateCalc(){
+    if (calcDone) return; calcDone = true;
+    var TOTAL = 385000;
+    countUp(document.getElementById('calc-budget'), TOTAL, '', '$', true, 1500);
+    countUp(document.getElementById('calc-total'), TOTAL, '', '$', true, 1700);
+    document.querySelectorAll('#calc-rows .calc-row').forEach(function(row, i){
+      var bar = row.querySelector('.bar i');
+      var amtEl = row.querySelector('.amt');
+      var pctEl = row.querySelector('.pct');
+      var w = parseFloat(bar.dataset.w);
+      var amt = parseFloat(amtEl.dataset.amt);
+      var pct = parseFloat(pctEl.dataset.pct);
+      var delay = RM ? 0 : 150 + i * 130;
+      setTimeout(function(){
+        bar.style.width = w + '%';
+        countUp(amtEl, amt, '', '$', true, 1100);
+        countUp(pctEl, pct, '%', '', false, 1100);
+      }, delay);
+    });
+  }
+  var calcObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if (e.isIntersecting){ animateCalc(); calcObs.unobserve(e.target); } });
+  }, { threshold: 0.35 });
+  if (calc) calcObs.observe(calc);
 </script>
 </body>
 </html>

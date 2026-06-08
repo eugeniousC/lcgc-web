@@ -4,6 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LC General Contracting — What Will My Budget Build?</title>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1004453845333566');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -2136,6 +2153,7 @@ async function submitLead(form) {
   const emailEl = form.querySelector('[name="email"]');
 
   // Honeypot: a bot filled the hidden field — show success, send nothing.
+  // Fire NO pixel Lead event here: keep bot traffic out of conversion data.
   if (p.company) { markSent(form); return; }
   // Validate email before doing anything.
   if (!validEmail(p.email)) { emailEl.classList.add('invalid'); emailEl.focus(); return; }
@@ -2145,7 +2163,7 @@ async function submitLead(form) {
   if (btn) btn.disabled = true;
 
   // No endpoint configured yet → straight to mailto (today's behavior).
-  if (LEADS_ENDPOINT.indexOf('script.google.com') === -1) { mailtoFallback(p); markSent(form); return; }
+  if (LEADS_ENDPOINT.indexOf('script.google.com') === -1) { mailtoFallback(p); markSent(form); if (window.fbq) fbq('track', 'Lead'); return; }
 
   // Primary: POST to the Leads Apps Script. text/plain = no CORS preflight (proven planner trick);
   // no-cors lets the row land without needing a readable response. Network/timeout → mailto fallback.
@@ -2161,11 +2179,13 @@ async function submitLead(form) {
     });
     clearTimeout(timer);
     markSent(form);                 // request reached the server → row written
+    if (window.fbq) fbq('track', 'Lead');
   } catch (err) {
     clearTimeout(timer);
     if (btn) btn.disabled = false;
     mailtoFallback(p);              // genuine network/timeout → never lose the lead
     markSent(form);
+    if (window.fbq) fbq('track', 'Lead');
   }
 }
 

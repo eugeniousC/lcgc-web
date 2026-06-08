@@ -1131,9 +1131,9 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
       <div class="control-cell">
         <div class="control-label">Overhead &amp; Profit · O&amp;P</div>
         <div class="control-title">Contractor margin</div>
-        <div class="oop-display"><span class="num" id="oop-num">20.0</span><span class="pct">%</span></div>
+        <div class="oop-display"><span class="num" id="oop-num">15.0</span><span class="pct">%</span></div>
         <div class="slider-wrap">
-          <input id="oop-slider" type="range" min="10" max="25" step="0.5" value="20" aria-label="Overhead and Profit percent">
+          <input id="oop-slider" type="range" min="10" max="25" step="0.5" value="15" aria-label="Overhead and Profit percent">
         </div>
         <div class="slider-ticks">
           <span>10%</span><span>15%</span><span>20%</span><span>25%</span>
@@ -1166,8 +1166,8 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
       </div>
       <div class="summary-cell">
         <div class="lab">Overhead &amp; Profit</div>
-        <div class="val" id="oop-value">$57,000</div>
-        <div class="delta-pct" id="oop-pct-display">at 20.0%</div>
+        <div class="val" id="oop-value">$42,750</div>
+        <div class="delta-pct" id="oop-pct-display">at 15.0%</div>
       </div>
     </div>
   </div>
@@ -1400,7 +1400,7 @@ let LINE_TO_PHASE;
 const state = {
   template: 'barndo',    // 'barndo' (default) | 'conventional'
   baseBudget: 285000,
-  oop: 20,
+  oop: 15,
   sqft: 1583,            // quickstart input
   costPerSqft: 180,      // quickstart input
   lineDollars: {},       // budget per line — canonical

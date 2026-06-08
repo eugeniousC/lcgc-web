@@ -24,8 +24,8 @@
  */
 
 var SHEET_NAME = 'Leads';
-var NOTIFY_TO  = 'LCovington@lcgeneralcontracting.com';  // Len — the live lead recipient
-var NOTIFY_CC  = 'eugene@atscale-advisors.com';          // Eugene — remove this before handing the sheet to Len
+var NOTIFY_TO  = 'LCovington@lcgeneralcontracting.com';  // Len — the live lead recipient (primary)
+var NOTIFY_CC  = 'lcnascar18@icloud.com,eugene@atscale-advisors.com,jfields@lcgeneralcontracting.com'; // CC per Len: his personal, Eugene, jfields@
 var DEDUPE_MIN = 2;                                       // ignore an identical email re-sent within N minutes
 
 // Column order is STABLE: estimator columns first (unchanged), then the homepage

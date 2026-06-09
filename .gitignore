@@ -10,3 +10,6 @@ marketing/
 # DO ship Len's real project photos
 !assets/len/*.jpg
 !assets/len/*.jpeg
+
+# Backend Apps Script source — runs in Google console, kept local, NOT web-served
+backend/

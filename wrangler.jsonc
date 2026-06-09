@@ -1,0 +1,12 @@
+{
+  // Cloudflare Workers static-assets config for the LCGC lead-funnel site.
+  // Connected via Workers Builds → auto-deploys on push to `main`.
+  // `name` MUST match the existing Worker so it redeploys in place (not a new one).
+  "name": "lcgc-web",
+  "compatibility_date": "2025-01-01",
+  "assets": {
+    // Serve the repo root as static files. Gitignored dirs (backend/, marketing/)
+    // are never cloned, so they are never served.
+    "directory": "./"
+  }
+}

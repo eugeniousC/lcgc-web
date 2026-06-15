@@ -35,7 +35,7 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased}
+  body{font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   em{font-style:normal;color:var(--emerald)}
   a{color:inherit}
   .wrap{max-width:880px;margin:0 auto;padding:0 20px}
@@ -47,13 +47,13 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
   #intro.gone{opacity:0;transform:translateY(-14px);pointer-events:none}
   .intro-card{max-width:760px;margin:0 auto;padding:46px 22px 60px;text-align:center}
   .intro-brand{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--emerald-l);margin-bottom:22px}
-  #intro h1{font-family:var(--serif);font-weight:900;font-size:clamp(1.9rem,5.2vw,3rem);line-height:1.1;letter-spacing:-.5px}
+  #intro h1{font-family:var(--serif);font-weight:900;font-size:clamp(1.55rem,5vw,3rem);line-height:1.12;letter-spacing:-.5px;overflow-wrap:break-word}
   #intro h1 em{color:var(--amber-l)}
   .intro-sub{color:#c7d2e4;font-size:clamp(1rem,2.4vw,1.15rem);max-width:560px;margin:18px auto 0}
   .step-label{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--emerald-l);margin:34px 0 12px;display:flex;align-items:center;justify-content:center;gap:8px}
   .step-label::before,.step-label::after{content:"";height:1px;width:34px;background:rgba(255,255,255,.2)}
   .picker{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
-  .home-card{position:relative;border:2px solid rgba(255,255,255,.12);background:#0d2748;border-radius:16px;overflow:hidden;cursor:pointer;padding:0;text-align:left;transition:border-color .2s,transform .2s,box-shadow .2s;color:#fff;font-family:var(--sans)}
+  .home-card{position:relative;min-width:0;border:2px solid rgba(255,255,255,.12);background:#0d2748;border-radius:16px;overflow:hidden;cursor:pointer;padding:0;text-align:left;transition:border-color .2s,transform .2s,box-shadow .2s;color:#fff;font-family:var(--sans)}
   .home-card:hover{transform:translateY(-3px);border-color:rgba(52,211,153,.5)}
   .home-card.selected{border-color:var(--emerald-l);box-shadow:0 0 0 3px rgba(52,211,153,.25)}
   .home-img{height:148px;background-size:cover;background-position:center}
@@ -110,7 +110,7 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
   .line-row{border-top:1px solid var(--line);font-size:.92rem}
   .line-row:nth-child(even){background:var(--cream)}
   .c-id{font-family:var(--mono);color:var(--muted);font-size:.8rem}
-  .c-name{color:var(--ink)}
+  .c-name{color:var(--ink);min-width:0;overflow-wrap:anywhere}
   .c-pct{font-family:var(--mono);color:var(--slate);font-size:.84rem}
   .c-cost{font-family:var(--mono);font-weight:500;color:var(--navy)}
   .cat-row{padding:9px 18px;background:#eaf0f8;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--emerald-d);font-weight:500}
@@ -172,9 +172,9 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
     .trow>div:nth-child(2){grid-column:1/3}
     .c-name{font-size:.9rem}
   }
-  @media(max-width:430px){
+  @media(max-width:560px){
     .picker{grid-template-columns:1fr;gap:12px}
-    .home-img{height:160px}
+    .home-img{height:175px}
   }
 </style>
 </head>
@@ -637,6 +637,22 @@ document.querySelectorAll('.lead-form').forEach(form => {
 // ──────────────────────────────────────────────────────────────────
 applyDefaults();
 updateResult();
+
+// Deep-link support: /...?build=barndo&sqft=2400 renders a ready estimate (shareable links + ad landings).
+(function deepLink(){
+  const q = new URLSearchParams(location.search);
+  const sqft = parseNumber(q.get('sqft') || '');
+  if (sqft > 0){
+    let t = (q.get('build') || '').toLowerCase();
+    if (t !== 'barndo' && t !== 'conventional') t = 'barndo';
+    pickedType = t;
+    cards.forEach(c => { const on = c.dataset.pick === t; c.classList.toggle('selected', on); c.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    sqftStart.value = formatMoneyPlain(clamp(Math.round(sqft), 1200, 4800));
+    applyEstimate(t, sqft);
+    resultEl.classList.add('show');
+    introEl.classList.add('gone');
+  }
+})();
 
 (function selfTest(){
   const b = BARNDO_LINES.reduce((a,p)=>a+p.pct,0);

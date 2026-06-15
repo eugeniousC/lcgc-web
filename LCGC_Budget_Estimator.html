@@ -102,6 +102,24 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
   .section-sub{color:var(--slate);font-size:.92rem;margin-bottom:18px}
   .breakdown{padding:44px 0 8px}
 
+  /* budget summary (digestible rollup, mirrors homepage graphic) */
+  .summary{padding:38px 0 4px}
+  .summary-card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:20px 24px}
+  .sum-row{padding:13px 0;border-bottom:1px solid var(--line)}
+  .sum-row:last-of-type{border-bottom:0}
+  .sum-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
+  .sum-name{font-weight:600;color:var(--navy)}
+  .sum-amt{font-family:var(--mono);font-weight:500;color:var(--navy)}
+  .sum-bar{height:8px;border-radius:6px;background:#eef2f7;overflow:hidden}
+  .sum-bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--emerald),var(--emerald-l));transition:width .6s ease}
+  .sum-pct{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin-top:6px}
+  .sum-row.op .sum-name{color:var(--amber)}
+  .sum-row.op .sum-amt{color:var(--amber)}
+  .sum-row.op .sum-bar i{background:linear-gradient(90deg,var(--amber),var(--amber-l))}
+  .summary-total{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:16px;border-top:2px solid var(--navy)}
+  .summary-total span:first-child{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:1.1rem}
+  .summary-total span:last-child{font-family:var(--mono);font-weight:500;color:var(--emerald);font-size:1.3rem}
+
   .table-card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
   .thead,.line-row,.trow{display:grid;grid-template-columns:34px 1fr 74px 116px;align-items:center;gap:8px;padding:11px 18px}
   .thead{background:var(--navy);color:#cdd9ec;font-family:var(--mono);font-size:11px;letter-spacing:.5px;text-transform:uppercase}
@@ -234,6 +252,18 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
       <div class="nudge-label">Adjust home size &mdash; <strong id="sqft-readout">1,800</strong> sqft</div>
       <input id="sqft-nudge" type="range" min="1200" max="4800" step="50" value="1800" aria-label="Adjust home square footage">
       <div class="nudge-ends"><span>1,200 sqft</span><span>4,800 sqft</span></div>
+    </div>
+  </section>
+
+  <section class="summary wrap">
+    <h2 class="section-title">Budget Summary</h2>
+    <p class="section-sub">Where your build dollars go, at a glance &mdash; the same view you saw on our site.</p>
+    <div class="summary-card">
+      <div id="summary-rows"></div>
+      <div class="summary-total">
+        <span>Total Project Budget</span>
+        <span id="summary-total-val">$372,600</span>
+      </div>
     </div>
   </section>
 
@@ -459,6 +489,56 @@ const grandEl   = document.getElementById('grand-cost');
 const readoutEl = document.getElementById('sqft-readout');
 const nudge     = document.getElementById('sqft-nudge');
 
+// ── Budget Summary — roll the real line items into 4 buckets + O&P (mirrors homepage graphic) ──
+const SUMMARY_BUCKETS = [
+  { key:'foundation', name:'Foundation & Site' },
+  { key:'framing',    name:'Framing & Structure' },
+  { key:'mechanical', name:'Mechanical (HVAC/Elec/Plumb)' },
+  { key:'interior',   name:'Interior Finishes' },
+];
+const CONV_CAT_BUCKET = {
+  'Pre-Construction':'foundation','Site Prep':'foundation','Foundation':'foundation','Exterior Finish':'foundation',
+  'Framing':'framing','Exterior':'framing',
+  'MEP Rough':'mechanical','MEP Trim':'mechanical',
+  'Insulation/Drywall':'interior','Specialty':'interior','Interior Finish':'interior','Paint & Finish':'interior','Final':'interior',
+};
+const BARNDO_ID_BUCKET = {
+  1:'foundation',3:'foundation',7:'foundation',20:'foundation',22:'foundation',
+  2:'framing',8:'framing',10:'framing',11:'framing',12:'framing',16:'framing',24:'framing',
+  4:'mechanical',5:'mechanical',6:'mechanical',
+  9:'interior',13:'interior',14:'interior',15:'interior',17:'interior',18:'interior',19:'interior',21:'interior',23:'interior',
+};
+function bucketForLine(p){
+  return state.template === 'conventional' ? CONV_CAT_BUCKET[p.category] : BARNDO_ID_BUCKET[p.id];
+}
+const summaryRowsEl = document.getElementById('summary-rows');
+const summaryTotalEl = document.getElementById('summary-total-val');
+function sumRow(name, amt, pct, isOp){
+  const row = document.createElement('div');
+  row.className = 'sum-row' + (isOp ? ' op' : '');
+  row.innerHTML =
+    '<div class="sum-top"><span class="sum-name">' + escapeHtml(name) + '</span><span class="sum-amt">' + formatMoney(amt) + '</span></div>' +
+    '<div class="sum-bar"><i style="width:' + Math.max(2, Math.min(100, pct)).toFixed(0) + '%"></i></div>' +
+    '<div class="sum-pct">' + pct.toFixed(0) + '% of total</div>';
+  return row;
+}
+function renderSummary(){
+  const total = state.baseBudget * (1 + OOP_PCT / 100);
+  const buckets = { foundation:0, framing:0, mechanical:0, interior:0 };
+  for (const p of PHASES){
+    const b = bucketForLine(p);
+    if (b) buckets[b] += (state.lineDollars[p.id] || 0);
+  }
+  const op = state.baseBudget * OOP_PCT / 100;
+  summaryRowsEl.innerHTML = '';
+  SUMMARY_BUCKETS.forEach(function(b){
+    const amt = buckets[b.key];
+    summaryRowsEl.appendChild(sumRow(b.name, amt, total > 0 ? amt / total * 100 : 0, false));
+  });
+  summaryRowsEl.appendChild(sumRow('Overhead & Profit — shown, not hidden', op, total > 0 ? op / total * 100 : 0, true));
+  summaryTotalEl.textContent = formatMoney(total);
+}
+
 function updateResult(){
   const construction = state.baseBudget;
   const op = construction * OOP_PCT / 100;
@@ -470,6 +550,7 @@ function updateResult(){
   opCostEl.textContent = formatMoney(op);
   grandEl.textContent = formatMoney(total);
   readoutEl.textContent = formatMoneyPlain(state.sqft);
+  renderSummary();
   renderRows();
 }
 

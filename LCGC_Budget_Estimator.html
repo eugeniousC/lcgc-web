@@ -179,6 +179,54 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
 
   footer{text-align:center;color:var(--muted);font-size:.78rem;padding:0 20px 50px;max-width:760px;margin:0 auto;line-height:1.6}
 
+  /* print / save your budget */
+  .r-header-actions{display:flex;gap:8px}
+  .print-cta{text-align:center;padding:6px 20px 2px}
+  .print-big{display:inline-flex;align-items:center;gap:9px;border:2px solid var(--emerald);background:#fff;color:var(--emerald-d);font-family:var(--sans);font-weight:700;font-size:1rem;border-radius:11px;padding:14px 22px;cursor:pointer;transition:.18s}
+  .print-big:hover{background:var(--emerald);color:#fff}
+  .print-big svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8}
+  .print-hint{font-size:.84rem;color:var(--slate);max-width:460px;margin:10px auto 0}
+  .print-only{display:none}
+
+  @media print{
+    @page{margin:.55in}
+    body{background:#fff;overflow:visible}
+    #intro,.r-header,.r-hero,.upgrades,.trust,.cta-card,.print-cta,footer,.section-sub{display:none !important}
+    #result{display:block !important}
+    .print-only{display:block !important}
+    .wrap{max-width:100% !important;padding:0 !important}
+    .summary,.breakdown{padding:10px 0 !important}
+    .section-title{font-size:1.15rem;color:#000;margin-top:14px}
+    .table-card,.summary-card{box-shadow:none !important;border:1px solid #999 !important;border-radius:6px}
+    .thead{background:#fff !important;color:#000 !important;border-bottom:1.5px solid #000}
+    .line-row{font-size:.82rem}
+    .line-row:nth-child(even){background:#fff !important}
+    .c-id,.c-pct{color:#333 !important}
+    .c-name,.c-cost{color:#000 !important}
+    .cat-row{background:#f0f0f0 !important;color:#000 !important}
+    .trow.op{background:#fff !important}
+    .trow.op .c-name,.trow.op .c-cost{color:#000 !important}
+    .trow.grand{background:#fff !important;border-top:2px solid #000}
+    .trow.grand .c-name,.trow.grand .c-cost{color:#000 !important}
+    .thead>div:nth-child(3),.line-row>div:nth-child(3){display:block !important}
+    .sum-name,.sum-amt{color:#000 !important}
+    .sum-bar{background:#eee !important}
+    .sum-bar i{background:#555 !important}
+    .sum-row.op .sum-name,.sum-row.op .sum-amt{color:#000 !important}
+    .summary-total span:last-child{color:#000 !important}
+    .line-row,.sum-row,.trow,.cat-row{break-inside:avoid}
+    .print-head{text-align:center;padding-bottom:12px;border-bottom:2px solid #000;margin-bottom:14px}
+    .ph-brand{font-family:var(--serif);font-weight:700;font-size:1.5rem;color:#000}
+    .ph-title{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-top:3px}
+    .ph-meta{font-family:var(--mono);font-size:1rem;color:#000;margin-top:8px}
+    .ph-meta strong{font-size:1.2rem}
+    .ph-date{font-size:.75rem;color:#666;margin-top:4px}
+    .print-foot{margin-top:18px;padding-top:12px;border-top:2px solid #000;text-align:center}
+    .pf-cta{font-family:var(--serif);font-weight:700;font-size:1.1rem;color:#000}
+    .pf-phone{font-family:var(--mono);font-size:.95rem;color:#000;margin-top:4px}
+    .pf-disc{font-size:.7rem;color:#666;margin-top:10px;line-height:1.4}
+  }
+
   @media(max-width:680px){
     .cta-card{grid-template-columns:1fr;padding:26px 20px}
     .trust{grid-template-columns:1fr 1fr 1fr;gap:8px}
@@ -238,8 +286,19 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
   <div class="r-header">
     <div class="r-header-inner">
       <a class="r-logo" href="index.html">LC <span>General Contracting</span></a>
-      <button id="restart" class="ghost-btn" type="button">&#8592; Start over</button>
+      <div class="r-header-actions">
+        <button class="ghost-btn print-trigger" type="button">Print / Save</button>
+        <button id="restart" class="ghost-btn" type="button">&#8592; Start over</button>
+      </div>
     </div>
+  </div>
+
+  <!-- print-only branded header (hidden on screen) -->
+  <div class="print-only print-head">
+    <div class="ph-brand">LC General Contracting</div>
+    <div class="ph-title">Your Budget Estimate</div>
+    <div class="ph-meta"><span id="print-type">Barndominium</span> &middot; <span id="print-sqft">1,800</span> sqft &middot; <strong id="print-total">$372,600</strong></div>
+    <div class="ph-date" id="print-date"></div>
   </div>
 
   <section class="r-hero">
@@ -287,6 +346,14 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
     </div>
   </section>
 
+  <section class="wrap print-cta">
+    <button class="print-trigger print-big" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+      Print or Save Your Budget (PDF)
+    </button>
+    <p class="print-hint">Take it to your lender or share it with family &mdash; every copy links back to lcgchomes.com so they can build their own.</p>
+  </section>
+
   <section class="upgrades wrap">
     <div class="upgrades-inner">
       <h3>Want more than the base build? That's your call.</h3>
@@ -323,6 +390,13 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
       </form>
     </div>
   </section>
+
+  <!-- print-only footer (hidden on screen) -->
+  <div class="print-only print-foot">
+    <div class="pf-cta">Build your own free budget at lcgchomes.com</div>
+    <div class="pf-phone">Call or text Len &middot; LC General Contracting &middot; 770-294-1635</div>
+    <div class="pf-disc">Estimate only &mdash; not a binding quote, contract, or loan disclosure. $180/sqft base build + 15% Overhead &amp; Profit. Final cost depends on your lot, plan, and finishes.</div>
+  </div>
 
   <footer>
     Estimates use a $180/sqft base build rate and a 15% Overhead &amp; Profit margin, broken out across a standard residential construction draw schedule. This tool is for planning estimates only &mdash; not a binding quote, contract, or loan disclosure. Your final number depends on your lot, plan, and the finishes you choose.
@@ -550,6 +624,9 @@ function updateResult(){
   opCostEl.textContent = formatMoney(op);
   grandEl.textContent = formatMoney(total);
   readoutEl.textContent = formatMoneyPlain(state.sqft);
+  document.getElementById('print-type').textContent = TEMPLATES[state.template].label;
+  document.getElementById('print-sqft').textContent = formatMoneyPlain(state.sqft);
+  document.getElementById('print-total').textContent = formatMoney(total);
   renderSummary();
   renderRows();
 }
@@ -613,6 +690,10 @@ document.getElementById('restart').addEventListener('click', () => {
 //  SCREEN 2 — the one live control: the size nudger
 // ──────────────────────────────────────────────────────────────────
 nudge.addEventListener('input', () => { setSize(parseNumber(nudge.value)); });
+
+// Print / Save Your Budget — branded, shareable report (window.print → print or Save as PDF)
+document.querySelectorAll('.print-trigger').forEach(b => b.addEventListener('click', () => window.print()));
+(function(){ var d = document.getElementById('print-date'); if (d) d.textContent = 'Prepared ' + new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' }); })();
 
 // ──────────────────────────────────────────────────────────────────
 //  LEAD CAPTURE — POST to Apps Script, mailto fallback (unchanged)

@@ -189,42 +189,55 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
   .print-only{display:none}
 
   @media print{
-    @page{margin:.55in}
+    @page{margin:.45in}
     body{background:#fff;overflow:visible}
     #intro,.r-header,.r-hero,.upgrades,.trust,.cta-card,.print-cta,footer,.section-sub{display:none !important}
     #result{display:block !important}
     .print-only{display:block !important}
     .wrap{max-width:100% !important;padding:0 !important}
-    .summary,.breakdown{padding:10px 0 !important}
-    .section-title{font-size:1.15rem;color:#000;margin-top:14px}
-    .table-card,.summary-card{box-shadow:none !important;border:1px solid #999 !important;border-radius:6px}
-    .thead{background:#fff !important;color:#000 !important;border-bottom:1.5px solid #000}
-    .line-row{font-size:.82rem}
+    .summary,.breakdown{padding:4px 0 !important}
+    .section-title{font-size:.95rem;color:#000;margin:9px 0 2px}
+    .table-card,.summary-card{box-shadow:none !important;border:1px solid #999 !important;border-radius:5px}
+    /* condensed summary — drop bars, tighten rows */
+    .summary-card{padding:6px 13px !important}
+    .sum-row{padding:4px 0 !important}
+    .sum-bar{display:none !important}
+    .sum-top{margin-bottom:0 !important}
+    .sum-pct{margin-top:0 !important;font-size:.66rem !important;color:#555 !important}
+    .sum-name,.sum-amt{color:#000 !important;font-size:.84rem}
+    .sum-row.op .sum-name,.sum-row.op .sum-amt{color:#000 !important}
+    .summary-total{margin-top:6px !important;padding-top:7px !important}
+    .summary-total span:last-child{color:#000 !important}
+    /* condensed line table */
+    .thead{background:#fff !important;color:#000 !important;border-bottom:1.3px solid #000;font-size:8.5px !important;padding:3px 11px !important}
+    .line-row,.trow{padding:2.5px 11px !important}
+    .line-row{font-size:.7rem !important}
     .line-row:nth-child(even){background:#fff !important}
-    .c-id,.c-pct{color:#333 !important}
+    .c-id,.c-pct{color:#444 !important}
     .c-name,.c-cost{color:#000 !important}
-    .cat-row{background:#f0f0f0 !important;color:#000 !important}
+    .cat-row{background:#eee !important;color:#000 !important;padding:2px 11px !important;font-size:8.5px !important}
     .trow.op{background:#fff !important}
     .trow.op .c-name,.trow.op .c-cost{color:#000 !important}
-    .trow.grand{background:#fff !important;border-top:2px solid #000}
+    .trow.grand{background:#fff !important;border-top:1.6px solid #000}
     .trow.grand .c-name,.trow.grand .c-cost{color:#000 !important}
     .thead>div:nth-child(3),.line-row>div:nth-child(3){display:block !important}
-    .sum-name,.sum-amt{color:#000 !important}
-    .sum-bar{background:#eee !important}
-    .sum-bar i{background:#555 !important}
-    .sum-row.op .sum-name,.sum-row.op .sum-amt{color:#000 !important}
-    .summary-total span:last-child{color:#000 !important}
     .line-row,.sum-row,.trow,.cat-row{break-inside:avoid}
-    .print-head{text-align:center;padding-bottom:12px;border-bottom:2px solid #000;margin-bottom:14px}
-    .ph-brand{font-family:var(--serif);font-weight:700;font-size:1.5rem;color:#000}
-    .ph-title{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-top:3px}
-    .ph-meta{font-family:var(--mono);font-size:1rem;color:#000;margin-top:8px}
-    .ph-meta strong{font-size:1.2rem}
-    .ph-date{font-size:.75rem;color:#666;margin-top:4px}
-    .print-foot{margin-top:18px;padding-top:12px;border-top:2px solid #000;text-align:center}
-    .pf-cta{font-family:var(--serif);font-weight:700;font-size:1.1rem;color:#000}
-    .pf-phone{font-family:var(--mono);font-size:.95rem;color:#000;margin-top:4px}
-    .pf-disc{font-size:.7rem;color:#666;margin-top:10px;line-height:1.4}
+    /* branded letterhead — brand left, contact top-right */
+    .print-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:6px;border-bottom:2px solid #000}
+    .ph-brand{font-family:var(--serif);font-weight:700;font-size:1.3rem;color:#000;line-height:1.05}
+    .ph-title{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-top:2px}
+    .ph-right{text-align:right;flex:none}
+    .ph-url{font-family:var(--mono);font-weight:500;font-size:.9rem;color:#000}
+    .ph-phone{font-family:var(--mono);font-size:.9rem;color:#000;margin-top:1px}
+    .ph-who{font-size:.64rem;color:#666;margin-top:1px}
+    .ph-meta{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:.86rem;color:#000;margin:6px 0 2px}
+    .ph-meta strong{font-size:.98rem}
+    .ph-date{font-size:.68rem;color:#666;font-family:var(--mono)}
+    /* condensed footer */
+    .print-foot{margin-top:12px;padding-top:9px;border-top:2px solid #000;text-align:center}
+    .pf-cta{font-family:var(--serif);font-weight:700;font-size:1.02rem;color:#000}
+    .pf-phone{font-family:var(--mono);font-size:.9rem;color:#000;margin-top:3px}
+    .pf-disc{font-size:.66rem;color:#666;margin-top:7px;line-height:1.35}
   }
 
   @media(max-width:680px){
@@ -293,12 +306,21 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
     </div>
   </div>
 
-  <!-- print-only branded header (hidden on screen) -->
+  <!-- print-only branded letterhead (hidden on screen) -->
   <div class="print-only print-head">
-    <div class="ph-brand">LC General Contracting</div>
-    <div class="ph-title">Your Budget Estimate</div>
-    <div class="ph-meta"><span id="print-type">Barndominium</span> &middot; <span id="print-sqft">1,800</span> sqft &middot; <strong id="print-total">$372,600</strong></div>
-    <div class="ph-date" id="print-date"></div>
+    <div class="ph-left">
+      <div class="ph-brand">LC General Contracting</div>
+      <div class="ph-title">Your Budget Estimate</div>
+    </div>
+    <div class="ph-right">
+      <div class="ph-url">lcgchomes.com</div>
+      <div class="ph-phone">770-294-1635</div>
+      <div class="ph-who">Call or text Len</div>
+    </div>
+  </div>
+  <div class="print-only ph-meta">
+    <span><strong id="print-type">Barndominium</strong> &middot; <span id="print-sqft">1,800</span> sqft &middot; <strong id="print-total">$372,600</strong></span>
+    <span class="ph-date" id="print-date"></span>
   </div>
 
   <section class="r-hero">

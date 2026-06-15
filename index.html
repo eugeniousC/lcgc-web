@@ -524,9 +524,9 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
     <div class="reveal">
       <div class="eyebrow">Your Home Budget</div>
       <h2>Know your numbers <em>before</em> you ever pick up the phone.</h2>
-      <p class="lead">Most homeowners have no idea where their money actually goes on a build or remodel. Our free Budget Planner does the math for you — enter your total budget and instantly see how every dollar breaks down across the project. Including our overhead and profit. We don't hide it.</p>
+      <p class="lead">Most homeowners have no idea where their money actually goes on a build or remodel. Our free Budget Planner does the math for you — enter your square footage and instantly see how every dollar breaks down across the project. Including our overhead and profit. We don't hide it.</p>
       <ul>
-        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span> Enter one number: your total project budget</li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span> Enter one number: your home's square footage</li>
         <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span> See the percentage &amp; dollars for every line item — foundation, framing, finishes and more</li>
         <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span> Walk into your estimate already knowing what's realistic</li>
       </ul>
@@ -544,15 +544,15 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
       </div>
       <div class="calc-body">
         <div class="calc-input">
-          <label>Total Project Budget</label>
-          <div class="v" id="calc-budget">$0</div>
+          <label>Estimated Square Footage</label>
+          <div class="v" id="calc-budget">0</div>
         </div>
         <div class="calc-rows" id="calc-rows">
-          <div class="calc-row"><span>Foundation &amp; Site</span><span class="amt" data-amt="42350">$0</span><div class="bar"><i data-w="11"></i></div><span class="pct" data-pct="11">0%</span></div>
-          <div class="calc-row"><span>Framing &amp; Structure</span><span class="amt" data-amt="69300">$0</span><div class="bar"><i data-w="18"></i></div><span class="pct" data-pct="18">0%</span></div>
-          <div class="calc-row"><span>Mechanical (HVAC/Elec/Plumb)</span><span class="amt" data-amt="57750">$0</span><div class="bar"><i data-w="15"></i></div><span class="pct" data-pct="15">0%</span></div>
-          <div class="calc-row"><span>Interior Finishes</span><span class="amt" data-amt="96250">$0</span><div class="bar"><i data-w="25"></i></div><span class="pct" data-pct="25">0%</span></div>
-          <div class="calc-row profit"><span>Overhead &amp; Profit <span style="font-size:.7rem;color:var(--amber)">— shown, not hidden</span></span><span class="amt" data-amt="57750">$0</span><div class="bar"><i data-w="15"></i></div><span class="pct" data-pct="15">0%</span></div>
+          <div class="calc-row"><span>Foundation &amp; Site</span><span class="amt" data-amt="45000">$0</span><div class="bar"><i data-w="12"></i></div><span class="pct" data-pct="12">0%</span></div>
+          <div class="calc-row"><span>Framing &amp; Structure</span><span class="amt" data-amt="84000">$0</span><div class="bar"><i data-w="23"></i></div><span class="pct" data-pct="23">0%</span></div>
+          <div class="calc-row"><span>Mechanical (HVAC/Elec/Plumb)</span><span class="amt" data-amt="52000">$0</span><div class="bar"><i data-w="14"></i></div><span class="pct" data-pct="14">0%</span></div>
+          <div class="calc-row"><span>Interior Finishes</span><span class="amt" data-amt="143000">$0</span><div class="bar"><i data-w="38"></i></div><span class="pct" data-pct="38">0%</span></div>
+          <div class="calc-row profit"><span>Overhead &amp; Profit <span style="font-size:.7rem;color:var(--amber)">— shown, not hidden</span></span><span class="amt" data-amt="48600">$0</span><div class="bar"><i data-w="13"></i></div><span class="pct" data-pct="13">0%</span></div>
         </div>
         <div class="calc-foot">
           <span class="lab">Your Total Build</span>
@@ -876,8 +876,8 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
   var calcDone = false;
   function animateCalc(){
     if (calcDone) return; calcDone = true;
-    var TOTAL = 385000;
-    countUp(document.getElementById('calc-budget'), TOTAL, '', '$', true, 1500);
+    var TOTAL = 372600;   // 1,800 sqft × $180/sqft + 15% O&P — matches the estimator
+    countUp(document.getElementById('calc-budget'), 1800, ' sqft', '', true, 1500);
     countUp(document.getElementById('calc-total'), TOTAL, '', '$', true, 1700);
     document.querySelectorAll('#calc-rows .calc-row').forEach(function(row, i){
       var bar = row.querySelector('.bar i');

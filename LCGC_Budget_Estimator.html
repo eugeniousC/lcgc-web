@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LC General Contracting — Price the Home You Want to Build</title>
+<title>LC General Contracting — Price Your Build or Remodel</title>
 <meta name="facebook-domain-verification" content="umbxu120ifmuy35nh1625mi1iij87d" />
 <!-- Meta Pixel Code -->
 <script>
@@ -52,7 +52,7 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
   .intro-sub{color:#c7d2e4;font-size:clamp(1rem,2.4vw,1.15rem);max-width:560px;margin:18px auto 0}
   .step-label{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--emerald-l);margin:34px 0 12px;display:flex;align-items:center;justify-content:center;gap:8px}
   .step-label::before,.step-label::after{content:"";height:1px;width:34px;background:rgba(255,255,255,.2)}
-  .picker{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
+  .picker{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:4px}
   .home-card{position:relative;min-width:0;border:2px solid rgba(255,255,255,.12);background:#0d2748;border-radius:16px;overflow:hidden;cursor:pointer;padding:0;text-align:left;transition:border-color .2s,transform .2s,box-shadow .2s;color:#fff;font-family:var(--sans)}
   .home-card:hover{transform:translateY(-3px);border-color:rgba(52,211,153,.5)}
   .home-card.selected{border-color:var(--emerald-l);box-shadow:0 0 0 3px rgba(52,211,153,.25)}
@@ -76,6 +76,17 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
   .intro-foot{margin-top:14px;font-size:.82rem;color:#8499b8}
   .intro-promise{margin-top:30px;font-size:.82rem;color:#8499b8;font-family:var(--mono);letter-spacing:.5px}
 
+  /* progressive steps + remodel chips */
+  .reveal{display:none}
+  .reveal.on{display:block;animation:stepIn .4s ease}
+  @keyframes stepIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .chip-row{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:4px}
+  .chip{border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;padding:10px 18px;cursor:pointer;font-family:var(--sans);font-weight:600;font-size:.92rem;transition:.18s}
+  .chip:hover{border-color:rgba(52,211,153,.6)}
+  .chip.selected{background:var(--emerald-l);border-color:var(--emerald-l);color:var(--navy)}
+  .chip-row.presets{margin-bottom:12px}
+  .chip-row.presets .chip{font-size:.8rem;padding:8px 14px}
+
   /* ───────── SCREEN 2 — RESULT ───────── */
   #result{display:none}
   #result.show{display:block;animation:fadeUp .5s ease}
@@ -97,6 +108,25 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
   .nudge-label strong{font-family:var(--mono);color:#fff;font-size:1.05rem}
   .nudge input[type=range]{width:100%;accent-color:var(--emerald-l);height:6px;cursor:pointer}
   .nudge-ends{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.74rem;color:#7e93b3;margin-top:8px}
+
+  /* remodel mode — planning-range display + option toggles */
+  .r-total.is-range{font-size:clamp(1.9rem,7vw,3.3rem);letter-spacing:0}
+  .r-note{max-width:460px;margin:16px auto 0;font-size:.86rem;color:#fcd34d;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:10px;padding:10px 14px}
+  .opt-list{margin-top:14px;border-top:1px solid rgba(255,255,255,.12);text-align:left}
+  .opt-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.08);cursor:pointer}
+  .opt-row:last-child{border-bottom:0}
+  .opt-txt b{display:block;font-size:.9rem;color:#fff;font-weight:600}
+  .opt-txt span{display:block;font-size:.76rem;color:#9fb3cf;margin-top:1px}
+  .switch{position:relative;flex:none;width:46px;height:26px}
+  .switch input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+  .switch i{display:block;width:100%;height:100%;border-radius:999px;background:rgba(255,255,255,.18);transition:.2s;pointer-events:none}
+  .switch i::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}
+  .switch input:checked + i{background:var(--emerald)}
+  .switch input:checked + i::after{left:23px}
+  .sum-note{font-size:.8rem;color:var(--slate);margin-top:10px}
+  body.mode-remodel .breakdown{display:none !important}
+  body.mode-remodel #upgrades-build{display:none}
+  body:not(.mode-remodel) #upgrades-remodel{display:none}
 
   .section-title{font-family:var(--serif);font-weight:700;font-size:1.4rem;color:var(--navy);margin:0 0 4px}
   .section-sub{color:var(--slate);font-size:.92rem;margin-bottom:18px}
@@ -263,10 +293,10 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
 <section id="intro">
   <div class="intro-card">
     <div class="intro-brand">LC General Contracting</div>
-    <h1>Price the home you want to build &mdash; and see <em>every line</em> of detail.</h1>
-    <p class="intro-sub">Pick your style, tell us the size, and get a real, line-by-line construction budget in seconds &mdash; overhead and profit shown, nothing hidden.</p>
+    <h1>Price the project you&rsquo;re planning &mdash; and see <em>every number</em> up front.</h1>
+    <p class="intro-sub">Pick your project, tell us the size, and get a real planning budget in seconds &mdash; honest numbers, nothing hidden.</p>
 
-    <div class="step-label">Step 1 &middot; Choose your build</div>
+    <div class="step-label">Step 1 &middot; What are you planning?</div>
     <div class="picker">
       <button class="home-card" type="button" data-pick="barndo" aria-pressed="false">
         <div class="home-img" style="background-image:url('assets/type-barndo.jpg')"></div>
@@ -278,19 +308,37 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
         <div class="home-meta"><span class="home-name">Conventional Home</span><span class="home-desc">Traditional stick-built</span></div>
         <div class="home-check" aria-hidden="true">&#10003;</div>
       </button>
+      <button class="home-card" type="button" data-pick="remodel" aria-pressed="false">
+        <div class="home-img" style="background-image:url('assets/len/99e69a33-b212-4bb9-ad02-4c91aa4e9a94.jpg')"></div>
+        <div class="home-meta"><span class="home-name">Remodel &amp; Addition</span><span class="home-desc">Kitchen &middot; bath &middot; addition &middot; outdoor</span></div>
+        <div class="home-check" aria-hidden="true">&#10003;</div>
+      </button>
     </div>
 
-    <div class="step-label">Step 2 &middot; Estimated square footage</div>
-    <div class="sqft-block">
-      <p class="sqft-ref">Most homes we build run 1,200&ndash;4,800 sqft. A typical 3-bedroom is about 1,800.</p>
-      <div class="sqft-field">
-        <input id="sqft-start" type="text" inputmode="numeric" autocomplete="off" placeholder="1,800" aria-label="Estimated square footage">
-        <span>sqft</span>
+    <div id="step-remodel" class="reveal">
+      <div class="step-label">Step 2 &middot; What kind of project?</div>
+      <div class="chip-row" id="remodel-chips">
+        <button class="chip" type="button" data-rtype="kitchen">Kitchen</button>
+        <button class="chip" type="button" data-rtype="bath">Bathroom</button>
+        <button class="chip" type="button" data-rtype="interior">Interior Remodel</button>
+        <button class="chip" type="button" data-rtype="addition">Addition</button>
+        <button class="chip" type="button" data-rtype="outdoor">Outdoor Living</button>
       </div>
     </div>
 
-    <button id="see-estimate" class="primary-btn" type="button" disabled>See My Estimate</button>
-    <p class="intro-foot">Free &middot; No signup required to see your estimate</p>
+    <div id="step-size" class="reveal">
+      <div class="step-label" id="size-label">Step 2 &middot; Estimated square footage</div>
+      <div class="sqft-block">
+        <div class="chip-row presets" id="size-presets"></div>
+        <p class="sqft-ref" id="sqft-ref">Most homes we build run 1,200&ndash;4,800 sqft. A typical 3-bedroom is about 1,800.</p>
+        <div class="sqft-field">
+          <input id="sqft-start" type="text" inputmode="numeric" autocomplete="off" placeholder="1,800" aria-label="Estimated square footage">
+          <span>sqft</span>
+        </div>
+      </div>
+      <button id="see-estimate" class="primary-btn" type="button" disabled>See My Estimate</button>
+      <p class="intro-foot">Free &middot; No signup required to see your estimate</p>
+    </div>
   </div>
 </section>
 
@@ -325,26 +373,29 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
 
   <section class="r-hero">
     <div class="r-type" id="result-type">Barndominium</div>
-    <div class="r-h1">Your estimated build</div>
+    <div class="r-h1" id="result-h1">Your estimated build</div>
     <div class="r-total" id="result-total">$372,600</div>
     <div class="r-formula" id="result-formula">1,800 sqft &times; $180/sqft + 15% Overhead &amp; Profit</div>
 
     <div class="nudge">
-      <div class="nudge-label">Adjust home size &mdash; <strong id="sqft-readout">1,800</strong> sqft</div>
-      <input id="sqft-nudge" type="range" min="1200" max="4800" step="50" value="1800" aria-label="Adjust home square footage">
-      <div class="nudge-ends"><span>1,200 sqft</span><span>4,800 sqft</span></div>
+      <div class="nudge-label"><span id="nudge-what">Adjust home size</span> &mdash; <strong id="sqft-readout">1,800</strong> sqft</div>
+      <input id="sqft-nudge" type="range" min="1200" max="4800" step="50" value="1800" aria-label="Adjust square footage">
+      <div class="nudge-ends"><span id="nudge-min">1,200 sqft</span><span id="nudge-max">4,800 sqft</span></div>
+      <div id="opt-list" class="opt-list" hidden></div>
     </div>
+    <div class="r-note" id="result-note" hidden></div>
   </section>
 
   <section class="summary wrap">
-    <h2 class="section-title">Budget Summary</h2>
-    <p class="section-sub">Where your build dollars go, at a glance &mdash; the same view you saw on our site.</p>
+    <h2 class="section-title" id="summary-title">Budget Summary</h2>
+    <p class="section-sub" id="summary-sub">Where your build dollars go, at a glance &mdash; the same view you saw on our site.</p>
     <div class="summary-card">
       <div id="summary-rows"></div>
       <div class="summary-total">
-        <span>Total Project Budget</span>
+        <span id="summary-total-label">Total Project Budget</span>
         <span id="summary-total-val">$372,600</span>
       </div>
+      <p class="sum-note" id="summary-note" hidden></p>
     </div>
   </section>
 
@@ -377,9 +428,13 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
   </section>
 
   <section class="upgrades wrap">
-    <div class="upgrades-inner">
+    <div class="upgrades-inner" id="upgrades-build">
       <h3>Want more than the base build? That's your call.</h3>
       <p>This is your base build. During construction, any upgrades &mdash; nicer cabinets, hardwood instead of LVP, a bigger porch &mdash; are decisions <strong>you</strong> make, with every cost shown to you up front. You decide what's worth it. No surprises, no games &mdash; just an honest number you control from start to finish.</p>
+    </div>
+    <div class="upgrades-inner" id="upgrades-remodel">
+      <h3>Built to be honest &mdash; not to bait you.</h3>
+      <p>This range runs intentionally honest-to-high. Len won't quote you low to win an appointment and then raise the price at your kitchen table. Most projects like yours come in <strong>at or below this range</strong> &mdash; and a free in-home visit turns it into a real number you can hold him to.</p>
     </div>
   </section>
 
@@ -392,8 +447,8 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
   <section class="wrap">
     <div class="cta-card">
       <div class="cta-text">
-        <h2>Like what you see? <em>Let's make it real.</em></h2>
-        <p>Send your numbers and Len will set up a time to walk through your build &mdash; the same breakdown you see here, dialed in for your lot, your finishes, and your goals.</p>
+        <h2 id="cta-h2">Like what you see? <em>Let's make it real.</em></h2>
+        <p id="cta-p">Send your numbers and Len will set up a time to walk through your build &mdash; the same breakdown you see here, dialed in for your lot, your finishes, and your goals.</p>
         <div class="cta-phone">
           <a href="tel:+17702941635">770-294-1635</a>
           <span>Call or text Len &mdash; LC General Contracting</span>
@@ -417,10 +472,10 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
   <div class="print-only print-foot">
     <div class="pf-cta">Build your own free budget at lcgchomes.com</div>
     <div class="pf-phone">Call or text Len &middot; LC General Contracting &middot; 770-294-1635</div>
-    <div class="pf-disc">Estimate only &mdash; not a binding quote, contract, or loan disclosure. $180/sqft base build + 15% Overhead &amp; Profit. Final cost depends on your lot, plan, and finishes.</div>
+    <div class="pf-disc" id="pf-disc">Estimate only &mdash; not a binding quote, contract, or loan disclosure. $180/sqft base build + 15% Overhead &amp; Profit. Final cost depends on your lot, plan, and finishes.</div>
   </div>
 
-  <footer>
+  <footer id="page-foot">
     Estimates use a $180/sqft base build rate and a 15% Overhead &amp; Profit margin, broken out across a standard residential construction draw schedule. This tool is for planning estimates only &mdash; not a binding quote, contract, or loan disclosure. Your final number depends on your lot, plan, and the finishes you choose.
   </footer>
 </main>
@@ -522,10 +577,68 @@ const TEMPLATES = {
 let PHASES = TEMPLATES.barndo.lines;
 
 // ──────────────────────────────────────────────────────────────────
+//  REMODEL & ADDITION — planning-range model (all rates from Len, 2026-06-25).
+//  Rates are all-in (include O&P). Deliberately honest-to-high: the real quote
+//  from the in-home visit should come in AT OR BELOW the range. ±20% band total.
+//  Appliances excluded everywhere (customers purchase separately).
+// ──────────────────────────────────────────────────────────────────
+const REMODELS = {
+  kitchen: { label:'Kitchen Remodel', rate:265, min:80, max:400, step:5,
+    presets:[{n:'Small',s:120},{n:'Typical',s:180},{n:'Large',s:250}],
+    ref:'Most kitchens run 120–250 sqft. A typical kitchen is about 180.',
+    note:'Appliances aren’t included — most customers purchase those separately.',
+    toggles:[
+      {id:'plumb',  label:'Moving sink or plumbing lines', sub:'Relocating the sink, island plumbing, or gas', lo:3000, hi:5000},
+      {id:'cab',    label:'Full custom cabinets',          sub:'vs. stock — built for your kitchen, ~22 linear ft', lo:2400, hi:3000},
+      {id:'fix',    label:'Premium fixtures & finishes',   sub:'Faucets, lighting, hardware above standard grade', lo:750, hi:7000},
+    ]},
+  bath: { label:'Bathroom Remodel', rate:230, min:30, max:200, step:5,
+    presets:[{n:'Half bath',s:40},{n:'Full bath',s:60},{n:'Primary',s:110}],
+    ref:'Half baths run ~40 sqft, full baths ~60, primary baths ~110.',
+    toggles:[
+      {id:'plumb',  label:'Moving plumbing fixtures',      sub:'Relocating toilet, shower, or sink lines', lo:3000, hi:5000},
+      {id:'shower', label:'Custom tile walk-in shower',    sub:'vs. a standard tub/shower unit', lo:2200, hi:8200},
+      {id:'vanity', label:'Custom vanity cabinetry',       sub:'vs. stock — typical run 5–8 linear ft', lo:550, hi:1100},
+      {id:'fix',    label:'Premium fixtures & finishes',   sub:'Faucets, glass, lighting above standard grade', lo:750, hi:7000},
+    ]},
+  interior: { label:'Interior Remodel', rate:230, min:150, max:2400, step:25,
+    presets:[{n:'One room',s:300},{n:'Several rooms',s:700},{n:'Whole main floor',s:1400}],
+    ref:'Enter the square footage of the area being remodeled — one room to a whole floor.',
+    toggles:[
+      {id:'walls',  label:'Removing or moving walls',      sub:'Structural changes, including load-bearing', lo:2000, hi:8000},
+      {id:'floor',  label:'Hardwood or tile throughout',   sub:'vs. standard LVP or carpet', pctLo:10, pctHi:35},
+      {id:'finish', label:'High-end trim & built-ins',     sub:'Upgraded millwork, built-ins, lighting', pctLo:10, pctHi:15},
+    ]},
+  addition: { label:'Home Addition', rate:260, min:150, max:1000, step:10,
+    presets:[{n:'Single room',s:250},{n:'Primary suite',s:450},{n:'Multi-room',s:700}],
+    ref:'Most additions run 250–700 sqft. A primary suite is about 450.',
+    toggles:[
+      {id:'bath',    label:'Full bathroom in the addition', sub:'Plumbing, fixtures, tile — a complete bath', lo:12000, hi:20000},
+      {id:'kitchen', label:'Kitchenette or wet bar',        sub:'Cabinets, sink, counter space', lo:4000, hi:12000},
+      {id:'story',   label:'Second story / over garage',    sub:'vs. a ground-floor addition', pctLo:20, pctHi:20},
+    ]},
+  outdoor: { label:'Outdoor Living', rate:150, min:100, max:900, step:10,
+    presets:[{n:'Patio',s:250},{n:'Covered porch',s:350},{n:'Full outdoor living',s:550}],
+    ref:'Patios run ~250 sqft, covered porches ~350, full outdoor living spaces ~550.',
+    toggles:[
+      {id:'surface',  label:'Pavers or stone surface',       sub:'vs. finished concrete', pctLo:25, pctHi:25},
+      {id:'site',     label:'Slope, grading, or retaining',  sub:'Site work beyond a flat lot', lo:2000, hi:16000},
+      {id:'roof',     label:'Covered or screened roof',      sub:'vs. open-air', lo:2000, hi:16000},
+      {id:'okitchen', label:'Outdoor kitchen',               sub:'Grill station, counter, utilities', lo:8000, hi:8000},
+    ]},
+};
+const BAND_LO = 0.9, BAND_HI = 1.1;    // ±20% planning band (Len-approved), split around the selection totals
+const SMALL_JOB_FLOOR = 10000;         // below this, steer to a phone call instead of an in-home visit
+function round500(v){ return Math.round(v / 500) * 500; }
+
+// ──────────────────────────────────────────────────────────────────
 //  STATE & FORMATTING
 // ──────────────────────────────────────────────────────────────────
 const state = {
+  mode: 'build',             // 'build' | 'remodel'
   template: 'barndo',
+  rtype: null,               // remodel type key when mode === 'remodel'
+  opts: {},                  // active remodel toggles {id: bool}
   baseBudget: 1800 * RATE,   // construction-only hard cost = sqft × $/sqft
   oop: OOP_PCT,
   sqft: 1800,
@@ -660,11 +773,157 @@ function setSize(sqft){
   applyDefaults();
   updateResult();
 }
+
+// Screen copy that mode-switching rewrites, captured once so build mode can restore it.
+const MODE_TEXT = {
+  h1Build: 'Your estimated build',
+  h1Remodel: 'Your planning range',
+  sumTitleBuild: 'Budget Summary',
+  sumSubBuild: 'Where your build dollars go, at a glance — the same view you saw on our site.',
+  sumTitleRemodel: "What's driving your number",
+  sumSubRemodel: 'Your base rate plus the selections you make above. Every rate already includes our overhead and profit — nothing gets added later.',
+  totalLabelBuild: 'Total Project Budget',
+  totalLabelRemodel: 'Your planning range',
+  ctaH2Build: 'Like what you see? <em>Let’s make it real.</em>',
+  ctaPBuild: 'Send your numbers and Len will set up a time to walk through your build — the same breakdown you see here, dialed in for your lot, your finishes, and your goals.',
+  ctaH2Remodel: 'Want the exact number? <em>It takes one visit.</em>',
+  ctaPRemodel: 'Send your numbers and Len will set up a free in-home visit — he measures, checks the details, and gives you a real quote. Most projects come in at or below the planning range.',
+  discBuild: 'Estimate only — not a binding quote, contract, or loan disclosure. $180/sqft base build + 15% Overhead & Profit. Final cost depends on your lot, plan, and finishes.',
+  discRemodel: 'Planning range only — not a binding quote, contract, or loan disclosure. Rates include overhead & profit; appliances excluded. Your real number comes from a free in-home visit.',
+  footBuild: 'Estimates use a $180/sqft base build rate and a 15% Overhead & Profit margin, broken out across a standard residential construction draw schedule. This tool is for planning estimates only — not a binding quote, contract, or loan disclosure. Your final number depends on your lot, plan, and the finishes you choose.',
+  footRemodel: 'Remodel and addition ranges use per-square-foot planning rates that already include overhead & profit, plus the project selections you selected. Ranges run intentionally honest-to-high — most projects quote at or below them after a free in-home visit. This tool is for planning only — not a binding quote, contract, or loan disclosure.',
+};
+
 function applyEstimate(type, sqft){
+  state.mode = 'build';
+  state.costPerSqft = RATE;
+  document.body.classList.remove('mode-remodel');
+  totalEl.classList.remove('is-range');
+  document.getElementById('result-h1').textContent = MODE_TEXT.h1Build;
+  document.getElementById('opt-list').hidden = true;
+  document.getElementById('result-note').hidden = true;
+  document.getElementById('nudge-what').textContent = 'Adjust home size';
+  nudge.min = 1200; nudge.max = 4800; nudge.step = 50;
+  document.getElementById('nudge-min').textContent = '1,200 sqft';
+  document.getElementById('nudge-max').textContent = '4,800 sqft';
+  document.getElementById('summary-title').textContent = MODE_TEXT.sumTitleBuild;
+  document.getElementById('summary-sub').textContent = MODE_TEXT.sumSubBuild;
+  document.getElementById('summary-total-label').textContent = MODE_TEXT.totalLabelBuild;
+  document.getElementById('summary-note').hidden = true;
+  document.getElementById('cta-h2').innerHTML = MODE_TEXT.ctaH2Build;
+  document.getElementById('cta-p').textContent = MODE_TEXT.ctaPBuild;
+  document.getElementById('pf-disc').textContent = MODE_TEXT.discBuild;
+  document.getElementById('page-foot').textContent = MODE_TEXT.footBuild;
   state.template = (TEMPLATES[type] ? type : 'barndo');
   PHASES = TEMPLATES[state.template].lines;
   setSize(sqft);
   nudge.value = state.sqft;
+}
+
+// ──────────────────────────────────────────────────────────────────
+//  REMODEL ENGINE — base × sqft + toggle selections → honest planning range
+// ──────────────────────────────────────────────────────────────────
+function optAddText(o){
+  if (o.pctLo != null) return o.pctLo === o.pctHi ? '+ ' + o.pctLo + '%' : '+ ' + o.pctLo + '–' + o.pctHi + '%';
+  return o.lo === o.hi ? '+ ' + formatMoney(o.lo) : '+ ' + formatMoney(o.lo) + '–' + formatMoney(o.hi);
+}
+function remodelRange(){
+  const R = REMODELS[state.rtype];
+  const base = state.sqft * R.rate;
+  let lo = base, hi = base;
+  for (const o of R.toggles){
+    if (!state.opts[o.id]) continue;
+    if (o.pctLo != null){ lo += base * o.pctLo / 100; hi += base * o.pctHi / 100; }
+    else { lo += o.lo; hi += o.hi; }
+  }
+  return { base: base, lo: round500(lo * BAND_LO), hi: round500(hi * BAND_HI) };
+}
+function rangeText(lo, hi){ return formatMoney(lo) + ' – ' + formatMoney(hi); }
+
+function renderOpts(){
+  const R = REMODELS[state.rtype];
+  const list = document.getElementById('opt-list');
+  list.innerHTML = '';
+  for (const o of R.toggles){
+    const row = document.createElement('label');
+    row.className = 'opt-row';
+    row.innerHTML =
+      '<div class="opt-txt"><b>' + escapeHtml(o.label) + '</b><span>' + escapeHtml(o.sub) + ' · ' + optAddText(o) + '</span></div>' +
+      '<span class="switch"><input type="checkbox" data-opt="' + o.id + '"' + (state.opts[o.id] ? ' checked' : '') + '><i></i></span>';
+    row.querySelector('input').addEventListener('change', function(e){
+      state.opts[o.id] = e.target.checked;
+      updateRemodel();
+    });
+    list.appendChild(row);
+  }
+  list.hidden = false;
+}
+
+function updateRemodel(){
+  const R = REMODELS[state.rtype];
+  const r = remodelRange();
+  typeEl.textContent = R.label;
+  totalEl.textContent = rangeText(r.lo, r.hi);
+  totalEl.classList.add('is-range');
+  formulaEl.innerHTML = formatMoneyPlain(state.sqft) + ' sqft &times; $' + R.rate + '/sqft + your selections';
+  readoutEl.textContent = formatMoneyPlain(state.sqft);
+  // drivers card (replaces the build Budget Summary)
+  summaryRowsEl.innerHTML = '';
+  const baseRow = document.createElement('div');
+  baseRow.className = 'sum-row';
+  baseRow.innerHTML = '<div class="sum-top"><span class="sum-name">Base — ' + formatMoneyPlain(state.sqft) + ' sqft × $' + R.rate + '/sqft</span><span class="sum-amt">' + formatMoney(r.base) + '</span></div>';
+  summaryRowsEl.appendChild(baseRow);
+  for (const o of R.toggles){
+    if (!state.opts[o.id]) continue;
+    const row = document.createElement('div');
+    row.className = 'sum-row';
+    row.innerHTML = '<div class="sum-top"><span class="sum-name">' + escapeHtml(o.label) + '</span><span class="sum-amt">' + optAddText(o) + '</span></div>';
+    summaryRowsEl.appendChild(row);
+  }
+  summaryTotalEl.textContent = rangeText(r.lo, r.hi);
+  const note = document.getElementById('summary-note');
+  if (R.note){ note.textContent = R.note; note.hidden = false; } else { note.hidden = true; }
+  // small-job steer: below the floor, a phone call beats a home visit
+  const heroNote = document.getElementById('result-note');
+  if (r.hi < SMALL_JOB_FLOOR){
+    heroNote.textContent = 'Projects this size are usually quickest handled with a call — call or text Len at 770-294-1635.';
+    heroNote.hidden = false;
+  } else { heroNote.hidden = true; }
+  // print fields
+  document.getElementById('print-type').textContent = R.label;
+  document.getElementById('print-sqft').textContent = formatMoneyPlain(state.sqft);
+  document.getElementById('print-total').textContent = rangeText(r.lo, r.hi);
+}
+
+function setRemodelSize(sqft){
+  const R = REMODELS[state.rtype];
+  state.sqft = clamp(Math.round(sqft), R.min, R.max);
+  updateRemodel();
+}
+
+function applyRemodel(rtype, sqft){
+  const R = REMODELS[rtype];
+  state.mode = 'remodel';
+  state.rtype = rtype;
+  state.costPerSqft = R.rate;
+  state.opts = {};
+  R.toggles.forEach(function(o){ state.opts[o.id] = false; });
+  state.sqft = clamp(Math.round(sqft), R.min, R.max);
+  document.body.classList.add('mode-remodel');
+  document.getElementById('result-h1').textContent = MODE_TEXT.h1Remodel;
+  document.getElementById('nudge-what').textContent = 'Adjust size';
+  nudge.min = R.min; nudge.max = R.max; nudge.step = R.step; nudge.value = state.sqft;
+  document.getElementById('nudge-min').textContent = formatMoneyPlain(R.min) + ' sqft';
+  document.getElementById('nudge-max').textContent = formatMoneyPlain(R.max) + ' sqft';
+  document.getElementById('summary-title').textContent = MODE_TEXT.sumTitleRemodel;
+  document.getElementById('summary-sub').textContent = MODE_TEXT.sumSubRemodel;
+  document.getElementById('summary-total-label').textContent = MODE_TEXT.totalLabelRemodel;
+  document.getElementById('cta-h2').innerHTML = MODE_TEXT.ctaH2Remodel;
+  document.getElementById('cta-p').textContent = MODE_TEXT.ctaPRemodel;
+  document.getElementById('pf-disc').textContent = MODE_TEXT.discRemodel;
+  document.getElementById('page-foot').textContent = MODE_TEXT.footRemodel;
+  renderOpts();
+  updateRemodel();
 }
 
 // ──────────────────────────────────────────────────────────────────
@@ -675,28 +934,88 @@ const resultEl  = document.getElementById('result');
 const cards      = document.querySelectorAll('.home-card');
 const sqftStart  = document.getElementById('sqft-start');
 const seeBtn     = document.getElementById('see-estimate');
+const stepRemodel = document.getElementById('step-remodel');
+const stepSize    = document.getElementById('step-size');
+const sizeLabel   = document.getElementById('size-label');
+const sqftRef     = document.getElementById('sqft-ref');
+const presetsEl   = document.getElementById('size-presets');
+const remodelChips = document.querySelectorAll('#remodel-chips .chip');
+const BUILD_REF   = sqftRef.textContent;
 let pickedType   = null;
+let pickedRtype  = null;
 
 function refreshSeeBtn(){
   const sqft = parseNumber(sqftStart.value);
-  seeBtn.disabled = !(pickedType && sqft > 0);
+  const ready = pickedType === 'remodel' ? (pickedRtype && sqft > 0) : (pickedType && sqft > 0);
+  seeBtn.disabled = !ready;
 }
+
+// Progressive disclosure: only Step 1 shows on arrival; picking reveals the rest.
+function configureSizeStep(rtype){
+  const R = REMODELS[rtype];
+  sizeLabel.innerHTML = 'Step 3 &middot; Size of the space';
+  sqftRef.textContent = R.ref;
+  sqftStart.placeholder = formatMoneyPlain(R.presets[1].s);
+  presetsEl.innerHTML = '';
+  R.presets.forEach(function(p){
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip';
+    b.textContent = p.n + ' · ~' + formatMoneyPlain(p.s) + ' sqft';
+    b.addEventListener('click', function(){
+      sqftStart.value = formatMoneyPlain(p.s);
+      presetsEl.querySelectorAll('.chip').forEach(function(c){ c.classList.toggle('selected', c === b); });
+      refreshSeeBtn();
+    });
+    presetsEl.appendChild(b);
+  });
+}
+function configureBuildSizeStep(){
+  sizeLabel.innerHTML = 'Step 2 &middot; Estimated square footage';
+  sqftRef.textContent = BUILD_REF;
+  sqftStart.placeholder = '1,800';
+  presetsEl.innerHTML = '';
+}
+
 cards.forEach(card => {
   card.addEventListener('click', () => {
     pickedType = card.dataset.pick;
     cards.forEach(c => { const on = c === card; c.classList.toggle('selected', on); c.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    if (pickedType === 'remodel'){
+      stepRemodel.classList.add('on');
+      if (pickedRtype){ configureSizeStep(pickedRtype); stepSize.classList.add('on'); }
+      else stepSize.classList.remove('on');
+    } else {
+      stepRemodel.classList.remove('on');
+      configureBuildSizeStep();
+      stepSize.classList.add('on');
+    }
     refreshSeeBtn();
   });
 });
+
+remodelChips.forEach(ch => {
+  ch.addEventListener('click', () => {
+    pickedRtype = ch.dataset.rtype;
+    remodelChips.forEach(c => c.classList.toggle('selected', c === ch));
+    configureSizeStep(pickedRtype);
+    stepSize.classList.add('on');
+    refreshSeeBtn();
+  });
+});
+
 sqftStart.addEventListener('input', refreshSeeBtn);
 sqftStart.addEventListener('blur', () => { const v = parseNumber(sqftStart.value); if (v > 0) sqftStart.value = formatMoneyPlain(v); });
 sqftStart.addEventListener('keydown', e => { if (e.key === 'Enter' && !seeBtn.disabled) seeBtn.click(); });
 
 seeBtn.addEventListener('click', () => {
-  if (!pickedType) return;
   const sqft = parseNumber(sqftStart.value);
   if (!(sqft > 0)) return;
-  applyEstimate(pickedType, sqft);
+  if (pickedType === 'remodel'){
+    if (!pickedRtype) return;
+    applyRemodel(pickedRtype, sqft);
+  } else if (pickedType){
+    applyEstimate(pickedType, sqft);
+  } else return;
   resultEl.classList.add('show');
   requestAnimationFrame(() => introEl.classList.add('gone'));
   window.scrollTo(0, 0);
@@ -711,7 +1030,10 @@ document.getElementById('restart').addEventListener('click', () => {
 // ──────────────────────────────────────────────────────────────────
 //  SCREEN 2 — the one live control: the size nudger
 // ──────────────────────────────────────────────────────────────────
-nudge.addEventListener('input', () => { setSize(parseNumber(nudge.value)); });
+nudge.addEventListener('input', () => {
+  if (state.mode === 'remodel') setRemodelSize(parseNumber(nudge.value));
+  else setSize(parseNumber(nudge.value));
+});
 
 // Print / Save Your Budget — branded, shareable report (window.print → print or Save as PDF)
 document.querySelectorAll('.print-trigger').forEach(b => b.addEventListener('click', () => window.print()));
@@ -721,12 +1043,20 @@ document.querySelectorAll('.print-trigger').forEach(b => b.addEventListener('cli
 //  LEAD CAPTURE — POST to Apps Script, mailto fallback (unchanged)
 // ──────────────────────────────────────────────────────────────────
 function currentEstimate(){
+  if (state.mode === 'remodel'){
+    const R = REMODELS[state.rtype];
+    const r = remodelRange();
+    const selections = R.toggles.filter(o => state.opts[o.id]).map(o => o.label);
+    return { mode:'remodel', buildType:R.label, rate:R.rate, sqft:state.sqft,
+             hardCost:r.base, lo:r.lo, hi:r.hi, mid:Math.round((r.lo + r.hi) / 2),
+             total:Math.round((r.lo + r.hi) / 2), oopDollars:0, selections:selections };
+  }
   const hardCost = sumLineDollars();
   const oopDollars = hardCost * state.oop / 100;
   const total = hardCost + oopDollars;
   const sqft = state.costPerSqft > 0 ? Math.round(hardCost / state.costPerSqft) : 0;
   const buildType = TEMPLATES[state.template] ? TEMPLATES[state.template].label : state.template;
-  return { hardCost, oopDollars, total, sqft, buildType };
+  return { mode:'build', hardCost, oopDollars, total, sqft, buildType };
 }
 
 const LEADS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyg3-cuFtMK-CRwJbXeJ-cm5q3gxZ2D2N6JTP5eestm-Fnq-hdWw3TcMh2XbfSJF2smXw/exec';
@@ -735,13 +1065,13 @@ function validEmail(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s||'').t
 
 function leadPayload(form){
   const est = currentEstimate();
-  return {
+  const p = {
     name:              (form.querySelector('[name="name"]').value || '').trim(),
     email:             (form.querySelector('[name="email"]').value || '').trim(),
     company:           (form.querySelector('[name="company"]').value || '').trim(), // honeypot
     build_type:        est.buildType,
     total_budget:      Math.round(est.total),
-    oop_pct:           Number(state.oop.toFixed(1)),
+    oop_pct:           est.mode === 'remodel' ? 0 : Number(state.oop.toFixed(1)),
     oop_dollars:       Math.round(est.oopDollars),
     construction_only: Math.round(est.hardCost),
     cost_per_sqft:     Math.round(state.costPerSqft),
@@ -749,10 +1079,36 @@ function leadPayload(form){
     source:            'estimator',
     user_agent:        navigator.userAgent
   };
+  if (est.mode === 'remodel'){
+    // Rides the sheet's existing homepage columns — no schema change needed.
+    p.source       = 'planner-remodel';
+    p.project_type = est.buildType;
+    p.budget_range = rangeText(est.lo, est.hi);
+    p.message      = est.selections.length ? 'Selections: ' + est.selections.join('; ') : 'Selections: base only';
+  }
+  return p;
 }
 
 function mailtoFallback(p){
   const est = currentEstimate();
+  if (est.mode === 'remodel'){
+    const subject = "Let's Meet — My LCGC " + est.buildType + " Plan (" + rangeText(est.lo, est.hi) + ")";
+    const rlines = [
+      "Hi Len,", "",
+      "I just used the LC General Contracting budget planner and I'd like to set up a free in-home visit. Here are my numbers:", "",
+      "Name:            " + (p.name || ''),
+      "Email:           " + (p.email || ''),
+      "Project:         " + est.buildType,
+      "Size:            " + formatMoneyPlain(est.sqft) + " sqft @ " + formatMoney(est.rate) + "/sqft",
+      "Planning Range:  " + rangeText(est.lo, est.hi),
+      "Selections:      " + (est.selections.length ? est.selections.join('; ') : 'Base only'), "",
+      "Can we set up a time? Thanks!"
+    ];
+    window.location.href = 'mailto:' + LCGC_EMAIL +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(rlines.join('\n'));
+    return;
+  }
   const subject = "Let's Meet — My LCGC Build Estimate (" + formatMoney(est.total) + ", ~" + formatMoneyPlain(est.sqft) + " sqft)";
   const lines = [
     "Hi Len,", "",
@@ -822,19 +1178,46 @@ document.querySelectorAll('.lead-form').forEach(form => {
 applyDefaults();
 updateResult();
 
-// Deep-link support: /...?build=barndo&sqft=2400 renders a ready estimate (shareable links + ad landings).
+// Deep-link support (shareable links + ad landings):
+//   builds:   ?build=barndo&sqft=2400
+//   remodels: ?project=kitchen (or ?build=kitchen) &sqft=180 &opts=plumb,cab — sqft optional, defaults to typical
 (function deepLink(){
   const q = new URLSearchParams(location.search);
   const sqft = parseNumber(q.get('sqft') || '');
-  if (sqft > 0){
-    let t = (q.get('build') || '').toLowerCase();
-    if (t !== 'barndo' && t !== 'conventional') t = 'barndo';
-    pickedType = t;
-    cards.forEach(c => { const on = c.dataset.pick === t; c.classList.toggle('selected', on); c.setAttribute('aria-pressed', on ? 'true' : 'false'); });
-    sqftStart.value = formatMoneyPlain(clamp(Math.round(sqft), 1200, 4800));
-    applyEstimate(t, sqft);
+  const t = (q.get('project') || q.get('build') || '').toLowerCase();
+  if (REMODELS[t]){
+    const R = REMODELS[t];
+    pickedType = 'remodel'; pickedRtype = t;
+    cards.forEach(c => { const on = c.dataset.pick === 'remodel'; c.classList.toggle('selected', on); c.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    remodelChips.forEach(c => c.classList.toggle('selected', c.dataset.rtype === t));
+    stepRemodel.classList.add('on');
+    configureSizeStep(t);
+    stepSize.classList.add('on');
+    const s = sqft > 0 ? sqft : R.presets[1].s;
+    sqftStart.value = formatMoneyPlain(clamp(Math.round(s), R.min, R.max));
+    applyRemodel(t, s);
+    const opts = (q.get('opts') || '').split(',').filter(Boolean);
+    if (opts.length){
+      opts.forEach(id => { if (id in state.opts) state.opts[id] = true; });
+      renderOpts();
+      updateRemodel();
+    }
     resultEl.classList.add('show');
     introEl.classList.add('gone');
+    refreshSeeBtn();
+    return;
+  }
+  if (sqft > 0){
+    let bt = (t === 'conventional') ? 'conventional' : 'barndo';
+    pickedType = bt;
+    cards.forEach(c => { const on = c.dataset.pick === bt; c.classList.toggle('selected', on); c.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    configureBuildSizeStep();
+    stepSize.classList.add('on');
+    sqftStart.value = formatMoneyPlain(clamp(Math.round(sqft), 1200, 4800));
+    applyEstimate(bt, sqft);
+    resultEl.classList.add('show');
+    introEl.classList.add('gone');
+    refreshSeeBtn();
   }
 })();
 
@@ -842,6 +1225,9 @@ updateResult();
   const b = BARNDO_LINES.reduce((a,p)=>a+p.pct,0);
   const c = CONVENTIONAL_LINES.reduce((a,p)=>a+p.pct,0);
   console.log('[LCGC] barndo % sum =', b, b===100?'OK':'WARN', '| conventional % sum =', c, c===100?'OK':'WARN');
+  // remodel math sanity: kitchen 180 sqft, no toggles → base 47,700; band 42,900–52,500
+  const kb = 180 * REMODELS.kitchen.rate;
+  console.log('[LCGC] kitchen 180sqft base =', kb, '| range =', round500(kb*BAND_LO), '–', round500(kb*BAND_HI));
 })();
 </script>
 </body>

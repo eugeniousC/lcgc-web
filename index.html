@@ -310,6 +310,12 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
   /* ---------- lead form ---------- */
   .lead { background: var(--navy); color: #fff; }
   .lead-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; }
+  .next-strip { padding-bottom: 44px; margin-bottom: 52px; border-bottom: 1px solid rgba(255,255,255,.12); }
+  .next-strip .eyebrow { color: var(--emerald-l); }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 8px; }
+  .step-n { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 2.4rem; color: var(--emerald-l); line-height: 1; display: block; margin-bottom: 10px; }
+  .step b { color: #fff; font-size: 1.04rem; display: block; margin-bottom: 5px; }
+  .step p { color: #aab4c6; font-size: .92rem; margin: 0; }
   .lead .eyebrow { color: var(--emerald-l); }
   .lead h2 { color: #fff; font-size: clamp(2rem, 3.4vw, 2.6rem); }
   .lead p.lead-sub { color: #c4cdde; font-size: 1.08rem; margin: 18px 0 28px; }
@@ -371,6 +377,7 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
     }
     .svc-grid, .rev-grid, .diff-grid { grid-template-columns: repeat(2, 1fr); }
     .budget-grid, .about-grid, .lead-grid { grid-template-columns: 1fr; gap: 36px; }
+    .steps { grid-template-columns: 1fr; gap: 22px; }
     .gal { grid-template-columns: repeat(2, 1fr); }
     .about-img { height: 360px; }
     .stats-grid { grid-template-columns: repeat(2,1fr); gap:36px 24px; }
@@ -632,6 +639,26 @@ src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
 
 <!-- ===================== LEAD CAPTURE ===================== -->
 <section class="lead" id="contact">
+  <div class="wrap next-strip reveal">
+    <div class="eyebrow">What Happens Next</div>
+    <div class="steps">
+      <div class="step">
+        <span class="step-n">1</span>
+        <b>We come take a look</b>
+        <p>Len visits your home, walks the space with you, and listens to what you actually want. About 30 minutes.</p>
+      </div>
+      <div class="step">
+        <span class="step-n">2</span>
+        <b>We price every line</b>
+        <p>You get a written estimate with every number visible — materials, labor, and our overhead &amp; profit.</p>
+      </div>
+      <div class="step">
+        <span class="step-n">3</span>
+        <b>You decide</b>
+        <p>No pushy follow-up, no expiring "deals." Compare us to anyone, take your time — the estimate is yours to keep.</p>
+      </div>
+    </div>
+  </div>
   <div class="wrap lead-grid">
     <div class="reveal">
       <div class="eyebrow">Free In-Home Estimate</div>

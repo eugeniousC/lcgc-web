@@ -726,7 +726,7 @@ function sumRow(name, amt, pct, isOp){
   row.innerHTML =
     '<div class="sum-top"><span class="sum-name">' + escapeHtml(name) + '</span><span class="sum-amt">' + formatMoney(amt) + '</span></div>' +
     '<div class="sum-bar"><i style="width:' + Math.max(2, Math.min(100, pct)).toFixed(0) + '%"></i></div>' +
-    '<div class="sum-pct">' + pct.toFixed(0) + '% of total</div>';
+    '<div class="sum-pct">' + pct.toFixed(0) + '% of build</div>';
   return row;
 }
 function renderSummary(){
@@ -740,9 +740,9 @@ function renderSummary(){
   summaryRowsEl.innerHTML = '';
   SUMMARY_BUCKETS.forEach(function(b){
     const amt = buckets[b.key];
-    summaryRowsEl.appendChild(sumRow(b.name, amt, total > 0 ? amt / total * 100 : 0, false));
+    summaryRowsEl.appendChild(sumRow(b.name, amt, state.baseBudget > 0 ? amt / state.baseBudget * 100 : 0, false));
   });
-  summaryRowsEl.appendChild(sumRow('Overhead & Profit — shown, not hidden', op, total > 0 ? op / total * 100 : 0, true));
+  summaryRowsEl.appendChild(sumRow('Overhead & Profit — shown, not hidden', op, state.baseBudget > 0 ? op / state.baseBudget * 100 : 0, true));
   summaryTotalEl.textContent = formatMoney(total);
 }
 

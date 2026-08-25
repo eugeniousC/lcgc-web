@@ -48,7 +48,7 @@
 | Artifact | Path | Notes |
 |---|---|---|
 | Homepage | `index.html` | pixel + `#contact` lead form |
-| Estimator | `LCGC_Budget_Estimator.html` | pixel + lead form |
+| Estimator | `LCGC_Budget_Planner.html` | pixel + lead form |
 | Lead backend | `backend/LeadsScript.gs` | Apps Script; ⚠ has NOTIFY_CC to remove pre-handoff |
 | Deploy reference | `DEPLOYMENT.md` | full deploy + wiring picture |
 | **GBP kit** | `marketing/GBP_KIT.md` | ⚠ **gitignored — LOCAL to this Linux box only** |

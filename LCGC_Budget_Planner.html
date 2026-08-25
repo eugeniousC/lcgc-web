@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LC General Contracting — Budget Planner</title>
+<meta name="facebook-domain-verification" content="umbxu120ifmuy35nh1625mi1iij87d" />
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1004453845333566');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1004453845333566&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0A2540; --navy2:#13315c; --emerald:#047857; --emerald-d:#035c43; --emerald-l:#34d399;
+    --amber:#d97706; --amber-l:#fbbf24; --ink:#0f172a; --slate:#475569; --muted:#94a3b8;
+    --line:#e6eaf0; --bg:#eef2f7; --card:#ffffff; --cream:#f8fafc;
+    --serif:'Playfair Display',Georgia,serif; --sans:'DM Sans',system-ui,-apple-system,sans-serif; --mono:'DM Mono',ui-monospace,monospace;
+    --shadow:0 18px 50px -22px rgba(10,37,64,.45);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  em{font-style:normal;color:var(--emerald)}
+  a{color:inherit}
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px}
+
+  /* ───────── SCREEN 1 — INTRO ───────── */
+  #intro{position:fixed;inset:0;z-index:60;overflow-y:auto;
+    background:radial-gradient(1200px 600px at 50% -10%, #16335c 0%, var(--navy) 60%);
+    color:#fff;transition:opacity .5s ease, transform .5s ease;}
+  #intro.gone{opacity:0;transform:translateY(-14px);pointer-events:none}
+  .intro-card{max-width:760px;margin:0 auto;padding:46px 22px 60px;text-align:center}
+  .intro-brand{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--emerald-l);margin-bottom:22px}
+  #intro h1{font-family:var(--serif);font-weight:900;font-size:clamp(1.55rem,5vw,3rem);line-height:1.12;letter-spacing:-.5px;overflow-wrap:break-word}
+  #intro h1 em{color:var(--amber-l)}
+  .intro-sub{color:#c7d2e4;font-size:clamp(1rem,2.4vw,1.15rem);max-width:560px;margin:18px auto 0}
+  .step-label{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--emerald-l);margin:34px 0 12px;display:flex;align-items:center;justify-content:center;gap:8px}
+  .step-label::before,.step-label::after{content:"";height:1px;width:34px;background:rgba(255,255,255,.2)}
+  .picker{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:4px}
+  .home-card{position:relative;min-width:0;border:2px solid rgba(255,255,255,.12);background:#0d2748;border-radius:16px;overflow:hidden;cursor:pointer;padding:0;text-align:left;transition:border-color .2s,transform .2s,box-shadow .2s;color:#fff;font-family:var(--sans)}
+  .home-card:hover{transform:translateY(-3px);border-color:rgba(52,211,153,.5)}
+  .home-card.selected{border-color:var(--emerald-l);box-shadow:0 0 0 3px rgba(52,211,153,.25)}
+  .home-img{height:148px;background-size:cover;background-position:center}
+  .home-meta{padding:13px 15px}
+  .home-name{display:block;font-weight:700;font-size:1.05rem}
+  .home-desc{display:block;font-size:.82rem;color:#9fb3cf;margin-top:2px}
+  .home-check{position:absolute;top:11px;right:11px;width:28px;height:28px;border-radius:50%;background:var(--emerald-l);color:var(--navy);font-weight:800;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.5);transition:.2s;font-size:15px}
+  .home-card.selected .home-check{opacity:1;transform:scale(1)}
+  .sqft-block{margin-top:14px;max-width:440px;margin-left:auto;margin-right:auto}
+  .sqft-ref{font-size:.86rem;color:#9fb3cf;margin:6px 0 14px}
+  .sqft-field{display:flex;align-items:center;gap:8px;background:#fff;border-radius:12px;padding:4px 16px;border:2px solid transparent;transition:border-color .2s}
+  .sqft-field:focus-within{border-color:var(--emerald-l)}
+  .sqft-field input{flex:1;border:0;outline:0;font-family:var(--mono);font-size:1.5rem;font-weight:500;color:var(--ink);padding:12px 0;background:transparent;width:100%}
+  .sqft-field span{font-family:var(--mono);color:var(--muted);font-size:1rem}
+  .primary-btn{margin-top:22px;width:100%;max-width:440px;border:0;border-radius:12px;padding:18px 24px;
+    background:var(--emerald);color:#fff;font-family:var(--sans);font-weight:700;font-size:1.08rem;cursor:pointer;
+    box-shadow:0 14px 30px -12px rgba(4,120,87,.8);transition:.2s}
+  .primary-btn:hover:not(:disabled){background:var(--emerald-d);transform:translateY(-2px)}
+  .primary-btn:disabled{background:#385074;color:#7e93b3;cursor:not-allowed;box-shadow:none}
+  .intro-foot{margin-top:14px;font-size:.82rem;color:#8499b8}
+  .intro-promise{margin-top:30px;font-size:.82rem;color:#8499b8;font-family:var(--mono);letter-spacing:.5px}
+
+  /* progressive steps + remodel chips */
+  .reveal{display:none}
+  .reveal.on{display:block;animation:stepIn .4s ease}
+  @keyframes stepIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .chip-row{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:4px}
+  .chip{border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;padding:10px 18px;cursor:pointer;font-family:var(--sans);font-weight:600;font-size:.92rem;transition:.18s}
+  .chip:hover{border-color:rgba(52,211,153,.6)}
+  .chip.selected{background:var(--emerald-l);border-color:var(--emerald-l);color:var(--navy)}
+  .chip-row.presets{margin-bottom:12px}
+  .chip-row.presets .chip{font-size:.8rem;padding:8px 14px}
+
+  /* ───────── SCREEN 2 — RESULT ───────── */
+  #result{display:none}
+  #result.show{display:block;animation:fadeUp .5s ease}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .r-header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .r-header-inner{max-width:880px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+  .r-logo{font-family:var(--serif);font-weight:700;font-size:1.05rem;text-decoration:none;color:var(--navy)}
+  .r-logo span{color:var(--slate);font-weight:400}
+  .ghost-btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 15px;font-family:var(--sans);font-weight:600;font-size:.85rem;color:var(--slate);cursor:pointer;transition:.18s}
+  .ghost-btn:hover{border-color:var(--emerald);color:var(--emerald)}
+
+  .r-hero{background:radial-gradient(1000px 460px at 50% -30%, #16335c, var(--navy));color:#fff;text-align:center;padding:42px 20px 48px}
+  .r-type{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--navy);background:var(--amber-l);padding:6px 14px;border-radius:999px;font-weight:500}
+  .r-h1{font-family:var(--serif);font-weight:700;font-size:clamp(1.3rem,3.4vw,1.7rem);margin:16px 0 6px;color:#dde7f5;font-style:italic}
+  .r-total{font-family:var(--mono);font-weight:500;font-size:clamp(2.8rem,10vw,4.4rem);line-height:1;letter-spacing:-1px}
+  .r-formula{font-family:var(--mono);font-size:.9rem;color:#9fb3cf;margin-top:12px}
+  .nudge{max-width:460px;margin:30px auto 0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:18px 20px}
+  .nudge-label{font-size:.9rem;color:#c7d2e4;margin-bottom:12px}
+  .nudge-label strong{font-family:var(--mono);color:#fff;font-size:1.05rem}
+  .nudge input[type=range]{width:100%;accent-color:var(--emerald-l);height:6px;cursor:pointer}
+  .nudge-ends{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.74rem;color:#7e93b3;margin-top:8px}
+
+  /* remodel mode — planning-range display + option toggles */
+  .r-total.is-range{font-size:clamp(1.9rem,7vw,3.3rem);letter-spacing:0}
+  .r-note{max-width:460px;margin:16px auto 0;font-size:.86rem;color:#fcd34d;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:10px;padding:10px 14px}
+  .opt-list{margin-top:14px;border-top:1px solid rgba(255,255,255,.12);text-align:left}
+  .opt-row{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;padding:11px 0;border:0;border-bottom:1px solid rgba(255,255,255,.08);background:none;color:inherit;cursor:pointer;text-align:left;font-family:var(--sans)}
+  .opt-row:last-child{border-bottom:0}
+  .opt-txt b{display:block;font-size:.9rem;color:#fff;font-weight:600}
+  .opt-txt span{display:block;font-size:.76rem;color:#9fb3cf;margin-top:1px}
+  .sw{position:relative;flex:none;width:46px;height:26px;border-radius:999px;background:rgba(255,255,255,.18);transition:.2s}
+  .sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}
+  .opt-row.on .sw{background:var(--emerald)}
+  .opt-row.on .sw::after{left:23px}
+  .sum-note{font-size:.8rem;color:var(--slate);margin-top:10px}
+  body.mode-remodel .breakdown{display:none !important}
+  body.mode-remodel #upgrades-build{display:none}
+  body:not(.mode-remodel) #upgrades-remodel{display:none}
+
+  .section-title{font-family:var(--serif);font-weight:700;font-size:1.4rem;color:var(--navy);margin:0 0 4px}
+  .section-sub{color:var(--slate);font-size:.92rem;margin-bottom:18px}
+  .breakdown{padding:44px 0 8px}
+
+  /* budget summary (digestible rollup, mirrors homepage graphic) */
+  .summary{padding:38px 0 4px}
+  .summary-card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:20px 24px}
+  .sum-row{padding:13px 0;border-bottom:1px solid var(--line)}
+  .sum-row:last-of-type{border-bottom:0}
+  .sum-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
+  .sum-name{font-weight:600;color:var(--navy)}
+  .sum-amt{font-family:var(--mono);font-weight:500;color:var(--navy)}
+  .sum-bar{height:8px;border-radius:6px;background:#eef2f7;overflow:hidden}
+  .sum-bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--emerald),var(--emerald-l));transition:width .6s ease}
+  .sum-pct{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin-top:6px}
+  .sum-row.op .sum-name{color:var(--amber)}
+  .sum-row.op .sum-amt{color:var(--amber)}
+  .sum-row.op .sum-bar i{background:linear-gradient(90deg,var(--amber),var(--amber-l))}
+  .summary-total{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:16px;border-top:2px solid var(--navy)}
+  .summary-total span:first-child{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:1.1rem}
+  .summary-total span:last-child{font-family:var(--mono);font-weight:500;color:var(--emerald);font-size:1.3rem}
+
+  .table-card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+  .thead,.line-row,.trow{display:grid;grid-template-columns:34px 1fr 74px 116px;align-items:center;gap:8px;padding:11px 18px}
+  .thead{background:var(--navy);color:#cdd9ec;font-family:var(--mono);font-size:11px;letter-spacing:.5px;text-transform:uppercase}
+  .thead>div:nth-child(3),.line-row>div:nth-child(3),.trow>div:nth-child(3){text-align:right}
+  .thead>div:nth-child(4),.line-row>div:nth-child(4),.trow>div:nth-child(4){text-align:right}
+  .line-row{border-top:1px solid var(--line);font-size:.92rem}
+  .line-row:nth-child(even){background:var(--cream)}
+  .c-id{font-family:var(--mono);color:var(--muted);font-size:.8rem}
+  .c-name{color:var(--ink);min-width:0;overflow-wrap:anywhere}
+  .c-pct{font-family:var(--mono);color:var(--slate);font-size:.84rem}
+  .c-cost{font-family:var(--mono);font-weight:500;color:var(--navy)}
+  .cat-row{padding:9px 18px;background:#eaf0f8;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--emerald-d);font-weight:500}
+  .trow{border-top:1px solid var(--line)}
+  .trow.sub{background:var(--cream);font-weight:600}
+  .trow.sub .c-name,.trow.op .c-name{font-weight:600}
+  .trow.op{background:#fff7ed;border-top:1px solid #fde9cf}
+  .trow.op .c-name{color:var(--amber)}
+  .trow.op .c-cost{color:var(--amber)}
+  .trow.grand{background:var(--navy);color:#fff;border-top:0}
+  .trow.grand .c-name{font-weight:700;font-size:1.02rem}
+  .trow.grand .c-cost{color:#fff;font-weight:700;font-size:1.12rem}
+  .trow>div:nth-child(2){grid-column:2/4}
+  .thead>div:nth-child(2){grid-column:auto}
+
+  /* upgrades note */
+  .upgrades{padding:34px 0}
+  .upgrades-inner{background:linear-gradient(135deg,#fffaf2,#fff);border:1px solid #fde9cf;border-left:5px solid var(--amber);border-radius:14px;padding:24px 26px}
+  .upgrades-inner h3{font-family:var(--serif);font-size:1.25rem;color:var(--navy);margin-bottom:8px}
+  .upgrades-inner p{color:var(--slate);font-size:.96rem}
+
+  /* trust strip */
+  .trust{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:8px 0 40px}
+  .trust-item{text-align:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 10px}
+  .trust-item strong{display:block;font-family:var(--serif);font-size:1.18rem;color:var(--emerald)}
+  .trust-item span{display:block;font-size:.8rem;color:var(--slate);margin-top:3px}
+
+  /* CTA */
+  .cta-card{background:radial-gradient(900px 400px at 80% -40%, #16335c, var(--navy));color:#fff;border-radius:18px;padding:34px 30px;display:grid;grid-template-columns:1.1fr 1fr;gap:30px;align-items:center;box-shadow:var(--shadow);margin-bottom:46px}
+  .cta-text h2{font-family:var(--serif);font-weight:700;font-size:1.5rem;margin-bottom:8px}
+  .cta-text h2 em{color:var(--amber-l)}
+  .cta-text p{color:#c7d2e4;font-size:.95rem}
+  .cta-phone{margin-top:16px}
+  .cta-phone a{font-family:var(--mono);font-size:1.35rem;color:var(--emerald-l);text-decoration:none;font-weight:500;display:block}
+  .cta-phone span{font-size:.82rem;color:#9fb3cf}
+  .lead-form{display:flex;flex-direction:column;gap:11px}
+  .lead-input{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;border-radius:10px;padding:14px 15px;font-family:var(--sans);font-size:1rem;outline:0;transition:.18s}
+  .lead-input::placeholder{color:#8499b8}
+  .lead-input:focus{border-color:var(--emerald-l);background:rgba(255,255,255,.1)}
+  .lead-input.invalid{border-color:#f87171}
+  .lead-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  .cta-btn{border:0;border-radius:10px;padding:16px 20px;background:var(--emerald);color:#fff;font-family:var(--sans);font-weight:700;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:.2s}
+  .cta-btn:hover:not(:disabled){background:var(--emerald-d);transform:translateY(-2px)}
+  .cta-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2}
+  .lead-consent{font-size:.76rem;color:#8499b8;text-align:center}
+  .lead-ok{background:rgba(52,211,153,.14);border:1px solid rgba(52,211,153,.4);color:#a7f3d0;border-radius:10px;padding:16px;text-align:center;font-weight:600}
+  .lead-form.is-sent .lead-input,.lead-form.is-sent .cta-btn,.lead-form.is-sent .lead-consent{display:none}
+
+  footer{text-align:center;color:var(--muted);font-size:.78rem;padding:0 20px 50px;max-width:760px;margin:0 auto;line-height:1.6}
+
+  /* print / save your budget */
+  .r-header-actions{display:flex;gap:8px}
+  .print-cta{text-align:center;padding:6px 20px 2px}
+  .print-big{display:inline-flex;align-items:center;gap:9px;border:2px solid var(--emerald);background:#fff;color:var(--emerald-d);font-family:var(--sans);font-weight:700;font-size:1rem;border-radius:11px;padding:14px 22px;cursor:pointer;transition:.18s}
+  .print-big:hover{background:var(--emerald);color:#fff}
+  .print-big svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8}
+  .print-hint{font-size:.84rem;color:var(--slate);max-width:460px;margin:10px auto 0}
+  .print-only{display:none}
+
+  @media print{
+    @page{margin:.45in}
+    body{background:#fff;overflow:visible}
+    #intro,.r-header,.r-hero,.upgrades,.trust,.cta-card,.print-cta,footer,.section-sub{display:none !important}
+    #result{display:block !important}
+    .print-only{display:block !important}
+    .wrap{max-width:100% !important;padding:0 !important}
+    .summary,.breakdown{padding:4px 0 !important}
+    .section-title{font-size:.95rem;color:#000;margin:9px 0 2px}
+    .table-card,.summary-card{box-shadow:none !important;border:1px solid #999 !important;border-radius:5px}
+    /* condensed summary — drop bars, tighten rows */
+    .summary-card{padding:6px 13px !important}
+    .sum-row{padding:4px 0 !important}
+    .sum-bar{display:none !important}
+    .sum-top{margin-bottom:0 !important}
+    .sum-pct{margin-top:0 !important;font-size:.66rem !important;color:#555 !important}
+    .sum-name,.sum-amt{color:#000 !important;font-size:.84rem}
+    .sum-row.op .sum-name,.sum-row.op .sum-amt{color:#000 !important}
+    .summary-total{margin-top:6px !important;padding-top:7px !important}
+    .summary-total span:last-child{color:#000 !important}
+    /* condensed line table */
+    .thead{background:#fff !important;color:#000 !important;border-bottom:1.3px solid #000;font-size:8.5px !important;padding:3px 11px !important}
+    .line-row,.trow{padding:2.5px 11px !important}
+    .line-row{font-size:.7rem !important}
+    .line-row:nth-child(even){background:#fff !important}
+    .c-id,.c-pct{color:#444 !important}
+    .c-name,.c-cost{color:#000 !important}
+    .cat-row{background:#eee !important;color:#000 !important;padding:2px 11px !important;font-size:8.5px !important}
+    .trow.op{background:#fff !important}
+    .trow.op .c-name,.trow.op .c-cost{color:#000 !important}
+    .trow.grand{background:#fff !important;border-top:1.6px solid #000}
+    .trow.grand .c-name,.trow.grand .c-cost{color:#000 !important}
+    .thead>div:nth-child(3),.line-row>div:nth-child(3){display:block !important}
+    .line-row,.sum-row,.trow,.cat-row{break-inside:avoid}
+    /* branded letterhead — brand left, contact top-right */
+    .print-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:6px;border-bottom:2px solid #000}
+    .ph-brand{font-family:var(--serif);font-weight:700;font-size:1.3rem;color:#000;line-height:1.05}
+    .ph-title{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-top:2px}
+    .ph-right{text-align:right;flex:none}
+    .ph-url{font-family:var(--mono);font-weight:500;font-size:.9rem;color:#000}
+    .ph-phone{font-family:var(--mono);font-size:.9rem;color:#000;margin-top:1px}
+    .ph-who{font-size:.64rem;color:#666;margin-top:1px}
+    .ph-meta{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:.86rem;color:#000;margin:6px 0 2px}
+    .ph-meta strong{font-size:.98rem}
+    .ph-date{font-size:.68rem;color:#666;font-family:var(--mono)}
+    /* condensed footer */
+    .print-foot{margin-top:12px;padding-top:9px;border-top:2px solid #000;text-align:center}
+    .pf-cta{font-family:var(--serif);font-weight:700;font-size:1.02rem;color:#000}
+    .pf-phone{font-family:var(--mono);font-size:.9rem;color:#000;margin-top:3px}
+    .pf-disc{font-size:.66rem;color:#666;margin-top:7px;line-height:1.35}
+  }
+
+  @media(max-width:680px){
+    .cta-card{grid-template-columns:1fr;padding:26px 20px}
+    .trust{grid-template-columns:1fr 1fr 1fr;gap:8px}
+    .trust-item{padding:14px 6px}
+    .trust-item strong{font-size:1rem}
+    .thead,.line-row,.trow{grid-template-columns:26px 1fr 92px;gap:6px;padding:10px 13px}
+    .thead>div:nth-child(3),.line-row>div:nth-child(3){display:none}     /* hide % col on phones */
+    .thead>div:nth-child(4),.line-row>div:nth-child(4),.trow>div:nth-child(4){grid-column:3}
+    .trow>div:nth-child(2){grid-column:1/3}
+    .c-name{font-size:.9rem}
+  }
+  @media(max-width:560px){
+    .picker{grid-template-columns:1fr;gap:12px}
+    .home-img{height:175px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════ SCREEN 1 — INTRO ════════ -->
+<section id="intro">
+  <div class="intro-card">
+    <div class="intro-brand">LC General Contracting</div>
+    <h1>Price the project you&rsquo;re planning &mdash; and see <em>every number</em> up front.</h1>
+    <p class="intro-sub">Pick your project, tell us the size, and get a real planning budget in seconds &mdash; honest numbers, nothing hidden.</p>
+
+    <div class="step-label">Step 1 &middot; What are you planning?</div>
+    <div class="picker">
+      <button class="home-card" type="button" data-pick="barndo" aria-pressed="false">
+        <div class="home-img" style="background-image:url('assets/type-barndo.jpg')"></div>
+        <div class="home-meta"><span class="home-name">Barndominium</span><span class="home-desc">Open-concept, custom-layout</span></div>
+        <div class="home-check" aria-hidden="true">&#10003;</div>
+      </button>
+      <button class="home-card" type="button" data-pick="conventional" aria-pressed="false">
+        <div class="home-img" style="background-image:url('assets/type-conventional.jpg')"></div>
+        <div class="home-meta"><span class="home-name">Conventional Home</span><span class="home-desc">Traditional stick-built</span></div>
+        <div class="home-check" aria-hidden="true">&#10003;</div>
+      </button>
+      <button class="home-card" type="button" data-pick="remodel" aria-pressed="false">
+        <div class="home-img" style="background-image:url('assets/len/99e69a33-b212-4bb9-ad02-4c91aa4e9a94.jpg')"></div>
+        <div class="home-meta"><span class="home-name">Remodel &amp; Addition</span><span class="home-desc">Kitchen &middot; bath &middot; addition &middot; outdoor</span></div>
+        <div class="home-check" aria-hidden="true">&#10003;</div>
+      </button>
+    </div>
+
+    <div id="step-remodel" class="reveal">
+      <div class="step-label">Step 2 &middot; What kind of project?</div>
+      <div class="chip-row" id="remodel-chips">
+        <button class="chip" type="button" data-rtype="kitchen">Kitchen</button>
+        <button class="chip" type="button" data-rtype="bath">Bathroom</button>
+        <button class="chip" type="button" data-rtype="interior">Interior Remodel</button>
+        <button class="chip" type="button" data-rtype="addition">Addition</button>
+        <button class="chip" type="button" data-rtype="outdoor">Outdoor Living</button>
+      </div>
+    </div>
+
+    <div id="step-size" class="reveal">
+      <div class="step-label" id="size-label">Step 2 &middot; Estimated square footage</div>
+      <div class="sqft-block">
+        <div class="chip-row presets" id="size-presets"></div>
+        <p class="sqft-ref" id="sqft-ref">Most homes we build run 1,200&ndash;4,800 sqft. A typical 3-bedroom is about 1,800.</p>
+        <div class="sqft-field">
+          <input id="sqft-start" type="text" inputmode="numeric" autocomplete="off" placeholder="1,800" aria-label="Estimated square footage">
+          <span>sqft</span>
+        </div>
+      </div>
+      <button id="see-estimate" class="primary-btn" type="button" disabled>See My Estimate</button>
+      <p class="intro-foot">Free &middot; No signup required to see your estimate</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ SCREEN 2 — RESULT ════════ -->
+<main id="result">
+  <div class="r-header">
+    <div class="r-header-inner">
+      <a class="r-logo" href="index.html">LC <span>General Contracting</span></a>
+      <div class="r-header-actions">
+        <button class="ghost-btn print-trigger" type="button">Print / Save</button>
+        <button id="restart" class="ghost-btn" type="button">&#8592; Start over</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- print-only branded letterhead (hidden on screen) -->
+  <div class="print-only print-head">
+    <div class="ph-left">
+      <div class="ph-brand">LC General Contracting</div>
+      <div class="ph-title">Your Budget Estimate</div>
+    </div>
+    <div class="ph-right">
+      <div class="ph-url">lcgchomes.com</div>
+      <div class="ph-phone">770-294-1635</div>
+      <div class="ph-who">Call or text Len</div>
+    </div>
+  </div>
+  <div class="print-only ph-meta">
+    <span><strong id="print-type">Barndominium</strong> &middot; <span id="print-sqft">1,800</span> sqft &middot; <strong id="print-total">$372,600</strong></span>
+    <span class="ph-date" id="print-date"></span>
+  </div>
+
+  <section class="r-hero">
+    <div class="r-type" id="result-type">Barndominium</div>
+    <div class="r-h1" id="result-h1">Your estimated build</div>
+    <div class="r-total" id="result-total">$372,600</div>
+    <div class="r-formula" id="result-formula">1,800 sqft &times; $180/sqft + 15% Overhead &amp; Profit</div>
+
+    <div class="nudge">
+      <div class="nudge-label"><span id="nudge-what">Adjust home size</span> &mdash; <strong id="sqft-readout">1,800</strong> sqft</div>
+      <input id="sqft-nudge" type="range" min="1200" max="4800" step="50" value="1800" aria-label="Adjust square footage">
+      <div class="nudge-ends"><span id="nudge-min">1,200 sqft</span><span id="nudge-max">4,800 sqft</span></div>
+      <div id="opt-list" class="opt-list" hidden></div>
+    </div>
+    <div class="r-note" id="result-note" hidden></div>
+  </section>
+
+  <section class="summary wrap">
+    <h2 class="section-title" id="summary-title">Budget Summary</h2>
+    <p class="section-sub" id="summary-sub">Where your build dollars go, at a glance &mdash; the same view you saw on our site.</p>
+    <div class="summary-card">
+      <div id="summary-rows"></div>
+      <div class="summary-total">
+        <span id="summary-total-label">Total Project Budget</span>
+        <span id="summary-total-val">$372,600</span>
+      </div>
+      <p class="sum-note" id="summary-note" hidden></p>
+    </div>
+  </section>
+
+  <section class="breakdown wrap">
+    <h2 class="section-title">Every line of your build</h2>
+    <p class="section-sub">The same line-by-line construction budget Len works from &mdash; nothing hidden.</p>
+    <div class="table-card">
+      <div class="thead">
+        <div>#</div><div>Line Item</div><div>% of Build</div><div>Cost</div>
+      </div>
+      <div id="rows"></div>
+      <div class="trow sub">
+        <div></div><div class="c-name">Construction subtotal</div><div class="c-cost" id="sub-cost">$324,000</div>
+      </div>
+      <div class="trow op">
+        <div></div><div class="c-name">Overhead &amp; Profit (15%) &mdash; shown, not hidden</div><div class="c-cost" id="op-cost">$48,600</div>
+      </div>
+      <div class="trow grand">
+        <div></div><div class="c-name">Total Project Budget</div><div class="c-cost" id="grand-cost">$372,600</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap print-cta">
+    <button class="print-trigger print-big" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+      Print or Save Your Budget (PDF)
+    </button>
+    <p class="print-hint">Take it to your lender or share it with family &mdash; every copy links back to lcgchomes.com so they can build their own.</p>
+  </section>
+
+  <section class="upgrades wrap">
+    <div class="upgrades-inner" id="upgrades-build">
+      <h3>Want more than the base build? That's your call.</h3>
+      <p>This is your base build. During construction, any upgrades &mdash; nicer cabinets, hardwood instead of LVP, a bigger porch &mdash; are decisions <strong>you</strong> make, with every cost shown to you up front. You decide what's worth it. No surprises, no games &mdash; just an honest number you control from start to finish.</p>
+    </div>
+    <div class="upgrades-inner" id="upgrades-remodel">
+      <h3>Built to be honest &mdash; not to bait you.</h3>
+      <p>This range runs intentionally honest-to-high. Len won't quote you low to win an appointment and then raise the price at your kitchen table. Most projects like yours come in <strong>at or below this range</strong> &mdash; and a free in-home visit turns it into a real number you can hold him to.</p>
+    </div>
+  </section>
+
+  <section class="trust wrap">
+    <div class="trust-item"><strong>40+ years</strong><span>Building in West Georgia</span></div>
+    <div class="trust-item"><strong>Licensed &amp; Insured</strong><span>On every project</span></div>
+    <div class="trust-item"><strong>One crew</strong><span>Start to finish</span></div>
+  </section>
+
+  <section class="wrap">
+    <div class="cta-card">
+      <div class="cta-text">
+        <h2 id="cta-h2">Like what you see? <em>Let's make it real.</em></h2>
+        <p id="cta-p">Send your numbers and Len will set up a time to walk through your build &mdash; the same breakdown you see here, dialed in for your lot, your finishes, and your goals.</p>
+        <div class="cta-phone">
+          <a href="tel:+17702941635">770-294-1635</a>
+          <span>Call or text Len &mdash; LC General Contracting</span>
+        </div>
+      </div>
+      <form class="lead-form" novalidate>
+        <input class="lead-input" type="text" name="name" placeholder="Your name" autocomplete="name">
+        <input class="lead-input" type="email" name="email" placeholder="Your email" autocomplete="email" inputmode="email">
+        <input class="lead-hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="cta-btn" type="submit">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+          Email My Estimate &amp; Book a Meeting
+        </button>
+        <p class="lead-consent">Only used to reach you about your build &mdash; no spam.</p>
+        <p class="lead-ok" hidden>&#10003; Thanks! You will hear from us shortly.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- print-only footer (hidden on screen) -->
+  <div class="print-only print-foot">
+    <div class="pf-cta">Build your own free budget at lcgchomes.com</div>
+    <div class="pf-phone">Call or text Len &middot; LC General Contracting &middot; 770-294-1635</div>
+    <div class="pf-disc" id="pf-disc">Estimate only &mdash; not a binding quote, contract, or loan disclosure. $180/sqft base build + 15% Overhead &amp; Profit. Final cost depends on your lot, plan, and finishes.</div>
+  </div>
+
+  <footer id="page-foot">
+    Estimates use a $180/sqft base build rate and a 15% Overhead &amp; Profit margin, broken out across a standard residential construction draw schedule. This tool is for planning estimates only &mdash; not a binding quote, contract, or loan disclosure. Your final number depends on your lot, plan, and the finishes you choose.
+  </footer>
+</main>
+
+<script>
+'use strict';
+
+// ──────────────────────────────────────────────────────────────────
+//  CONTACT — LCGC lead destination
+// ──────────────────────────────────────────────────────────────────
+const LCGC_EMAIL = 'LCovington@lcgeneralcontracting.com';
+
+// Fixed model: base build rate + Overhead & Profit (no longer customer-adjustable).
+const RATE = 180;       // $/sqft base construction cost
+const OOP_PCT = 15;     // Overhead & Profit, shown as a number
+
+// ──────────────────────────────────────────────────────────────────
+//  DATA — bank draw schedules per build template (IDs stable; pct = % of build)
+// ──────────────────────────────────────────────────────────────────
+const CONVENTIONAL_LINES = [
+  { id: 1,  name: "Closing",                          category: "Pre-Construction",      pct: 2 },
+  { id: 2,  name: "Clearing/Grading",                 category: "Site Prep",             pct: 3 },
+  { id: 3,  name: "Septic/Sewer Tap",                 category: "Site Prep",             pct: 2 },
+  { id: 4,  name: "Footings",                         category: "Foundation",            pct: 1 },
+  { id: 5,  name: "Foundation Walls",                 category: "Foundation",            pct: 3 },
+  { id: 6,  name: "Framing: Floors/Subfloors",        category: "Framing",               pct: 7 },
+  { id: 7,  name: "Framing: Walls/Studs/Sheathing",   category: "Framing",               pct: 7 },
+  { id: 8,  name: "Framing: Roof Rafters/Sheathing",  category: "Framing",               pct: 4 },
+  { id: 9,  name: "Plumbing Rough/Tub",               category: "MEP Rough",             pct: 2 },
+  { id: 10, name: "HVAC Rough (Ducts)",               category: "MEP Rough",             pct: 1 },
+  { id: 11, name: "Electrical Rough",                 category: "MEP Rough",             pct: 2 },
+  { id: 12, name: "Furnaces",                         category: "MEP Rough",             pct: 2 },
+  { id: 13, name: "Fireplace",                        category: "Specialty",             pct: 1 },
+  { id: 14, name: "Permanent Roof",                   category: "Exterior",              pct: 2 },
+  { id: 15, name: "Garage Doors",                     category: "Exterior",              pct: 1 },
+  { id: 16, name: "Exterior Doors/Windows",           category: "Exterior",              pct: 2 },
+  { id: 17, name: "Cornice/Fascia",                   category: "Exterior",              pct: 2 },
+  { id: 18, name: "Exterior Veneer Started (Siding)", category: "Exterior",              pct: 4 },
+  { id: 19, name: "Exterior Veneer Finished",         category: "Exterior",              pct: 4 },
+  { id: 20, name: "Exterior Prime",                   category: "Exterior",              pct: 1 },
+  { id: 21, name: "Wall Insulation",                  category: "Insulation/Drywall",    pct: 1 },
+  { id: 22, name: "Attic Insulation",                 category: "Insulation/Drywall",    pct: 1 },
+  { id: 23, name: "Sheetrock Started",                category: "Insulation/Drywall",    pct: 3 },
+  { id: 24, name: "Sheetrock Finished",               category: "Insulation/Drywall",    pct: 2 },
+  { id: 25, name: "Hardwood Floors",                  category: "Interior Finish",       pct: 2 },
+  { id: 26, name: "Cabinets/Vanities",                category: "Interior Finish",       pct: 4 },
+  { id: 27, name: "Cabinets/Vanity Tops",             category: "Interior Finish",       pct: 1 },
+  { id: 28, name: "Interior Doors",                   category: "Interior Finish",       pct: 2 },
+  { id: 29, name: "Interior Trim & Millwork",         category: "Interior Finish",       pct: 3 },
+  { id: 30, name: "Concrete/Driveway/Patio/Walks",    category: "Exterior Finish",       pct: 3 },
+  { id: 31, name: "Wood Decks",                       category: "Exterior Finish",       pct: 1 },
+  { id: 32, name: "Exterior Painting",                category: "Exterior Finish",       pct: 2 },
+  { id: 33, name: "Gutters/Downspouts",               category: "Exterior Finish",       pct: 1 },
+  { id: 34, name: "Interior Prime",                   category: "Paint & Finish",        pct: 2 },
+  { id: 35, name: "Interior Paint & Wallcovering",    category: "Paint & Finish",        pct: 2 },
+  { id: 36, name: "Hardware",                         category: "Paint & Finish",        pct: 1 },
+  { id: 37, name: "Carpet",                           category: "Paint & Finish",        pct: 2 },
+  { id: 38, name: "Ceramic Tile/Vinyl",               category: "Paint & Finish",        pct: 1 },
+  { id: 39, name: "Plumbing Fixtures",                category: "MEP Trim",              pct: 2 },
+  { id: 40, name: "Electrical Fixtures",              category: "MEP Trim",              pct: 3 },
+  { id: 41, name: "AC Compressors/HVAC Trim Out",     category: "MEP Trim",              pct: 2 },
+  { id: 42, name: "Appliances",                       category: "Final",                 pct: 2 },
+  { id: 43, name: "Landscaping",                      category: "Final",                 pct: 2 },
+  { id: 44, name: "Final Clean Up",                   category: "Final",                 pct: 2 },
+];
+
+const BARNDO_LINES = [
+  { id: 1,  name: "Clearing & Grading",            pct: 4 },
+  { id: 2,  name: "Framing Material & Labor",      pct: 12 },
+  { id: 3,  name: "Slab Material & Labor",         pct: 9 },
+  { id: 4,  name: "Plumbing",                      pct: 5 },
+  { id: 5,  name: "Electrical",                    pct: 5 },
+  { id: 6,  name: "HVAC",                          pct: 5 },
+  { id: 7,  name: "Septic Tank",                   pct: 3 },
+  { id: 8,  name: "Permanent Roof",                pct: 4.5 },
+  { id: 9,  name: "Fireplace",                     pct: 1 },
+  { id: 10, name: "Doors & Windows",               pct: 2 },
+  { id: 11, name: "Siding & Cornice",              pct: 8 },
+  { id: 12, name: "Foam Insulation",               pct: 4 },
+  { id: 13, name: "Sheetrock Labor & Material",    pct: 4 },
+  { id: 14, name: "Interior Doors & Trim",         pct: 4 },
+  { id: 15, name: "Cabinets & Counter Tops",       pct: 8 },
+  { id: 16, name: "Gutters",                       pct: 1 },
+  { id: 17, name: "Tile for Baths",                pct: 2.5 },
+  { id: 18, name: "Interior Paint",                pct: 3 },
+  { id: 19, name: "LVP for Floors",                pct: 3 },
+  { id: 20, name: "Concrete Allowance (Driveway)", pct: 4 },
+  { id: 21, name: "Appliance Allowance",           pct: 2 },
+  { id: 22, name: "Landscaping",                   pct: 2 },
+  { id: 23, name: "Clean Up & Misc",               pct: 1 },
+  { id: 24, name: "Garage Doors",                  pct: 3 },
+];
+
+const TEMPLATES = {
+  barndo:       { key: 'barndo',       label: 'Barndominium',     lines: BARNDO_LINES,       showCategories: false },
+  conventional: { key: 'conventional', label: 'Conventional Home', lines: CONVENTIONAL_LINES, showCategories: true  },
+};
+
+let PHASES = TEMPLATES.barndo.lines;
+
+// ──────────────────────────────────────────────────────────────────
+//  REMODEL & ADDITION — planning-range model (all rates from Len, 2026-06-25).
+//  Rates are all-in (include O&P). Deliberately honest-to-high: the real quote
+//  from the in-home visit should come in AT OR BELOW the range. ±20% band total.
+//  Appliances excluded everywhere (customers purchase separately).
+// ──────────────────────────────────────────────────────────────────
+const REMODELS = {
+  kitchen: { label:'Kitchen Remodel', rate:265, min:80, max:400, step:5,
+    presets:[{n:'Small',s:120},{n:'Typical',s:180},{n:'Large',s:250}],
+    ref:'Most kitchens run 120–250 sqft. A typical kitchen is about 180.',
+    note:'Appliances aren’t included — most customers purchase those separately.',
+    toggles:[
+      {id:'plumb',  label:'Moving sink or plumbing lines', sub:'Relocating the sink, island plumbing, or gas', lo:3000, hi:5000},
+      {id:'cab',    label:'Full custom cabinets',          sub:'Built for your kitchen — ~22 linear ft at $450/ft', lo:9900, hi:9900},
+      {id:'fix',    label:'Premium fixtures & finishes',   sub:'Faucets, lighting, hardware above standard grade', lo:750, hi:7000},
+    ]},
+  bath: { label:'Bathroom Remodel', rate:230, min:30, max:200, step:5,
+    presets:[{n:'Half bath',s:40},{n:'Full bath',s:60},{n:'Primary',s:110}],
+    ref:'Half baths run ~40 sqft, full baths ~60, primary baths ~110.',
+    toggles:[
+      {id:'plumb',  label:'Moving plumbing fixtures',      sub:'Relocating toilet, shower, or sink lines', lo:3000, hi:5000},
+      {id:'shower', label:'Custom tile walk-in shower',    sub:'vs. a standard tub/shower unit', lo:2200, hi:8200},
+      {id:'vanity', label:'Custom vanity cabinetry',       sub:'~5–8 linear ft at $450/ft', lo:2250, hi:3600},
+      {id:'fix',    label:'Premium fixtures & finishes',   sub:'Faucets, glass, lighting above standard grade', lo:750, hi:7000},
+    ]},
+  interior: { label:'Interior Remodel', rate:230, min:150, max:2400, step:25,
+    presets:[{n:'One room',s:300},{n:'Several rooms',s:700},{n:'Whole main floor',s:1400}],
+    ref:'Enter the square footage of the area being remodeled — one room to a whole floor.',
+    toggles:[
+      {id:'walls',  label:'Removing or moving walls',      sub:'Structural changes, including load-bearing', lo:2000, hi:8000},
+      {id:'floor',  label:'Hardwood or tile throughout',   sub:'vs. standard LVP or carpet', pctLo:10, pctHi:35},
+      {id:'finish', label:'High-end trim & built-ins',     sub:'Upgraded millwork, built-ins, lighting', pctLo:10, pctHi:15},
+    ]},
+  addition: { label:'Home Addition', rate:260, min:150, max:1000, step:10,
+    presets:[{n:'Single room',s:250},{n:'Primary suite',s:450},{n:'Multi-room',s:700}],
+    ref:'Most additions run 250–700 sqft. A primary suite is about 450.',
+    toggles:[
+      {id:'bath',    label:'Full bathroom in the addition', sub:'Plumbing, fixtures, tile — a complete bath', lo:12000, hi:20000},
+      {id:'kitchen', label:'Kitchenette or wet bar',        sub:'Cabinets, sink, counter space', lo:4000, hi:12000},
+      {id:'story',   label:'Second story / over garage',    sub:'vs. a ground-floor addition', pctLo:20, pctHi:20},
+    ]},
+  outdoor: { label:'Outdoor Living', rate:150, min:100, max:900, step:10,
+    presets:[{n:'Patio',s:250},{n:'Covered porch',s:350},{n:'Full outdoor living',s:550}],
+    ref:'Patios run ~250 sqft, covered porches ~350, full outdoor living spaces ~550.',
+    toggles:[
+      {id:'surface',  label:'Pavers or stone surface',       sub:'vs. finished concrete', pctLo:25, pctHi:25},
+      {id:'site',     label:'Slope, grading, or retaining',  sub:'Site work beyond a flat lot', lo:2000, hi:16000},
+      {id:'roof',     label:'Covered or screened roof',      sub:'vs. open-air', lo:2000, hi:16000},
+      {id:'okitchen', label:'Outdoor kitchen',               sub:'Grill station, counter, utilities', lo:8000, hi:8000},
+    ]},
+};
+const BAND_LO = 0.9, BAND_HI = 1.1;    // ±20% planning band (Len-approved), split around the selection totals
+const SMALL_JOB_FLOOR = 10000;         // below this, steer to a phone call instead of an in-home visit
+function round500(v){ return Math.round(v / 500) * 500; }
+
+// ──────────────────────────────────────────────────────────────────
+//  STATE & FORMATTING
+// ──────────────────────────────────────────────────────────────────
+const state = {
+  mode: 'build',             // 'build' | 'remodel'
+  template: 'barndo',
+  rtype: null,               // remodel type key when mode === 'remodel'
+  opts: {},                  // active remodel toggles {id: bool}
+  baseBudget: 1800 * RATE,   // construction-only hard cost = sqft × $/sqft
+  oop: OOP_PCT,
+  sqft: 1800,
+  costPerSqft: RATE,
+  lineDollars: {},
+};
+
+const fmtMoney = new Intl.NumberFormat('en-US', { style:'currency', currency:'USD', minimumFractionDigits:0, maximumFractionDigits:0 });
+const fmtMoneyPlain = new Intl.NumberFormat('en-US', { minimumFractionDigits:0, maximumFractionDigits:0 });
+function formatMoney(n){ return fmtMoney.format(Math.round(n)); }
+function formatMoneyPlain(n){ return fmtMoneyPlain.format(Math.round(n)); }
+function parseNumber(str){ if(typeof str!=='string') str=String(str); const v=parseFloat(str.replace(/[^\d.]/g,'')); return isNaN(v)?0:v; }
+function clamp(v,lo,hi){ return Math.max(lo, Math.min(hi, v)); }
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function applyDefaults(){
+  state.lineDollars = {};
+  for (const p of PHASES) state.lineDollars[p.id] = state.baseBudget * p.pct / 100;
+}
+function sumLineDollars(){ return PHASES.reduce((s,p)=> s + (state.lineDollars[p.id]||0), 0); }
+
+// ──────────────────────────────────────────────────────────────────
+//  RENDER — read-only breakdown
+// ──────────────────────────────────────────────────────────────────
+const rowsEl = document.getElementById('rows');
+function renderRows(){
+  rowsEl.innerHTML = '';
+  const showCats = !!(TEMPLATES[state.template] && TEMPLATES[state.template].showCategories);
+  let lastCat = null;
+  for (const p of PHASES){
+    if (showCats && p.category !== lastCat){
+      const c = document.createElement('div');
+      c.className = 'cat-row';
+      c.textContent = p.category;
+      rowsEl.appendChild(c);
+      lastCat = p.category;
+    }
+    const dollars = state.lineDollars[p.id] || 0;
+    const pct = state.baseBudget > 0 ? (dollars / state.baseBudget) * 100 : 0;
+    const row = document.createElement('div');
+    row.className = 'line-row';
+    row.innerHTML =
+      '<div class="c-id">' + p.id + '</div>' +
+      '<div class="c-name">' + escapeHtml(p.name) + '</div>' +
+      '<div class="c-pct">' + pct.toFixed(1) + '%</div>' +
+      '<div class="c-cost">' + formatMoney(dollars) + '</div>';
+    rowsEl.appendChild(row);
+  }
+}
+
+const typeEl    = document.getElementById('result-type');
+const totalEl   = document.getElementById('result-total');
+const formulaEl = document.getElementById('result-formula');
+const subCostEl = document.getElementById('sub-cost');
+const opCostEl  = document.getElementById('op-cost');
+const grandEl   = document.getElementById('grand-cost');
+const readoutEl = document.getElementById('sqft-readout');
+const nudge     = document.getElementById('sqft-nudge');
+
+// ── Budget Summary — roll the real line items into 4 buckets + O&P (mirrors homepage graphic) ──
+const SUMMARY_BUCKETS = [
+  { key:'foundation', name:'Foundation & Site' },
+  { key:'framing',    name:'Framing & Structure' },
+  { key:'mechanical', name:'Mechanical (HVAC/Elec/Plumb)' },
+  { key:'interior',   name:'Interior Finishes' },
+];
+const CONV_CAT_BUCKET = {
+  'Pre-Construction':'foundation','Site Prep':'foundation','Foundation':'foundation','Exterior Finish':'foundation',
+  'Framing':'framing','Exterior':'framing',
+  'MEP Rough':'mechanical','MEP Trim':'mechanical',
+  'Insulation/Drywall':'interior','Specialty':'interior','Interior Finish':'interior','Paint & Finish':'interior','Final':'interior',
+};
+const BARNDO_ID_BUCKET = {
+  1:'foundation',3:'foundation',7:'foundation',20:'foundation',22:'foundation',
+  2:'framing',8:'framing',10:'framing',11:'framing',12:'framing',16:'framing',24:'framing',
+  4:'mechanical',5:'mechanical',6:'mechanical',
+  9:'interior',13:'interior',14:'interior',15:'interior',17:'interior',18:'interior',19:'interior',21:'interior',23:'interior',
+};
+function bucketForLine(p){
+  return state.template === 'conventional' ? CONV_CAT_BUCKET[p.category] : BARNDO_ID_BUCKET[p.id];
+}
+const summaryRowsEl = document.getElementById('summary-rows');
+const summaryTotalEl = document.getElementById('summary-total-val');
+function sumRow(name, amt, pct, isOp){
+  const row = document.createElement('div');
+  row.className = 'sum-row' + (isOp ? ' op' : '');
+  row.innerHTML =
+    '<div class="sum-top"><span class="sum-name">' + escapeHtml(name) + '</span><span class="sum-amt">' + formatMoney(amt) + '</span></div>' +
+    '<div class="sum-bar"><i style="width:' + Math.max(2, Math.min(100, pct)).toFixed(0) + '%"></i></div>' +
+    '<div class="sum-pct">' + pct.toFixed(0) + '% of total</div>';
+  return row;
+}
+function renderSummary(){
+  const total = state.baseBudget * (1 + OOP_PCT / 100);
+  const buckets = { foundation:0, framing:0, mechanical:0, interior:0 };
+  for (const p of PHASES){
+    const b = bucketForLine(p);
+    if (b) buckets[b] += (state.lineDollars[p.id] || 0);
+  }
+  const op = state.baseBudget * OOP_PCT / 100;
+  summaryRowsEl.innerHTML = '';
+  SUMMARY_BUCKETS.forEach(function(b){
+    const amt = buckets[b.key];
+    summaryRowsEl.appendChild(sumRow(b.name, amt, total > 0 ? amt / total * 100 : 0, false));
+  });
+  summaryRowsEl.appendChild(sumRow('Overhead & Profit — shown, not hidden', op, total > 0 ? op / total * 100 : 0, true));
+  summaryTotalEl.textContent = formatMoney(total);
+}
+
+function updateResult(){
+  const construction = state.baseBudget;
+  const op = construction * OOP_PCT / 100;
+  const total = construction + op;
+  typeEl.textContent = TEMPLATES[state.template].label;
+  totalEl.textContent = formatMoney(total);
+  formulaEl.innerHTML = formatMoneyPlain(state.sqft) + ' sqft &times; $' + RATE + '/sqft + ' + OOP_PCT + '% Overhead &amp; Profit';
+  subCostEl.textContent = formatMoney(construction);
+  opCostEl.textContent = formatMoney(op);
+  grandEl.textContent = formatMoney(total);
+  readoutEl.textContent = formatMoneyPlain(state.sqft);
+  document.getElementById('print-type').textContent = TEMPLATES[state.template].label;
+  document.getElementById('print-sqft').textContent = formatMoneyPlain(state.sqft);
+  document.getElementById('print-total').textContent = formatMoney(total);
+  renderSummary();
+  renderRows();
+}
+
+// Recompute everything from a square footage + template.
+function setSize(sqft){
+  state.sqft = clamp(Math.round(sqft), 1200, 4800);
+  state.baseBudget = state.sqft * RATE;
+  applyDefaults();
+  updateResult();
+}
+
+// Screen copy that mode-switching rewrites, captured once so build mode can restore it.
+const MODE_TEXT = {
+  h1Build: 'Your estimated build',
+  h1Remodel: 'Your planning range',
+  sumTitleBuild: 'Budget Summary',
+  sumSubBuild: 'Where your build dollars go, at a glance — the same view you saw on our site.',
+  sumTitleRemodel: "What's driving your number",
+  sumSubRemodel: 'Your base rate plus the selections you make above. Every rate already includes our overhead and profit — nothing gets added later.',
+  totalLabelBuild: 'Total Project Budget',
+  totalLabelRemodel: 'Your planning range',
+  ctaH2Build: 'Like what you see? <em>Let’s make it real.</em>',
+  ctaPBuild: 'Send your numbers and Len will set up a time to walk through your build — the same breakdown you see here, dialed in for your lot, your finishes, and your goals.',
+  ctaH2Remodel: 'Want the exact number? <em>It takes one visit.</em>',
+  ctaPRemodel: 'Send your numbers and Len will set up a free in-home visit — he measures, checks the details, and gives you a real quote. Most projects come in at or below the planning range.',
+  discBuild: 'Estimate only — not a binding quote, contract, or loan disclosure. $180/sqft base build + 15% Overhead & Profit. Final cost depends on your lot, plan, and finishes.',
+  discRemodel: 'Planning range only — not a binding quote, contract, or loan disclosure. Rates include overhead & profit; appliances excluded. Your real number comes from a free in-home visit.',
+  footBuild: 'Estimates use a $180/sqft base build rate and a 15% Overhead & Profit margin, broken out across a standard residential construction draw schedule. This tool is for planning estimates only — not a binding quote, contract, or loan disclosure. Your final number depends on your lot, plan, and the finishes you choose.',
+  footRemodel: 'Remodel and addition ranges use per-square-foot planning rates that already include overhead & profit, plus the project selections you selected. Ranges run intentionally honest-to-high — most projects quote at or below them after a free in-home visit. This tool is for planning only — not a binding quote, contract, or loan disclosure.',
+};
+
+function applyEstimate(type, sqft){
+  state.mode = 'build';
+  state.costPerSqft = RATE;
+  document.body.classList.remove('mode-remodel');
+  totalEl.classList.remove('is-range');
+  document.getElementById('result-h1').textContent = MODE_TEXT.h1Build;
+  document.getElementById('opt-list').hidden = true;
+  document.getElementById('result-note').hidden = true;
+  document.getElementById('nudge-what').textContent = 'Adjust home size';
+  nudge.min = 1200; nudge.max = 4800; nudge.step = 50;
+  document.getElementById('nudge-min').textContent = '1,200 sqft';
+  document.getElementById('nudge-max').textContent = '4,800 sqft';
+  document.getElementById('summary-title').textContent = MODE_TEXT.sumTitleBuild;
+  document.getElementById('summary-sub').textContent = MODE_TEXT.sumSubBuild;
+  document.getElementById('summary-total-label').textContent = MODE_TEXT.totalLabelBuild;
+  document.getElementById('summary-note').hidden = true;
+  document.getElementById('cta-h2').innerHTML = MODE_TEXT.ctaH2Build;
+  document.getElementById('cta-p').textContent = MODE_TEXT.ctaPBuild;
+  document.getElementById('pf-disc').textContent = MODE_TEXT.discBuild;
+  document.getElementById('page-foot').textContent = MODE_TEXT.footBuild;
+  state.template = (TEMPLATES[type] ? type : 'barndo');
+  PHASES = TEMPLATES[state.template].lines;
+  setSize(sqft);
+  nudge.value = state.sqft;
+}
+
+// ──────────────────────────────────────────────────────────────────
+//  REMODEL ENGINE — base × sqft + toggle selections → honest planning range
+// ──────────────────────────────────────────────────────────────────
+function optAddText(o){
+  if (o.pctLo != null) return o.pctLo === o.pctHi ? '+ ' + o.pctLo + '%' : '+ ' + o.pctLo + '–' + o.pctHi + '%';
+  return o.lo === o.hi ? '+ ' + formatMoney(o.lo) : '+ ' + formatMoney(o.lo) + '–' + formatMoney(o.hi);
+}
+function remodelRange(){
+  const R = REMODELS[state.rtype];
+  const base = state.sqft * R.rate;
+  let lo = base, hi = base;
+  for (const o of R.toggles){
+    if (!state.opts[o.id]) continue;
+    if (o.pctLo != null){ lo += base * o.pctLo / 100; hi += base * o.pctHi / 100; }
+    else { lo += o.lo; hi += o.hi; }
+  }
+  return { base: base, lo: round500(lo * BAND_LO), hi: round500(hi * BAND_HI) };
+}
+function rangeText(lo, hi){ return formatMoney(lo) + ' – ' + formatMoney(hi); }
+
+function renderOpts(){
+  const R = REMODELS[state.rtype];
+  const list = document.getElementById('opt-list');
+  list.innerHTML = '';
+  for (const o of R.toggles){
+    const row = document.createElement('button');
+    row.type = 'button';
+    row.className = 'opt-row' + (state.opts[o.id] ? ' on' : '');
+    row.setAttribute('role', 'switch');
+    row.setAttribute('aria-checked', state.opts[o.id] ? 'true' : 'false');
+    row.dataset.opt = o.id;
+    row.innerHTML =
+      '<div class="opt-txt"><b>' + escapeHtml(o.label) + '</b><span>' + escapeHtml(o.sub) + ' · ' + optAddText(o) + '</span></div>' +
+      '<span class="sw" aria-hidden="true"></span>';
+    row.addEventListener('click', function(){
+      state.opts[o.id] = !state.opts[o.id];
+      row.classList.toggle('on', state.opts[o.id]);
+      row.setAttribute('aria-checked', state.opts[o.id] ? 'true' : 'false');
+      updateRemodel();
+    });
+    list.appendChild(row);
+  }
+  list.hidden = false;
+}
+
+function updateRemodel(){
+  const R = REMODELS[state.rtype];
+  const r = remodelRange();
+  typeEl.textContent = R.label;
+  totalEl.textContent = rangeText(r.lo, r.hi);
+  totalEl.classList.add('is-range');
+  formulaEl.innerHTML = formatMoneyPlain(state.sqft) + ' sqft &times; $' + R.rate + '/sqft + your selections';
+  readoutEl.textContent = formatMoneyPlain(state.sqft);
+  // drivers card (replaces the build Budget Summary)
+  summaryRowsEl.innerHTML = '';
+  const baseRow = document.createElement('div');
+  baseRow.className = 'sum-row';
+  baseRow.innerHTML = '<div class="sum-top"><span class="sum-name">Base — ' + formatMoneyPlain(state.sqft) + ' sqft × $' + R.rate + '/sqft</span><span class="sum-amt">' + formatMoney(r.base) + '</span></div>';
+  summaryRowsEl.appendChild(baseRow);
+  for (const o of R.toggles){
+    if (!state.opts[o.id]) continue;
+    const row = document.createElement('div');
+    row.className = 'sum-row';
+    row.innerHTML = '<div class="sum-top"><span class="sum-name">' + escapeHtml(o.label) + '</span><span class="sum-amt">' + optAddText(o) + '</span></div>';
+    summaryRowsEl.appendChild(row);
+  }
+  summaryTotalEl.textContent = rangeText(r.lo, r.hi);
+  const note = document.getElementById('summary-note');
+  if (R.note){ note.textContent = R.note; note.hidden = false; } else { note.hidden = true; }
+  // small-job steer: below the floor, a phone call beats a home visit
+  const heroNote = document.getElementById('result-note');
+  if (r.hi < SMALL_JOB_FLOOR){
+    heroNote.textContent = 'Projects this size are usually quickest handled with a call — call or text Len at 770-294-1635.';
+    heroNote.hidden = false;
+  } else { heroNote.hidden = true; }
+  // print fields
+  document.getElementById('print-type').textContent = R.label;
+  document.getElementById('print-sqft').textContent = formatMoneyPlain(state.sqft);
+  document.getElementById('print-total').textContent = rangeText(r.lo, r.hi);
+}
+
+function setRemodelSize(sqft){
+  const R = REMODELS[state.rtype];
+  state.sqft = clamp(Math.round(sqft), R.min, R.max);
+  updateRemodel();
+}
+
+function applyRemodel(rtype, sqft){
+  const R = REMODELS[rtype];
+  state.mode = 'remodel';
+  state.rtype = rtype;
+  state.costPerSqft = R.rate;
+  state.opts = {};
+  R.toggles.forEach(function(o){ state.opts[o.id] = false; });
+  state.sqft = clamp(Math.round(sqft), R.min, R.max);
+  document.body.classList.add('mode-remodel');
+  document.getElementById('result-h1').textContent = MODE_TEXT.h1Remodel;
+  document.getElementById('nudge-what').textContent = 'Adjust size';
+  nudge.min = R.min; nudge.max = R.max; nudge.step = R.step; nudge.value = state.sqft;
+  document.getElementById('nudge-min').textContent = formatMoneyPlain(R.min) + ' sqft';
+  document.getElementById('nudge-max').textContent = formatMoneyPlain(R.max) + ' sqft';
+  document.getElementById('summary-title').textContent = MODE_TEXT.sumTitleRemodel;
+  document.getElementById('summary-sub').textContent = MODE_TEXT.sumSubRemodel;
+  document.getElementById('summary-total-label').textContent = MODE_TEXT.totalLabelRemodel;
+  document.getElementById('cta-h2').innerHTML = MODE_TEXT.ctaH2Remodel;
+  document.getElementById('cta-p').textContent = MODE_TEXT.ctaPRemodel;
+  document.getElementById('pf-disc').textContent = MODE_TEXT.discRemodel;
+  document.getElementById('page-foot').textContent = MODE_TEXT.footRemodel;
+  renderOpts();
+  updateRemodel();
+}
+
+// ──────────────────────────────────────────────────────────────────
+//  SCREEN 1 — selection + transition to result
+// ──────────────────────────────────────────────────────────────────
+const introEl   = document.getElementById('intro');
+const resultEl  = document.getElementById('result');
+const cards      = document.querySelectorAll('.home-card');
+const sqftStart  = document.getElementById('sqft-start');
+const seeBtn     = document.getElementById('see-estimate');
+const stepRemodel = document.getElementById('step-remodel');
+const stepSize    = document.getElementById('step-size');
+const sizeLabel   = document.getElementById('size-label');
+const sqftRef     = document.getElementById('sqft-ref');
+const presetsEl   = document.getElementById('size-presets');
+const remodelChips = document.querySelectorAll('#remodel-chips .chip');
+const BUILD_REF   = sqftRef.textContent;
+let pickedType   = null;
+let pickedRtype  = null;
+
+function refreshSeeBtn(){
+  const sqft = parseNumber(sqftStart.value);
+  const ready = pickedType === 'remodel' ? (pickedRtype && sqft > 0) : (pickedType && sqft > 0);
+  seeBtn.disabled = !ready;
+}
+
+// Progressive disclosure: only Step 1 shows on arrival; picking reveals the rest.
+function configureSizeStep(rtype){
+  const R = REMODELS[rtype];
+  sizeLabel.innerHTML = 'Step 3 &middot; Size of the space';
+  sqftRef.textContent = R.ref;
+  sqftStart.placeholder = formatMoneyPlain(R.presets[1].s);
+  presetsEl.innerHTML = '';
+  R.presets.forEach(function(p){
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip';
+    b.textContent = p.n + ' · ~' + formatMoneyPlain(p.s) + ' sqft';
+    b.addEventListener('click', function(){
+      sqftStart.value = formatMoneyPlain(p.s);
+      presetsEl.querySelectorAll('.chip').forEach(function(c){ c.classList.toggle('selected', c === b); });
+      refreshSeeBtn();
+    });
+    presetsEl.appendChild(b);
+  });
+}
+function configureBuildSizeStep(){
+  sizeLabel.innerHTML = 'Step 2 &middot; Estimated square footage';
+  sqftRef.textContent = BUILD_REF;
+  sqftStart.placeholder = '1,800';
+  presetsEl.innerHTML = '';
+}
+
+cards.forEach(card => {
+  card.addEventListener('click', () => {
+    pickedType = card.dataset.pick;
+    cards.forEach(c => { const on = c === card; c.classList.toggle('selected', on); c.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    if (pickedType === 'remodel'){
+      stepRemodel.classList.add('on');
+      if (pickedRtype){ configureSizeStep(pickedRtype); stepSize.classList.add('on'); }
+      else stepSize.classList.remove('on');
+    } else {
+      stepRemodel.classList.remove('on');
+      configureBuildSizeStep();
+      stepSize.classList.add('on');
+    }
+    refreshSeeBtn();
+  });
+});
+
+remodelChips.forEach(ch => {
+  ch.addEventListener('click', () => {
+    pickedRtype = ch.dataset.rtype;
+    remodelChips.forEach(c => c.classList.toggle('selected', c === ch));
+    configureSizeStep(pickedRtype);
+    stepSize.classList.add('on');
+    refreshSeeBtn();
+  });
+});
+
+sqftStart.addEventListener('input', refreshSeeBtn);
+sqftStart.addEventListener('blur', () => { const v = parseNumber(sqftStart.value); if (v > 0) sqftStart.value = formatMoneyPlain(v); });
+sqftStart.addEventListener('keydown', e => { if (e.key === 'Enter' && !seeBtn.disabled) seeBtn.click(); });
+
+seeBtn.addEventListener('click', () => {
+  const sqft = parseNumber(sqftStart.value);
+  if (!(sqft > 0)) return;
+  if (pickedType === 'remodel'){
+    if (!pickedRtype) return;
+    applyRemodel(pickedRtype, sqft);
+  } else if (pickedType){
+    applyEstimate(pickedType, sqft);
+  } else return;
+  resultEl.classList.add('show');
+  requestAnimationFrame(() => introEl.classList.add('gone'));
+  window.scrollTo(0, 0);
+});
+
+document.getElementById('restart').addEventListener('click', () => {
+  introEl.classList.remove('gone');
+  resultEl.classList.remove('show');
+  window.scrollTo(0, 0);
+});
+
+// ──────────────────────────────────────────────────────────────────
+//  SCREEN 2 — the one live control: the size nudger
+// ──────────────────────────────────────────────────────────────────
+nudge.addEventListener('input', () => {
+  if (state.mode === 'remodel') setRemodelSize(parseNumber(nudge.value));
+  else setSize(parseNumber(nudge.value));
+});
+
+// Print / Save Your Budget — branded, shareable report (window.print → print or Save as PDF)
+document.querySelectorAll('.print-trigger').forEach(b => b.addEventListener('click', () => window.print()));
+(function(){ var d = document.getElementById('print-date'); if (d) d.textContent = 'Prepared ' + new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' }); })();
+
+// ──────────────────────────────────────────────────────────────────
+//  LEAD CAPTURE — POST to Apps Script, mailto fallback (unchanged)
+// ──────────────────────────────────────────────────────────────────
+function currentEstimate(){
+  if (state.mode === 'remodel'){
+    const R = REMODELS[state.rtype];
+    const r = remodelRange();
+    const selections = R.toggles.filter(o => state.opts[o.id]).map(o => o.label);
+    return { mode:'remodel', buildType:R.label, rate:R.rate, sqft:state.sqft,
+             hardCost:r.base, lo:r.lo, hi:r.hi, mid:Math.round((r.lo + r.hi) / 2),
+             total:Math.round((r.lo + r.hi) / 2), oopDollars:0, selections:selections };
+  }
+  const hardCost = sumLineDollars();
+  const oopDollars = hardCost * state.oop / 100;
+  const total = hardCost + oopDollars;
+  const sqft = state.costPerSqft > 0 ? Math.round(hardCost / state.costPerSqft) : 0;
+  const buildType = TEMPLATES[state.template] ? TEMPLATES[state.template].label : state.template;
+  return { mode:'build', hardCost, oopDollars, total, sqft, buildType };
+}
+
+const LEADS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyg3-cuFtMK-CRwJbXeJ-cm5q3gxZ2D2N6JTP5eestm-Fnq-hdWw3TcMh2XbfSJF2smXw/exec';
+
+function validEmail(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s||'').trim()); }
+
+function leadPayload(form){
+  const est = currentEstimate();
+  const p = {
+    name:              (form.querySelector('[name="name"]').value || '').trim(),
+    email:             (form.querySelector('[name="email"]').value || '').trim(),
+    company:           (form.querySelector('[name="company"]').value || '').trim(), // honeypot
+    build_type:        est.buildType,
+    total_budget:      Math.round(est.total),
+    oop_pct:           est.mode === 'remodel' ? 0 : Number(state.oop.toFixed(1)),
+    oop_dollars:       Math.round(est.oopDollars),
+    construction_only: Math.round(est.hardCost),
+    cost_per_sqft:     Math.round(state.costPerSqft),
+    est_sqft:          est.sqft,
+    source:            'estimator',
+    user_agent:        navigator.userAgent
+  };
+  if (est.mode === 'remodel'){
+    // Rides the sheet's existing homepage columns — no schema change needed.
+    p.source       = 'planner-remodel';
+    p.project_type = est.buildType;
+    p.budget_range = rangeText(est.lo, est.hi);
+    p.message      = est.selections.length ? 'Selections: ' + est.selections.join('; ') : 'Selections: base only';
+  }
+  return p;
+}
+
+function mailtoFallback(p){
+  const est = currentEstimate();
+  if (est.mode === 'remodel'){
+    const subject = "Let's Meet — My LCGC " + est.buildType + " Plan (" + rangeText(est.lo, est.hi) + ")";
+    const rlines = [
+      "Hi Len,", "",
+      "I just used the LC General Contracting budget planner and I'd like to set up a free in-home visit. Here are my numbers:", "",
+      "Name:            " + (p.name || ''),
+      "Email:           " + (p.email || ''),
+      "Project:         " + est.buildType,
+      "Size:            " + formatMoneyPlain(est.sqft) + " sqft @ " + formatMoney(est.rate) + "/sqft",
+      "Planning Range:  " + rangeText(est.lo, est.hi),
+      "Selections:      " + (est.selections.length ? est.selections.join('; ') : 'Base only'), "",
+      "Can we set up a time? Thanks!"
+    ];
+    window.location.href = 'mailto:' + LCGC_EMAIL +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(rlines.join('\n'));
+    return;
+  }
+  const subject = "Let's Meet — My LCGC Build Estimate (" + formatMoney(est.total) + ", ~" + formatMoneyPlain(est.sqft) + " sqft)";
+  const lines = [
+    "Hi Len,", "",
+    "I just used the LC General Contracting budget planner and I'd like to talk through what my budget can build. Here are my numbers:", "",
+    "Name:                 " + (p.name || ''),
+    "Email:                " + (p.email || ''),
+    "Build Type:           " + est.buildType,
+    "Total Project Budget: " + formatMoney(est.total),
+    "Overhead & Profit:    " + state.oop.toFixed(1) + "% (" + formatMoney(est.oopDollars) + ")",
+    "Construction Only:    " + formatMoney(est.hardCost),
+    "Build Cost / SQFT:    " + formatMoney(state.costPerSqft) + "/sqft",
+    "Estimated Home Size:  " + formatMoneyPlain(est.sqft) + " sqft", "",
+    "Can we set up a time to walk through this? Thanks!"
+  ];
+  window.location.href = 'mailto:' + LCGC_EMAIL +
+    '?subject=' + encodeURIComponent(subject) +
+    '&body=' + encodeURIComponent(lines.join('\n'));
+}
+
+function markSent(form){
+  form.classList.add('is-sent');
+  const ok = form.querySelector('.lead-ok');
+  if (ok) ok.hidden = false;
+}
+
+async function submitLead(form){
+  const p = leadPayload(form);
+  const emailEl = form.querySelector('[name="email"]');
+
+  // Honeypot: a bot filled the hidden field — show success, send nothing. Fire NO pixel Lead.
+  if (p.company) { markSent(form); return; }
+  if (!validEmail(p.email)) { emailEl.classList.add('invalid'); emailEl.focus(); return; }
+  emailEl.classList.remove('invalid');
+
+  const btn = form.querySelector('.cta-btn');
+  if (btn) btn.disabled = true;
+
+  if (LEADS_ENDPOINT.indexOf('script.google.com') === -1) { mailtoFallback(p); markSent(form); if (window.fbq) fbq('track', 'Lead'); return; }
+
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 7000);
+  try {
+    await fetch(LEADS_ENDPOINT, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(p), signal: ctrl.signal
+    });
+    clearTimeout(timer);
+    markSent(form);
+    if (window.fbq) fbq('track', 'Lead');
+  } catch (err) {
+    clearTimeout(timer);
+    if (btn) btn.disabled = false;
+    mailtoFallback(p);
+    markSent(form);
+    if (window.fbq) fbq('track', 'Lead');
+  }
+}
+
+document.querySelectorAll('.lead-form').forEach(form => {
+  form.addEventListener('submit', e => { e.preventDefault(); submitLead(form); });
+});
+
+// ──────────────────────────────────────────────────────────────────
+//  INIT — populate the result behind the intro so it's instant on reveal
+// ──────────────────────────────────────────────────────────────────
+applyDefaults();
+updateResult();
+
+// Deep-link support (shareable links + ad landings):
+//   builds:   ?build=barndo&sqft=2400
+//   remodels: ?project=kitchen (or ?build=kitchen) &sqft=180 &opts=plumb,cab — sqft optional, defaults to typical
+(function deepLink(){
+  const q = new URLSearchParams(location.search);
+  const sqft = parseNumber(q.get('sqft') || '');
+  const t = (q.get('project') || q.get('build') || '').toLowerCase();
+  if (REMODELS[t]){
+    const R = REMODELS[t];
+    pickedType = 'remodel'; pickedRtype = t;
+    cards.forEach(c => { const on = c.dataset.pick === 'remodel'; c.classList.toggle('selected', on); c.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    remodelChips.forEach(c => c.classList.toggle('selected', c.dataset.rtype === t));
+    stepRemodel.classList.add('on');
+    configureSizeStep(t);
+    stepSize.classList.add('on');
+    const s = sqft > 0 ? sqft : R.presets[1].s;
+    sqftStart.value = formatMoneyPlain(clamp(Math.round(s), R.min, R.max));
+    applyRemodel(t, s);
+    const opts = (q.get('opts') || '').split(',').filter(Boolean);
+    if (opts.length){
+      opts.forEach(id => { if (id in state.opts) state.opts[id] = true; });
+      renderOpts();
+      updateRemodel();
+    }
+    resultEl.classList.add('show');
+    introEl.classList.add('gone');
+    refreshSeeBtn();
+    return;
+  }
+  if (sqft > 0){
+    let bt = (t === 'conventional') ? 'conventional' : 'barndo';
+    pickedType = bt;
+    cards.forEach(c => { const on = c.dataset.pick === bt; c.classList.toggle('selected', on); c.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    configureBuildSizeStep();
+    stepSize.classList.add('on');
+    sqftStart.value = formatMoneyPlain(clamp(Math.round(sqft), 1200, 4800));
+    applyEstimate(bt, sqft);
+    resultEl.classList.add('show');
+    introEl.classList.add('gone');
+    refreshSeeBtn();
+  }
+})();
+
+(function selfTest(){
+  const b = BARNDO_LINES.reduce((a,p)=>a+p.pct,0);
+  const c = CONVENTIONAL_LINES.reduce((a,p)=>a+p.pct,0);
+  console.log('[LCGC] barndo % sum =', b, b===100?'OK':'WARN', '| conventional % sum =', c, c===100?'OK':'WARN');
+  // remodel math sanity: kitchen 180 sqft, no toggles → base 47,700; band 42,900–52,500
+  const kb = 180 * REMODELS.kitchen.rate;
+  console.log('[LCGC] kitchen 180sqft base =', kb, '| range =', round500(kb*BAND_LO), '–', round500(kb*BAND_HI));
+})();
+</script>
+</body>
+</html>

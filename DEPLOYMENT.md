@@ -18,7 +18,7 @@
 | **Hosting** | GitHub Pages, auto-deploys on push to `main` (~30–90s) |
 | **Repo** | `github.com/eugeniousC/lcgc-web` (public) |
 | **Live homepage** | https://eugeniousc.github.io/lcgc-web/ |
-| **Live estimator** | https://eugeniousc.github.io/lcgc-web/LCGC_Budget_Estimator.html |
+| **Live estimator** | https://eugeniousc.github.io/lcgc-web/LCGC_Budget_Planner.html |
 | **Lead backend** | Standalone Google Apps Script → "LCGC Leads" Google Sheet (owned by `eugene@atscale-advisors.com`) |
 | **Brand** | LCGC only. **No "Fields"** anywhere (Jeremy Fields is on Len's old site; deliberately excluded). |
 
@@ -52,7 +52,7 @@ Core. **The Core planner is never edited by website work.**
 | File | Role |
 |------|------|
 | `index.html` | Marketing homepage (see §4) |
-| `LCGC_Budget_Estimator.html` | Public budget estimator (see §5) |
+| `LCGC_Budget_Planner.html` | Public budget estimator (see §5) |
 | `backend/LeadsScript.gs` | The Apps Script that powers lead capture (see §7). **Source-of-truth copy — the live one runs in Google.** |
 | `assets/len/` | 8 of Len's **real** project photos (pulled from his GoDaddy site) |
 | `README.md` | Short repo intro |
@@ -91,7 +91,7 @@ Search the file for `SWAP:` to find every remaining placeholder.
 
 ---
 
-## 5. The estimator — `LCGC_Budget_Estimator.html`
+## 5. The estimator — `LCGC_Budget_Planner.html`
 
 A stripped, public version of Len's production planner. Visitor enters a total budget
 (or sqft × $/sqft), picks Barndominium vs Conventional, and instantly sees the home it
@@ -113,7 +113,7 @@ field so they stay distinguishable.
 ```
   ┌─────────────────────────┐      ┌──────────────────────────┐
   │ Homepage estimate form  │      │ Estimator email-capture  │
-  │ (index.html, #contact)  │      │ (LCGC_Budget_Estimator)  │
+  │ (index.html, #contact)  │      │ (LCGC_Budget_Planner)  │
   │ source: "homepage"      │      │ source: "estimator"      │
   └───────────┬─────────────┘      └────────────┬─────────────┘
               │  POST (text/plain, mode:no-cors, 7s timeout)    │
@@ -137,7 +137,7 @@ field so they stay distinguishable.
 https://script.google.com/macros/s/AKfycbyg3-cuFtMK-CRwJbXeJ-cm5q3gxZ2D2N6JTP5eestm-Fnq-hdWw3TcMh2XbfSJF2smXw/exec
 ```
 Defined in `index.html` (`LEADS_ENDPOINT`, in the homepage `<script>`) **and**
-`LCGC_Budget_Estimator.html` (line ~2084). If the deployment URL ever changes, update
+`LCGC_Budget_Planner.html` (line ~2084). If the deployment URL ever changes, update
 **both** files.
 
 **Why the weird fetch options:**
@@ -208,7 +208,7 @@ Visit the `/exec` URL in a browser (or `curl -sL`). Healthy =
 
 ```bash
 cd ~/Projects/LCGCweb
-# edit index.html / LCGC_Budget_Estimator.html
+# edit index.html / LCGC_Budget_Planner.html
 git add -A && git commit -m "…"
 git push origin main          # GitHub Pages rebuilds in ~30–90s
 ```

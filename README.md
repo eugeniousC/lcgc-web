@@ -8,13 +8,13 @@ framework. Deployed via GitHub Pages.
 | File | Role |
 |------|------|
 | `index.html` | Marketing homepage — hero, services, "Your Home Budget" lead magnet, gallery, reviews, lead form. |
-| `LCGC_Budget_Estimator.html` | Public budget estimator — enter a budget → see the home it builds → book a meeting. Derived from the production planner but heavily stripped (no backend, no actuals/progress). |
+| `LCGC_Budget_Planner.html` | Public budget estimator — enter a budget → see the home it builds → book a meeting. Derived from the production planner but heavily stripped (no backend, no actuals/progress). |
 
 Internal links between the two are **relative**, so the site is portable to a real
 domain (`lcgeneralcontracting.com`) with zero code changes.
 
 ## The funnel
-`index.html` → "Your Home Budget" → `LCGC_Budget_Estimator.html` → enter numbers →
+`index.html` → "Your Home Budget" → `LCGC_Budget_Planner.html` → enter numbers →
 "Email My Estimate & Book a Meeting" (lead capture) → estimator logo links back home.
 The homepage **also** has its own in-home-estimate form (`#contact`) that captures leads
 directly.
